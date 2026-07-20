@@ -1,0 +1,133 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider               = "prisma-client-js"
+  output                 = "../src/generated/prisma"
+  moduleFormat           = "cjs"
+  generatedFileExtension = "js"
+  importFileExtension    = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Enumeración para roles de usuario
+enum RolUsuario {
+  ADMINISTRADOR
+  ASISTENTE_LEGAL
+}
+
+// Enumeración para estados de caso
+enum EstadoCaso {
+  TRAMITE
+  EN_PROCESO
+  FINALIZADO
+  ARCHIVADO
+}
+
+// Enumeración para estados de audiencia
+enum EstadoAudiencia {
+  PENDIENTE
+  REALIZADA
+  CANCELADA
+}
+
+// Modelos de tu Planner Jurídica
+model Usuario {
+  id        Int        @id @default(autoincrement())
+  nombre    String     @db.VarChar(100)
+  correo    String     @unique @db.VarChar(150)
+  clave     String     @db.VarChar(255) // Se guarda cifrada
+  rol       RolUsuario @default(ASISTENTE_LEGAL)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  // Relaciones
+  casos         Caso[]
+  audiencias    Audiencia[]
+  citas         Cita[]
+  recordatorios Recordatorio[]
+}
+
+model Cliente {
+  id        Int      @id @default(autoincrement())
+  nombre    String   @db.VarChar(150)
+  correo    String   @unique @db.VarChar(150)
+  telefono  String   @db.VarChar(20)
+  direccion String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  casos Caso[]
+}
+
+model Caso {
+  id          Int        @id @default(autoincrement())
+  numero      String     @unique @db.VarChar(50)
+  asunto      String     @db.Text
+  tipo        String     @db.VarChar(50) // Civil, Penal, Laboral, etc.
+  estado      EstadoCaso @default(TRAMITE)
+  fechaInicio DateTime
+  fechaCierre DateTime?
+  usuarioId   Int
+  clienteId   Int
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  // Relaciones
+  usuario       Usuario        @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  cliente       Cliente        @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  audiencias    Audiencia[]
+  citas         Cita[]
+  recordatorios Recordatorio[]
+}
+
+model Audiencia {
+  id            Int             @id @default(autoincrement())
+  fecha         DateTime
+  lugar         String          @db.VarChar(200)
+  estado        EstadoAudiencia @default(PENDIENTE)
+  observaciones String?         @db.Text
+  casoId        Int
+  usuarioId     Int
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  // Relaciones
+  caso    Caso    @relation(fields: [casoId], references: [id], onDelete: Cascade)
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+}
+
+model Cita {
+  id        Int      @id @default(autoincrement())
+  fecha     DateTime
+  asunto    String   @db.Text
+  contacto  String   @db.VarChar(100)
+  casoId    Int?
+  usuarioId Int //  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  caso    Caso?   @relation(fields: [casoId], references: [id], onDelete: SetNull)
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+}
+
+model Recordatorio {
+  id         Int      @id @default(autoincrement())
+  titulo     String   @db.VarChar(100)
+  mensaje    String   @db.Text
+  fechaEnvio DateTime
+  leido      Boolean  @default(false)
+  casoId     Int?
+  usuarioId  Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relaciones
+  caso    Caso?   @relation(fields: [casoId], references: [id], onDelete: SetNull)
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+}
