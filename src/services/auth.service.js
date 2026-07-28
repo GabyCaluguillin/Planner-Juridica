@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const prisma = require('../config/prisma');
 const { generarToken } = require('../utils/jwt');
 
-async function registrarUsuario({ nombre, correo, clave, rol }) {
+async function registrarUsuario({ nombre, correo, clave, }) {
   const correoNormalizado = correo.trim().toLowerCase();
 
   const usuarioExistente = await prisma.usuario.findUnique({
@@ -25,7 +25,7 @@ async function registrarUsuario({ nombre, correo, clave, rol }) {
       nombre: nombre.trim(),
       correo: correoNormalizado,
       clave: claveCifrada,
-      rol: rol || 'ASISTENTE_LEGAL',
+      rol: 'ASISTENTE_LEGAL',
     },
     select: {
       id: true,
