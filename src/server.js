@@ -4,6 +4,7 @@ const authRoutes = require('./routes/auth.routes');
 const protectedRoutes = require('./routes/protected.routes');
 const clienteRoutes = require('./routes/cliente.routes');
 const usuarioRoutes = require('./routes/usuario.routes');
+const casoRoutes = require('./routes/caso.routes');
 const prisma = require('./config/prisma');
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,6 +15,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/protected', protectedRoutes);
 app.use('/api/clientes', clienteRoutes);   
 app.use('/api/usuarios', usuarioRoutes); 
+app.use('/api/casos', casoRoutes);
 
 // Ruta de prueba de conexión
 app.get('/api/health', (req, res) => {
