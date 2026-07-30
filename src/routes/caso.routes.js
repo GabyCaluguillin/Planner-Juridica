@@ -7,6 +7,7 @@ const {
   listar,
   listarSinOptimizar,
   obtenerPorId,
+  crearRecordatorio,
   actualizar,
   eliminar,
 } = require('../controllers/caso.controller');
@@ -40,6 +41,7 @@ router.post(
   crear
 );
 
+
 // Listado optimizado con cliente y usuario mediante eager loading.
 router.get('/', listar);
 
@@ -51,6 +53,13 @@ router.get(
   listarSinOptimizar
 );
 
+// Agregar un recordatorio del caso a la cola de BullMQ.
+router.post(
+  '/:id/recordatorio',
+  validarIdCaso,
+  manejarValidaciones,
+  crearRecordatorio
+);
 // Obtener un caso jurídico por su ID.
 router.get(
   '/:id',

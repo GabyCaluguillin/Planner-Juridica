@@ -1,6 +1,7 @@
 // src/controllers/caso.controller.js
 
 const casoService = require('../services/caso.service');
+const colaRecordatorios = require('../queues/recordatorio.queue');
 
 // Crear un caso jurídico
 async function crear(req, res) {
@@ -109,6 +110,56 @@ async function obtenerPorId(req, res) {
   }
 }
 
+// Agregar un recordatorio a la cola de BullMQ
+async function crearRecordatorio(req, res) {
+  try {
+    // Comprueba que el caso existe y que el usuario puede consultarlo.
+    const caso = await casoService.obtenerCasoPorId(
+      req.params.id,
+      req.usuario
+    );
+
+    const destinatario =
+      req.body.destinatario || req.usuario.correo;
+
+    const mensaje =
+      req.body.mensaje ||
+      `Recordatorio relacionado con el caso ${caso.numero}: ${caso.asunto}`;
+
+    const trabajo = await colaRecordatorios.add(
+      'enviar-recordatorio',
+      {
+        casoId: caso.id,
+        numeroCaso: caso.numero,
+        destinatario,
+        asunto:
+          req.body.asunto ||
+          `Recordatorio del caso ${caso.numero}`,
+        mensaje,
+        fechaEnvio:
+          req.body.fechaEnvio ||
+          new Date().toISOString(),
+        usuarioId: req.usuario.id,
+      }
+    );
+
+    return res.status(202).json({
+      exito: true,
+      mensaje: 'Recordatorio agregado a la cola correctamente',
+      estado: 'ENCOLADO',
+      trabajoId: trabajo.id,
+      casoId: caso.id,
+    });
+  } catch (error) {
+    return res.status(error.statusCode || 500).json({
+      exito: false,
+      mensaje:
+        error.message ||
+        'Error al agregar el recordatorio a la cola',
+    });
+  }
+}
+
 // Actualizar parcialmente un caso jurídico
 async function actualizar(req, res) {
   try {
@@ -161,6 +212,7 @@ module.exports = {
   listar,
   listarSinOptimizar,
   obtenerPorId,
+  crearRecordatorio,
   actualizar,
   eliminar,
 };
