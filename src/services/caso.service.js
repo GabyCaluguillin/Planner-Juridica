@@ -1,6 +1,11 @@
 // src/services/caso.service.js
 
 const prisma = require('../config/prisma');
+const redis = require('../config/redis');
+
+const CACHE_TTL_SEGUNDOS = Number(
+  process.env.CACHE_TTL_SEGUNDOS || 300
+);
 
 const ESTADOS_PERMITIDOS = [
   'TRAMITE',
@@ -45,6 +50,66 @@ function crearError(mensaje, statusCode) {
   const error = new Error(mensaje);
   error.statusCode = statusCode;
   return error;
+}
+
+function obtenerClaveListaCasos(usuarioAutenticado) {
+  if (usuarioAutenticado.rol === 'ADMINISTRADOR') {
+    return 'cache:casos:lista:administrador';
+  }
+
+  return `cache:casos:lista:usuario:${usuarioAutenticado.id}`;
+}
+
+async function leerCache(clave) {
+  try {
+    const valor = await redis.get(clave);
+
+    if (valor === null) {
+      return null;
+    }
+
+    return JSON.parse(valor);
+  } catch (error) {
+    console.error(
+      `⚠️ No se pudo leer el caché de Redis: ${error.message}`
+    );
+
+    return null;
+  }
+}
+
+async function guardarCache(clave, datos) {
+  try {
+    await redis.set(
+      clave,
+      JSON.stringify(datos),
+      'EX',
+      CACHE_TTL_SEGUNDOS
+    );
+  } catch (error) {
+    console.error(
+      `⚠️ No se pudo guardar el caché en Redis: ${error.message}`
+    );
+  }
+}
+
+async function invalidarCacheListas(usuarioId) {
+  const claves = [
+    'cache:casos:lista:administrador',
+    `cache:casos:lista:usuario:${usuarioId}`,
+  ];
+
+  try {
+    await redis.del(...claves);
+
+    console.log(
+      `🧹 Caché de casos invalidado para el usuario ${usuarioId}`
+    );
+  } catch (error) {
+    console.error(
+      `⚠️ No se pudo invalidar el caché: ${error.message}`
+    );
+  }
 }
 
 function convertirFecha(valor, nombreCampo) {
@@ -124,27 +189,44 @@ async function crearCaso(datos, usuarioAutenticado) {
     throw crearError('El estado del caso no es válido', 400);
   }
 
-  return prisma.caso.create({
-    data: {
-      numero: numeroNormalizado,
-      asunto: datos.asunto.trim(),
-      tipo: datos.tipo.trim(),
-      estado,
-      fechaInicio,
-      fechaCierre,
+  const nuevoCaso = await prisma.caso.create({
+  data: {
+    numero: numeroNormalizado,
+    asunto: datos.asunto.trim(),
+    tipo: datos.tipo.trim(),
+    estado,
+    fechaInicio,
+    fechaCierre,
 
-      // El usuario responsable se obtiene del token JWT.
-      usuarioId: Number(usuarioAutenticado.id),
+    // El usuario responsable se obtiene del token JWT.
+    usuarioId: Number(usuarioAutenticado.id),
 
-      clienteId: Number(datos.clienteId),
-    },
-    select: camposCaso,
-  });
+    clienteId: Number(datos.clienteId),
+  },
+  select: camposCaso,
+});
+
+// Elimina la lista antigua guardada en Redis.
+await invalidarCacheListas(nuevoCaso.usuarioId);
+
+return nuevoCaso;
 }
 
 // Consulta principal optimizada.
 // Obtiene los casos, clientes y usuarios sin consultas dentro de ciclos.
 async function listarCasos(usuarioAutenticado) {
+  const claveCache =
+    obtenerClaveListaCasos(usuarioAutenticado);
+
+  const casosEnCache = await leerCache(claveCache);
+
+  if (casosEnCache !== null) {
+    console.log(`✅ CACHE HIT: ${claveCache}`);
+    return casosEnCache;
+  }
+
+  console.log(`❌ CACHE MISS: ${claveCache}`);
+
   const filtro =
     usuarioAutenticado.rol === 'ADMINISTRADOR'
       ? {}
@@ -152,13 +234,21 @@ async function listarCasos(usuarioAutenticado) {
           usuarioId: Number(usuarioAutenticado.id),
         };
 
-  return prisma.caso.findMany({
+  const casos = await prisma.caso.findMany({
     where: filtro,
     select: camposCaso,
     orderBy: {
       createdAt: 'desc',
     },
   });
+
+  await guardarCache(claveCache, casos);
+
+  console.log(
+    `💾 Casos guardados en Redis por ${CACHE_TTL_SEGUNDOS} segundos`
+  );
+
+  return casos;
 }
 
 // Versión temporal para comparar el problema N+1.
@@ -322,13 +412,17 @@ async function actualizarCaso(
   );
 
   try {
-    return await prisma.caso.update({
-      where: {
-        id: Number(id),
-      },
-      data,
-      select: camposCaso,
-    });
+  const casoActualizado = await prisma.caso.update({
+    where: {
+      id: Number(id),
+    },
+    data,
+    select: camposCaso,
+  });
+
+  await invalidarCacheListas(casoActualizado.usuarioId);
+
+  return casoActualizado;
   } catch (error) {
     if (error.code === 'P2002') {
       throw crearError(
@@ -350,24 +444,29 @@ async function eliminarCaso(id, usuarioAutenticado) {
   }
 
   const caso = await prisma.caso.findUnique({
-    where: {
-      id: Number(id),
-    },
-    select: {
-      id: true,
-    },
-  });
+  where: {
+    id: Number(id),
+  },
+  select: {
+    id: true,
+    usuarioId: true,
+  },
+});
 
   if (!caso) {
     throw crearError('Caso jurídico no encontrado', 404);
   }
 
-  return prisma.caso.delete({
-    where: {
-      id: Number(id),
-    },
-    select: camposCaso,
-  });
+  const casoEliminado = await prisma.caso.delete({
+  where: {
+    id: Number(id),
+  },
+  select: camposCaso,
+});
+
+await invalidarCacheListas(caso.usuarioId);
+
+return casoEliminado;
 }
 
 module.exports = {
