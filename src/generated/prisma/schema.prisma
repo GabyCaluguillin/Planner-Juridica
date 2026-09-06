@@ -35,24 +35,27 @@ enum EstadoAudiencia {
   CANCELADA
 }
 
-// Modelos de tu Planner Jurídica
+// Usuario profesional del sistema
 model Usuario {
   id        Int        @id @default(autoincrement())
   nombre    String     @db.VarChar(100)
   correo    String     @unique @db.VarChar(150)
-  clave     String     @db.VarChar(255) // Se guarda cifrada
+  clave     String     @db.VarChar(255)
   rol       RolUsuario @default(ASISTENTE_LEGAL)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
 
   // Relaciones
-  casos          Caso[]
-  casosAsignados CasoResponsable[]
-  audiencias     Audiencia[]
-  citas          Cita[]
-  recordatorios  Recordatorio[]
+  casos                  Caso[]
+  casosAsignados         CasoResponsable[]
+  audiencias             Audiencia[]
+  citas                  Cita[]
+  recordatorios          Recordatorio[]
+  reunionesCreadas       Reunion[]
+  participacionesReunion ParticipanteReunion[]
 }
 
+// Clientes del estudio jurídico
 model Cliente {
   id        Int      @id @default(autoincrement())
   nombre    String   @db.VarChar(150)
@@ -63,14 +66,16 @@ model Cliente {
   updatedAt DateTime @updatedAt
 
   // Relaciones
-  casos Caso[]
+  casos                  Caso[]
+  participacionesReunion ParticipanteReunion[]
 }
 
+// Casos jurídicos
 model Caso {
   id          Int        @id @default(autoincrement())
   numero      String     @unique @db.VarChar(50)
   asunto      String     @db.Text
-  tipo        String     @db.VarChar(50) // Civil, Penal, Laboral, etc.
+  tipo        String     @db.VarChar(50)
   estado      EstadoCaso @default(TRAMITE)
   fechaInicio DateTime
   fechaCierre DateTime?
@@ -86,8 +91,25 @@ model Caso {
   citas         Cita[]
   recordatorios Recordatorio[]
   responsables  CasoResponsable[]
+  reuniones     Reunion[]
 }
 
+// Profesionales responsables de cada caso
+model CasoResponsable {
+  id          Int      @id @default(autoincrement())
+  casoId      Int
+  usuarioId   Int
+  esPrincipal Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  // Relaciones
+  caso    Caso    @relation(fields: [casoId], references: [id], onDelete: Cascade)
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@unique([casoId, usuarioId])
+}
+
+// Audiencias jurídicas
 model Audiencia {
   id            Int             @id @default(autoincrement())
   fecha         DateTime
@@ -104,13 +126,14 @@ model Audiencia {
   usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
 }
 
+// Citas
 model Cita {
   id        Int      @id @default(autoincrement())
   fecha     DateTime
   asunto    String   @db.Text
   contacto  String   @db.VarChar(100)
   casoId    Int?
-  usuarioId Int //  
+  usuarioId Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -119,6 +142,7 @@ model Cita {
   usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
 }
 
+// Recordatorios
 model Recordatorio {
   id         Int      @id @default(autoincrement())
   titulo     String   @db.VarChar(100)
@@ -135,15 +159,36 @@ model Recordatorio {
   usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
 }
 
-model CasoResponsable {
-  id          Int      @id @default(autoincrement())
-  casoId      Int
-  usuarioId   Int
-  esPrincipal Boolean  @default(false)
-  createdAt   DateTime @default(now())
+// Reuniones que pueden o no estar asociadas a un caso
+model Reunion {
+  id            Int      @id @default(autoincrement())
+  titulo        String   @db.VarChar(150)
+  fecha         DateTime
+  lugar         String?  @db.VarChar(200)
+  observaciones String?  @db.Text
+  casoId        Int?
+  creadorId     Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
-  caso    Caso    @relation(fields: [casoId], references: [id], onDelete: Cascade)
-  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  // Relaciones
+  caso          Caso?                 @relation(fields: [casoId], references: [id], onDelete: SetNull)
+  creador       Usuario               @relation(fields: [creadorId], references: [id], onDelete: Cascade)
+  participantes ParticipanteReunion[]
+}
 
-  @@unique([casoId, usuarioId])
+// Participantes de una reunión:
+// pueden ser usuarios del sistema, clientes o personas externas
+model ParticipanteReunion {
+  id            Int     @id @default(autoincrement())
+  reunionId     Int
+  usuarioId     Int?
+  clienteId     Int?
+  nombreExterno String? @db.VarChar(150)
+  correoExterno String? @db.VarChar(150)
+
+  // Relaciones
+  reunion Reunion  @relation(fields: [reunionId], references: [id], onDelete: Cascade)
+  usuario Usuario? @relation(fields: [usuarioId], references: [id], onDelete: SetNull)
+  cliente Cliente? @relation(fields: [clienteId], references: [id], onDelete: SetNull)
 }

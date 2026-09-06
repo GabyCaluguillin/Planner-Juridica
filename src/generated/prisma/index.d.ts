@@ -29,6 +29,11 @@ export type Cliente = $Result.DefaultSelection<Prisma.$ClientePayload>
  */
 export type Caso = $Result.DefaultSelection<Prisma.$CasoPayload>
 /**
+ * Model CasoResponsable
+ * 
+ */
+export type CasoResponsable = $Result.DefaultSelection<Prisma.$CasoResponsablePayload>
+/**
  * Model Audiencia
  * 
  */
@@ -44,10 +49,15 @@ export type Cita = $Result.DefaultSelection<Prisma.$CitaPayload>
  */
 export type Recordatorio = $Result.DefaultSelection<Prisma.$RecordatorioPayload>
 /**
- * Model CasoResponsable
+ * Model Reunion
  * 
  */
-export type CasoResponsable = $Result.DefaultSelection<Prisma.$CasoResponsablePayload>
+export type Reunion = $Result.DefaultSelection<Prisma.$ReunionPayload>
+/**
+ * Model ParticipanteReunion
+ * 
+ */
+export type ParticipanteReunion = $Result.DefaultSelection<Prisma.$ParticipanteReunionPayload>
 
 /**
  * Enums
@@ -246,6 +256,16 @@ export class PrismaClient<
   get caso(): Prisma.CasoDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.casoResponsable`: Exposes CRUD operations for the **CasoResponsable** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CasoResponsables
+    * const casoResponsables = await prisma.casoResponsable.findMany()
+    * ```
+    */
+  get casoResponsable(): Prisma.CasoResponsableDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.audiencia`: Exposes CRUD operations for the **Audiencia** model.
     * Example usage:
     * ```ts
@@ -276,14 +296,24 @@ export class PrismaClient<
   get recordatorio(): Prisma.RecordatorioDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.casoResponsable`: Exposes CRUD operations for the **CasoResponsable** model.
+   * `prisma.reunion`: Exposes CRUD operations for the **Reunion** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more CasoResponsables
-    * const casoResponsables = await prisma.casoResponsable.findMany()
+    * // Fetch zero or more Reunions
+    * const reunions = await prisma.reunion.findMany()
     * ```
     */
-  get casoResponsable(): Prisma.CasoResponsableDelegate<ExtArgs, ClientOptions>;
+  get reunion(): Prisma.ReunionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.participanteReunion`: Exposes CRUD operations for the **ParticipanteReunion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ParticipanteReunions
+    * const participanteReunions = await prisma.participanteReunion.findMany()
+    * ```
+    */
+  get participanteReunion(): Prisma.ParticipanteReunionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -721,10 +751,12 @@ export namespace Prisma {
     Usuario: 'Usuario',
     Cliente: 'Cliente',
     Caso: 'Caso',
+    CasoResponsable: 'CasoResponsable',
     Audiencia: 'Audiencia',
     Cita: 'Cita',
     Recordatorio: 'Recordatorio',
-    CasoResponsable: 'CasoResponsable'
+    Reunion: 'Reunion',
+    ParticipanteReunion: 'ParticipanteReunion'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -740,7 +772,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "cliente" | "caso" | "audiencia" | "cita" | "recordatorio" | "casoResponsable"
+      modelProps: "usuario" | "cliente" | "caso" | "casoResponsable" | "audiencia" | "cita" | "recordatorio" | "reunion" | "participanteReunion"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -966,6 +998,80 @@ export namespace Prisma {
           }
         }
       }
+      CasoResponsable: {
+        payload: Prisma.$CasoResponsablePayload<ExtArgs>
+        fields: Prisma.CasoResponsableFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CasoResponsableFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CasoResponsableFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>
+          }
+          findFirst: {
+            args: Prisma.CasoResponsableFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CasoResponsableFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>
+          }
+          findMany: {
+            args: Prisma.CasoResponsableFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>[]
+          }
+          create: {
+            args: Prisma.CasoResponsableCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>
+          }
+          createMany: {
+            args: Prisma.CasoResponsableCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CasoResponsableCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>[]
+          }
+          delete: {
+            args: Prisma.CasoResponsableDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>
+          }
+          update: {
+            args: Prisma.CasoResponsableUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>
+          }
+          deleteMany: {
+            args: Prisma.CasoResponsableDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CasoResponsableUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CasoResponsableUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>[]
+          }
+          upsert: {
+            args: Prisma.CasoResponsableUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>
+          }
+          aggregate: {
+            args: Prisma.CasoResponsableAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCasoResponsable>
+          }
+          groupBy: {
+            args: Prisma.CasoResponsableGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CasoResponsableGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CasoResponsableCountArgs<ExtArgs>
+            result: $Utils.Optional<CasoResponsableCountAggregateOutputType> | number
+          }
+        }
+      }
       Audiencia: {
         payload: Prisma.$AudienciaPayload<ExtArgs>
         fields: Prisma.AudienciaFieldRefs
@@ -1188,77 +1294,151 @@ export namespace Prisma {
           }
         }
       }
-      CasoResponsable: {
-        payload: Prisma.$CasoResponsablePayload<ExtArgs>
-        fields: Prisma.CasoResponsableFieldRefs
+      Reunion: {
+        payload: Prisma.$ReunionPayload<ExtArgs>
+        fields: Prisma.ReunionFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.CasoResponsableFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload> | null
+            args: Prisma.ReunionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.CasoResponsableFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>
+            args: Prisma.ReunionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>
           }
           findFirst: {
-            args: Prisma.CasoResponsableFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload> | null
+            args: Prisma.ReunionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.CasoResponsableFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>
+            args: Prisma.ReunionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>
           }
           findMany: {
-            args: Prisma.CasoResponsableFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>[]
+            args: Prisma.ReunionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>[]
           }
           create: {
-            args: Prisma.CasoResponsableCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>
+            args: Prisma.ReunionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>
           }
           createMany: {
-            args: Prisma.CasoResponsableCreateManyArgs<ExtArgs>
+            args: Prisma.ReunionCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.CasoResponsableCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>[]
+            args: Prisma.ReunionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>[]
           }
           delete: {
-            args: Prisma.CasoResponsableDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>
+            args: Prisma.ReunionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>
           }
           update: {
-            args: Prisma.CasoResponsableUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>
+            args: Prisma.ReunionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>
           }
           deleteMany: {
-            args: Prisma.CasoResponsableDeleteManyArgs<ExtArgs>
+            args: Prisma.ReunionDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.CasoResponsableUpdateManyArgs<ExtArgs>
+            args: Prisma.ReunionUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.CasoResponsableUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>[]
+            args: Prisma.ReunionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>[]
           }
           upsert: {
-            args: Prisma.CasoResponsableUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>
+            args: Prisma.ReunionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReunionPayload>
           }
           aggregate: {
-            args: Prisma.CasoResponsableAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateCasoResponsable>
+            args: Prisma.ReunionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReunion>
           }
           groupBy: {
-            args: Prisma.CasoResponsableGroupByArgs<ExtArgs>
-            result: $Utils.Optional<CasoResponsableGroupByOutputType>[]
+            args: Prisma.ReunionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ReunionGroupByOutputType>[]
           }
           count: {
-            args: Prisma.CasoResponsableCountArgs<ExtArgs>
-            result: $Utils.Optional<CasoResponsableCountAggregateOutputType> | number
+            args: Prisma.ReunionCountArgs<ExtArgs>
+            result: $Utils.Optional<ReunionCountAggregateOutputType> | number
+          }
+        }
+      }
+      ParticipanteReunion: {
+        payload: Prisma.$ParticipanteReunionPayload<ExtArgs>
+        fields: Prisma.ParticipanteReunionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ParticipanteReunionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipanteReunionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ParticipanteReunionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipanteReunionPayload>
+          }
+          findFirst: {
+            args: Prisma.ParticipanteReunionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipanteReunionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ParticipanteReunionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipanteReunionPayload>
+          }
+          findMany: {
+            args: Prisma.ParticipanteReunionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipanteReunionPayload>[]
+          }
+          create: {
+            args: Prisma.ParticipanteReunionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipanteReunionPayload>
+          }
+          createMany: {
+            args: Prisma.ParticipanteReunionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ParticipanteReunionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipanteReunionPayload>[]
+          }
+          delete: {
+            args: Prisma.ParticipanteReunionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipanteReunionPayload>
+          }
+          update: {
+            args: Prisma.ParticipanteReunionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipanteReunionPayload>
+          }
+          deleteMany: {
+            args: Prisma.ParticipanteReunionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ParticipanteReunionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ParticipanteReunionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipanteReunionPayload>[]
+          }
+          upsert: {
+            args: Prisma.ParticipanteReunionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ParticipanteReunionPayload>
+          }
+          aggregate: {
+            args: Prisma.ParticipanteReunionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateParticipanteReunion>
+          }
+          groupBy: {
+            args: Prisma.ParticipanteReunionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ParticipanteReunionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ParticipanteReunionCountArgs<ExtArgs>
+            result: $Utils.Optional<ParticipanteReunionCountAggregateOutputType> | number
           }
         }
       }
@@ -1373,10 +1553,12 @@ export namespace Prisma {
     usuario?: UsuarioOmit
     cliente?: ClienteOmit
     caso?: CasoOmit
+    casoResponsable?: CasoResponsableOmit
     audiencia?: AudienciaOmit
     cita?: CitaOmit
     recordatorio?: RecordatorioOmit
-    casoResponsable?: CasoResponsableOmit
+    reunion?: ReunionOmit
+    participanteReunion?: ParticipanteReunionOmit
   }
 
   /* Types for Logging */
@@ -1462,6 +1644,8 @@ export namespace Prisma {
     audiencias: number
     citas: number
     recordatorios: number
+    reunionesCreadas: number
+    participacionesReunion: number
   }
 
   export type UsuarioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1470,6 +1654,8 @@ export namespace Prisma {
     audiencias?: boolean | UsuarioCountOutputTypeCountAudienciasArgs
     citas?: boolean | UsuarioCountOutputTypeCountCitasArgs
     recordatorios?: boolean | UsuarioCountOutputTypeCountRecordatoriosArgs
+    reunionesCreadas?: boolean | UsuarioCountOutputTypeCountReunionesCreadasArgs
+    participacionesReunion?: boolean | UsuarioCountOutputTypeCountParticipacionesReunionArgs
   }
 
   // Custom InputTypes
@@ -1518,6 +1704,20 @@ export namespace Prisma {
     where?: RecordatorioWhereInput
   }
 
+  /**
+   * UsuarioCountOutputType without action
+   */
+  export type UsuarioCountOutputTypeCountReunionesCreadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReunionWhereInput
+  }
+
+  /**
+   * UsuarioCountOutputType without action
+   */
+  export type UsuarioCountOutputTypeCountParticipacionesReunionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ParticipanteReunionWhereInput
+  }
+
 
   /**
    * Count Type ClienteCountOutputType
@@ -1525,10 +1725,12 @@ export namespace Prisma {
 
   export type ClienteCountOutputType = {
     casos: number
+    participacionesReunion: number
   }
 
   export type ClienteCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     casos?: boolean | ClienteCountOutputTypeCountCasosArgs
+    participacionesReunion?: boolean | ClienteCountOutputTypeCountParticipacionesReunionArgs
   }
 
   // Custom InputTypes
@@ -1549,6 +1751,13 @@ export namespace Prisma {
     where?: CasoWhereInput
   }
 
+  /**
+   * ClienteCountOutputType without action
+   */
+  export type ClienteCountOutputTypeCountParticipacionesReunionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ParticipanteReunionWhereInput
+  }
+
 
   /**
    * Count Type CasoCountOutputType
@@ -1559,6 +1768,7 @@ export namespace Prisma {
     citas: number
     recordatorios: number
     responsables: number
+    reuniones: number
   }
 
   export type CasoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1566,6 +1776,7 @@ export namespace Prisma {
     citas?: boolean | CasoCountOutputTypeCountCitasArgs
     recordatorios?: boolean | CasoCountOutputTypeCountRecordatoriosArgs
     responsables?: boolean | CasoCountOutputTypeCountResponsablesArgs
+    reuniones?: boolean | CasoCountOutputTypeCountReunionesArgs
   }
 
   // Custom InputTypes
@@ -1605,6 +1816,44 @@ export namespace Prisma {
    */
   export type CasoCountOutputTypeCountResponsablesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CasoResponsableWhereInput
+  }
+
+  /**
+   * CasoCountOutputType without action
+   */
+  export type CasoCountOutputTypeCountReunionesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReunionWhereInput
+  }
+
+
+  /**
+   * Count Type ReunionCountOutputType
+   */
+
+  export type ReunionCountOutputType = {
+    participantes: number
+  }
+
+  export type ReunionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    participantes?: boolean | ReunionCountOutputTypeCountParticipantesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ReunionCountOutputType without action
+   */
+  export type ReunionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReunionCountOutputType
+     */
+    select?: ReunionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ReunionCountOutputType without action
+   */
+  export type ReunionCountOutputTypeCountParticipantesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ParticipanteReunionWhereInput
   }
 
 
@@ -1831,6 +2080,8 @@ export namespace Prisma {
     audiencias?: boolean | Usuario$audienciasArgs<ExtArgs>
     citas?: boolean | Usuario$citasArgs<ExtArgs>
     recordatorios?: boolean | Usuario$recordatoriosArgs<ExtArgs>
+    reunionesCreadas?: boolean | Usuario$reunionesCreadasArgs<ExtArgs>
+    participacionesReunion?: boolean | Usuario$participacionesReunionArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["usuario"]>
 
@@ -1871,6 +2122,8 @@ export namespace Prisma {
     audiencias?: boolean | Usuario$audienciasArgs<ExtArgs>
     citas?: boolean | Usuario$citasArgs<ExtArgs>
     recordatorios?: boolean | Usuario$recordatoriosArgs<ExtArgs>
+    reunionesCreadas?: boolean | Usuario$reunionesCreadasArgs<ExtArgs>
+    participacionesReunion?: boolean | Usuario$participacionesReunionArgs<ExtArgs>
     _count?: boolean | UsuarioCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UsuarioIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1884,6 +2137,8 @@ export namespace Prisma {
       audiencias: Prisma.$AudienciaPayload<ExtArgs>[]
       citas: Prisma.$CitaPayload<ExtArgs>[]
       recordatorios: Prisma.$RecordatorioPayload<ExtArgs>[]
+      reunionesCreadas: Prisma.$ReunionPayload<ExtArgs>[]
+      participacionesReunion: Prisma.$ParticipanteReunionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2292,6 +2547,8 @@ export namespace Prisma {
     audiencias<T extends Usuario$audienciasArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$audienciasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AudienciaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     citas<T extends Usuario$citasArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$citasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CitaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     recordatorios<T extends Usuario$recordatoriosArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$recordatoriosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecordatorioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reunionesCreadas<T extends Usuario$reunionesCreadasArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$reunionesCreadasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    participacionesReunion<T extends Usuario$participacionesReunionArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$participacionesReunionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipanteReunionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2841,6 +3098,54 @@ export namespace Prisma {
   }
 
   /**
+   * Usuario.reunionesCreadas
+   */
+  export type Usuario$reunionesCreadasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReunionInclude<ExtArgs> | null
+    where?: ReunionWhereInput
+    orderBy?: ReunionOrderByWithRelationInput | ReunionOrderByWithRelationInput[]
+    cursor?: ReunionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReunionScalarFieldEnum | ReunionScalarFieldEnum[]
+  }
+
+  /**
+   * Usuario.participacionesReunion
+   */
+  export type Usuario$participacionesReunionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParticipanteReunion
+     */
+    select?: ParticipanteReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParticipanteReunion
+     */
+    omit?: ParticipanteReunionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParticipanteReunionInclude<ExtArgs> | null
+    where?: ParticipanteReunionWhereInput
+    orderBy?: ParticipanteReunionOrderByWithRelationInput | ParticipanteReunionOrderByWithRelationInput[]
+    cursor?: ParticipanteReunionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ParticipanteReunionScalarFieldEnum | ParticipanteReunionScalarFieldEnum[]
+  }
+
+  /**
    * Usuario without action
    */
   export type UsuarioDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3074,6 +3379,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     casos?: boolean | Cliente$casosArgs<ExtArgs>
+    participacionesReunion?: boolean | Cliente$participacionesReunionArgs<ExtArgs>
     _count?: boolean | ClienteCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["cliente"]>
 
@@ -3110,6 +3416,7 @@ export namespace Prisma {
   export type ClienteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "correo" | "telefono" | "direccion" | "createdAt" | "updatedAt", ExtArgs["result"]["cliente"]>
   export type ClienteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     casos?: boolean | Cliente$casosArgs<ExtArgs>
+    participacionesReunion?: boolean | Cliente$participacionesReunionArgs<ExtArgs>
     _count?: boolean | ClienteCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ClienteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3119,6 +3426,7 @@ export namespace Prisma {
     name: "Cliente"
     objects: {
       casos: Prisma.$CasoPayload<ExtArgs>[]
+      participacionesReunion: Prisma.$ParticipanteReunionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -3523,6 +3831,7 @@ export namespace Prisma {
   export interface Prisma__ClienteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     casos<T extends Cliente$casosArgs<ExtArgs> = {}>(args?: Subset<T, Cliente$casosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CasoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    participacionesReunion<T extends Cliente$participacionesReunionArgs<ExtArgs> = {}>(args?: Subset<T, Cliente$participacionesReunionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipanteReunionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3976,6 +4285,30 @@ export namespace Prisma {
   }
 
   /**
+   * Cliente.participacionesReunion
+   */
+  export type Cliente$participacionesReunionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParticipanteReunion
+     */
+    select?: ParticipanteReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParticipanteReunion
+     */
+    omit?: ParticipanteReunionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParticipanteReunionInclude<ExtArgs> | null
+    where?: ParticipanteReunionWhereInput
+    orderBy?: ParticipanteReunionOrderByWithRelationInput | ParticipanteReunionOrderByWithRelationInput[]
+    cursor?: ParticipanteReunionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ParticipanteReunionScalarFieldEnum | ParticipanteReunionScalarFieldEnum[]
+  }
+
+  /**
    * Cliente without action
    */
   export type ClienteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4254,6 +4587,7 @@ export namespace Prisma {
     citas?: boolean | Caso$citasArgs<ExtArgs>
     recordatorios?: boolean | Caso$recordatoriosArgs<ExtArgs>
     responsables?: boolean | Caso$responsablesArgs<ExtArgs>
+    reuniones?: boolean | Caso$reunionesArgs<ExtArgs>
     _count?: boolean | CasoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["caso"]>
 
@@ -4311,6 +4645,7 @@ export namespace Prisma {
     citas?: boolean | Caso$citasArgs<ExtArgs>
     recordatorios?: boolean | Caso$recordatoriosArgs<ExtArgs>
     responsables?: boolean | Caso$responsablesArgs<ExtArgs>
+    reuniones?: boolean | Caso$reunionesArgs<ExtArgs>
     _count?: boolean | CasoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CasoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4331,6 +4666,7 @@ export namespace Prisma {
       citas: Prisma.$CitaPayload<ExtArgs>[]
       recordatorios: Prisma.$RecordatorioPayload<ExtArgs>[]
       responsables: Prisma.$CasoResponsablePayload<ExtArgs>[]
+      reuniones: Prisma.$ReunionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -4744,6 +5080,7 @@ export namespace Prisma {
     citas<T extends Caso$citasArgs<ExtArgs> = {}>(args?: Subset<T, Caso$citasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CitaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     recordatorios<T extends Caso$recordatoriosArgs<ExtArgs> = {}>(args?: Subset<T, Caso$recordatoriosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecordatorioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     responsables<T extends Caso$responsablesArgs<ExtArgs> = {}>(args?: Subset<T, Caso$responsablesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    reuniones<T extends Caso$reunionesArgs<ExtArgs> = {}>(args?: Subset<T, Caso$reunionesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5281,6 +5618,30 @@ export namespace Prisma {
   }
 
   /**
+   * Caso.reuniones
+   */
+  export type Caso$reunionesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReunionInclude<ExtArgs> | null
+    where?: ReunionWhereInput
+    orderBy?: ReunionOrderByWithRelationInput | ReunionOrderByWithRelationInput[]
+    cursor?: ReunionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReunionScalarFieldEnum | ReunionScalarFieldEnum[]
+  }
+
+  /**
    * Caso without action
    */
   export type CasoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5296,6 +5657,1119 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CasoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CasoResponsable
+   */
+
+  export type AggregateCasoResponsable = {
+    _count: CasoResponsableCountAggregateOutputType | null
+    _avg: CasoResponsableAvgAggregateOutputType | null
+    _sum: CasoResponsableSumAggregateOutputType | null
+    _min: CasoResponsableMinAggregateOutputType | null
+    _max: CasoResponsableMaxAggregateOutputType | null
+  }
+
+  export type CasoResponsableAvgAggregateOutputType = {
+    id: number | null
+    casoId: number | null
+    usuarioId: number | null
+  }
+
+  export type CasoResponsableSumAggregateOutputType = {
+    id: number | null
+    casoId: number | null
+    usuarioId: number | null
+  }
+
+  export type CasoResponsableMinAggregateOutputType = {
+    id: number | null
+    casoId: number | null
+    usuarioId: number | null
+    esPrincipal: boolean | null
+    createdAt: Date | null
+  }
+
+  export type CasoResponsableMaxAggregateOutputType = {
+    id: number | null
+    casoId: number | null
+    usuarioId: number | null
+    esPrincipal: boolean | null
+    createdAt: Date | null
+  }
+
+  export type CasoResponsableCountAggregateOutputType = {
+    id: number
+    casoId: number
+    usuarioId: number
+    esPrincipal: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type CasoResponsableAvgAggregateInputType = {
+    id?: true
+    casoId?: true
+    usuarioId?: true
+  }
+
+  export type CasoResponsableSumAggregateInputType = {
+    id?: true
+    casoId?: true
+    usuarioId?: true
+  }
+
+  export type CasoResponsableMinAggregateInputType = {
+    id?: true
+    casoId?: true
+    usuarioId?: true
+    esPrincipal?: true
+    createdAt?: true
+  }
+
+  export type CasoResponsableMaxAggregateInputType = {
+    id?: true
+    casoId?: true
+    usuarioId?: true
+    esPrincipal?: true
+    createdAt?: true
+  }
+
+  export type CasoResponsableCountAggregateInputType = {
+    id?: true
+    casoId?: true
+    usuarioId?: true
+    esPrincipal?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type CasoResponsableAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CasoResponsable to aggregate.
+     */
+    where?: CasoResponsableWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CasoResponsables to fetch.
+     */
+    orderBy?: CasoResponsableOrderByWithRelationInput | CasoResponsableOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CasoResponsableWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CasoResponsables from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CasoResponsables.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CasoResponsables
+    **/
+    _count?: true | CasoResponsableCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CasoResponsableAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CasoResponsableSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CasoResponsableMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CasoResponsableMaxAggregateInputType
+  }
+
+  export type GetCasoResponsableAggregateType<T extends CasoResponsableAggregateArgs> = {
+        [P in keyof T & keyof AggregateCasoResponsable]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCasoResponsable[P]>
+      : GetScalarType<T[P], AggregateCasoResponsable[P]>
+  }
+
+
+
+
+  export type CasoResponsableGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CasoResponsableWhereInput
+    orderBy?: CasoResponsableOrderByWithAggregationInput | CasoResponsableOrderByWithAggregationInput[]
+    by: CasoResponsableScalarFieldEnum[] | CasoResponsableScalarFieldEnum
+    having?: CasoResponsableScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CasoResponsableCountAggregateInputType | true
+    _avg?: CasoResponsableAvgAggregateInputType
+    _sum?: CasoResponsableSumAggregateInputType
+    _min?: CasoResponsableMinAggregateInputType
+    _max?: CasoResponsableMaxAggregateInputType
+  }
+
+  export type CasoResponsableGroupByOutputType = {
+    id: number
+    casoId: number
+    usuarioId: number
+    esPrincipal: boolean
+    createdAt: Date
+    _count: CasoResponsableCountAggregateOutputType | null
+    _avg: CasoResponsableAvgAggregateOutputType | null
+    _sum: CasoResponsableSumAggregateOutputType | null
+    _min: CasoResponsableMinAggregateOutputType | null
+    _max: CasoResponsableMaxAggregateOutputType | null
+  }
+
+  type GetCasoResponsableGroupByPayload<T extends CasoResponsableGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CasoResponsableGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CasoResponsableGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CasoResponsableGroupByOutputType[P]>
+            : GetScalarType<T[P], CasoResponsableGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CasoResponsableSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    casoId?: boolean
+    usuarioId?: boolean
+    esPrincipal?: boolean
+    createdAt?: boolean
+    caso?: boolean | CasoDefaultArgs<ExtArgs>
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["casoResponsable"]>
+
+  export type CasoResponsableSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    casoId?: boolean
+    usuarioId?: boolean
+    esPrincipal?: boolean
+    createdAt?: boolean
+    caso?: boolean | CasoDefaultArgs<ExtArgs>
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["casoResponsable"]>
+
+  export type CasoResponsableSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    casoId?: boolean
+    usuarioId?: boolean
+    esPrincipal?: boolean
+    createdAt?: boolean
+    caso?: boolean | CasoDefaultArgs<ExtArgs>
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["casoResponsable"]>
+
+  export type CasoResponsableSelectScalar = {
+    id?: boolean
+    casoId?: boolean
+    usuarioId?: boolean
+    esPrincipal?: boolean
+    createdAt?: boolean
+  }
+
+  export type CasoResponsableOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "casoId" | "usuarioId" | "esPrincipal" | "createdAt", ExtArgs["result"]["casoResponsable"]>
+  export type CasoResponsableInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    caso?: boolean | CasoDefaultArgs<ExtArgs>
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+  export type CasoResponsableIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    caso?: boolean | CasoDefaultArgs<ExtArgs>
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+  export type CasoResponsableIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    caso?: boolean | CasoDefaultArgs<ExtArgs>
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+
+  export type $CasoResponsablePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CasoResponsable"
+    objects: {
+      caso: Prisma.$CasoPayload<ExtArgs>
+      usuario: Prisma.$UsuarioPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      casoId: number
+      usuarioId: number
+      esPrincipal: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["casoResponsable"]>
+    composites: {}
+  }
+
+  type CasoResponsableGetPayload<S extends boolean | null | undefined | CasoResponsableDefaultArgs> = $Result.GetResult<Prisma.$CasoResponsablePayload, S>
+
+  type CasoResponsableCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CasoResponsableFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CasoResponsableCountAggregateInputType | true
+    }
+
+  export interface CasoResponsableDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CasoResponsable'], meta: { name: 'CasoResponsable' } }
+    /**
+     * Find zero or one CasoResponsable that matches the filter.
+     * @param {CasoResponsableFindUniqueArgs} args - Arguments to find a CasoResponsable
+     * @example
+     * // Get one CasoResponsable
+     * const casoResponsable = await prisma.casoResponsable.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CasoResponsableFindUniqueArgs>(args: SelectSubset<T, CasoResponsableFindUniqueArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CasoResponsable that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CasoResponsableFindUniqueOrThrowArgs} args - Arguments to find a CasoResponsable
+     * @example
+     * // Get one CasoResponsable
+     * const casoResponsable = await prisma.casoResponsable.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CasoResponsableFindUniqueOrThrowArgs>(args: SelectSubset<T, CasoResponsableFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CasoResponsable that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasoResponsableFindFirstArgs} args - Arguments to find a CasoResponsable
+     * @example
+     * // Get one CasoResponsable
+     * const casoResponsable = await prisma.casoResponsable.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CasoResponsableFindFirstArgs>(args?: SelectSubset<T, CasoResponsableFindFirstArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CasoResponsable that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasoResponsableFindFirstOrThrowArgs} args - Arguments to find a CasoResponsable
+     * @example
+     * // Get one CasoResponsable
+     * const casoResponsable = await prisma.casoResponsable.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CasoResponsableFindFirstOrThrowArgs>(args?: SelectSubset<T, CasoResponsableFindFirstOrThrowArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CasoResponsables that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasoResponsableFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CasoResponsables
+     * const casoResponsables = await prisma.casoResponsable.findMany()
+     * 
+     * // Get first 10 CasoResponsables
+     * const casoResponsables = await prisma.casoResponsable.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const casoResponsableWithIdOnly = await prisma.casoResponsable.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CasoResponsableFindManyArgs>(args?: SelectSubset<T, CasoResponsableFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CasoResponsable.
+     * @param {CasoResponsableCreateArgs} args - Arguments to create a CasoResponsable.
+     * @example
+     * // Create one CasoResponsable
+     * const CasoResponsable = await prisma.casoResponsable.create({
+     *   data: {
+     *     // ... data to create a CasoResponsable
+     *   }
+     * })
+     * 
+     */
+    create<T extends CasoResponsableCreateArgs>(args: SelectSubset<T, CasoResponsableCreateArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CasoResponsables.
+     * @param {CasoResponsableCreateManyArgs} args - Arguments to create many CasoResponsables.
+     * @example
+     * // Create many CasoResponsables
+     * const casoResponsable = await prisma.casoResponsable.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CasoResponsableCreateManyArgs>(args?: SelectSubset<T, CasoResponsableCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CasoResponsables and returns the data saved in the database.
+     * @param {CasoResponsableCreateManyAndReturnArgs} args - Arguments to create many CasoResponsables.
+     * @example
+     * // Create many CasoResponsables
+     * const casoResponsable = await prisma.casoResponsable.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CasoResponsables and only return the `id`
+     * const casoResponsableWithIdOnly = await prisma.casoResponsable.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CasoResponsableCreateManyAndReturnArgs>(args?: SelectSubset<T, CasoResponsableCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CasoResponsable.
+     * @param {CasoResponsableDeleteArgs} args - Arguments to delete one CasoResponsable.
+     * @example
+     * // Delete one CasoResponsable
+     * const CasoResponsable = await prisma.casoResponsable.delete({
+     *   where: {
+     *     // ... filter to delete one CasoResponsable
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CasoResponsableDeleteArgs>(args: SelectSubset<T, CasoResponsableDeleteArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CasoResponsable.
+     * @param {CasoResponsableUpdateArgs} args - Arguments to update one CasoResponsable.
+     * @example
+     * // Update one CasoResponsable
+     * const casoResponsable = await prisma.casoResponsable.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CasoResponsableUpdateArgs>(args: SelectSubset<T, CasoResponsableUpdateArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CasoResponsables.
+     * @param {CasoResponsableDeleteManyArgs} args - Arguments to filter CasoResponsables to delete.
+     * @example
+     * // Delete a few CasoResponsables
+     * const { count } = await prisma.casoResponsable.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CasoResponsableDeleteManyArgs>(args?: SelectSubset<T, CasoResponsableDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CasoResponsables.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasoResponsableUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CasoResponsables
+     * const casoResponsable = await prisma.casoResponsable.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CasoResponsableUpdateManyArgs>(args: SelectSubset<T, CasoResponsableUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CasoResponsables and returns the data updated in the database.
+     * @param {CasoResponsableUpdateManyAndReturnArgs} args - Arguments to update many CasoResponsables.
+     * @example
+     * // Update many CasoResponsables
+     * const casoResponsable = await prisma.casoResponsable.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CasoResponsables and only return the `id`
+     * const casoResponsableWithIdOnly = await prisma.casoResponsable.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CasoResponsableUpdateManyAndReturnArgs>(args: SelectSubset<T, CasoResponsableUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CasoResponsable.
+     * @param {CasoResponsableUpsertArgs} args - Arguments to update or create a CasoResponsable.
+     * @example
+     * // Update or create a CasoResponsable
+     * const casoResponsable = await prisma.casoResponsable.upsert({
+     *   create: {
+     *     // ... data to create a CasoResponsable
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CasoResponsable we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CasoResponsableUpsertArgs>(args: SelectSubset<T, CasoResponsableUpsertArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CasoResponsables.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasoResponsableCountArgs} args - Arguments to filter CasoResponsables to count.
+     * @example
+     * // Count the number of CasoResponsables
+     * const count = await prisma.casoResponsable.count({
+     *   where: {
+     *     // ... the filter for the CasoResponsables we want to count
+     *   }
+     * })
+    **/
+    count<T extends CasoResponsableCountArgs>(
+      args?: Subset<T, CasoResponsableCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CasoResponsableCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CasoResponsable.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasoResponsableAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CasoResponsableAggregateArgs>(args: Subset<T, CasoResponsableAggregateArgs>): Prisma.PrismaPromise<GetCasoResponsableAggregateType<T>>
+
+    /**
+     * Group by CasoResponsable.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasoResponsableGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CasoResponsableGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CasoResponsableGroupByArgs['orderBy'] }
+        : { orderBy?: CasoResponsableGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CasoResponsableGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCasoResponsableGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CasoResponsable model
+   */
+  readonly fields: CasoResponsableFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CasoResponsable.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CasoResponsableClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    caso<T extends CasoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CasoDefaultArgs<ExtArgs>>): Prisma__CasoClient<$Result.GetResult<Prisma.$CasoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    usuario<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CasoResponsable model
+   */
+  interface CasoResponsableFieldRefs {
+    readonly id: FieldRef<"CasoResponsable", 'Int'>
+    readonly casoId: FieldRef<"CasoResponsable", 'Int'>
+    readonly usuarioId: FieldRef<"CasoResponsable", 'Int'>
+    readonly esPrincipal: FieldRef<"CasoResponsable", 'Boolean'>
+    readonly createdAt: FieldRef<"CasoResponsable", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CasoResponsable findUnique
+   */
+  export type CasoResponsableFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+    /**
+     * Filter, which CasoResponsable to fetch.
+     */
+    where: CasoResponsableWhereUniqueInput
+  }
+
+  /**
+   * CasoResponsable findUniqueOrThrow
+   */
+  export type CasoResponsableFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+    /**
+     * Filter, which CasoResponsable to fetch.
+     */
+    where: CasoResponsableWhereUniqueInput
+  }
+
+  /**
+   * CasoResponsable findFirst
+   */
+  export type CasoResponsableFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+    /**
+     * Filter, which CasoResponsable to fetch.
+     */
+    where?: CasoResponsableWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CasoResponsables to fetch.
+     */
+    orderBy?: CasoResponsableOrderByWithRelationInput | CasoResponsableOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CasoResponsables.
+     */
+    cursor?: CasoResponsableWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CasoResponsables from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CasoResponsables.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CasoResponsables.
+     */
+    distinct?: CasoResponsableScalarFieldEnum | CasoResponsableScalarFieldEnum[]
+  }
+
+  /**
+   * CasoResponsable findFirstOrThrow
+   */
+  export type CasoResponsableFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+    /**
+     * Filter, which CasoResponsable to fetch.
+     */
+    where?: CasoResponsableWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CasoResponsables to fetch.
+     */
+    orderBy?: CasoResponsableOrderByWithRelationInput | CasoResponsableOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CasoResponsables.
+     */
+    cursor?: CasoResponsableWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CasoResponsables from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CasoResponsables.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CasoResponsables.
+     */
+    distinct?: CasoResponsableScalarFieldEnum | CasoResponsableScalarFieldEnum[]
+  }
+
+  /**
+   * CasoResponsable findMany
+   */
+  export type CasoResponsableFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+    /**
+     * Filter, which CasoResponsables to fetch.
+     */
+    where?: CasoResponsableWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CasoResponsables to fetch.
+     */
+    orderBy?: CasoResponsableOrderByWithRelationInput | CasoResponsableOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CasoResponsables.
+     */
+    cursor?: CasoResponsableWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CasoResponsables from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CasoResponsables.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CasoResponsables.
+     */
+    distinct?: CasoResponsableScalarFieldEnum | CasoResponsableScalarFieldEnum[]
+  }
+
+  /**
+   * CasoResponsable create
+   */
+  export type CasoResponsableCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CasoResponsable.
+     */
+    data: XOR<CasoResponsableCreateInput, CasoResponsableUncheckedCreateInput>
+  }
+
+  /**
+   * CasoResponsable createMany
+   */
+  export type CasoResponsableCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CasoResponsables.
+     */
+    data: CasoResponsableCreateManyInput | CasoResponsableCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CasoResponsable createManyAndReturn
+   */
+  export type CasoResponsableCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * The data used to create many CasoResponsables.
+     */
+    data: CasoResponsableCreateManyInput | CasoResponsableCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CasoResponsable update
+   */
+  export type CasoResponsableUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CasoResponsable.
+     */
+    data: XOR<CasoResponsableUpdateInput, CasoResponsableUncheckedUpdateInput>
+    /**
+     * Choose, which CasoResponsable to update.
+     */
+    where: CasoResponsableWhereUniqueInput
+  }
+
+  /**
+   * CasoResponsable updateMany
+   */
+  export type CasoResponsableUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CasoResponsables.
+     */
+    data: XOR<CasoResponsableUpdateManyMutationInput, CasoResponsableUncheckedUpdateManyInput>
+    /**
+     * Filter which CasoResponsables to update
+     */
+    where?: CasoResponsableWhereInput
+    /**
+     * Limit how many CasoResponsables to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CasoResponsable updateManyAndReturn
+   */
+  export type CasoResponsableUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * The data used to update CasoResponsables.
+     */
+    data: XOR<CasoResponsableUpdateManyMutationInput, CasoResponsableUncheckedUpdateManyInput>
+    /**
+     * Filter which CasoResponsables to update
+     */
+    where?: CasoResponsableWhereInput
+    /**
+     * Limit how many CasoResponsables to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CasoResponsable upsert
+   */
+  export type CasoResponsableUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CasoResponsable to update in case it exists.
+     */
+    where: CasoResponsableWhereUniqueInput
+    /**
+     * In case the CasoResponsable found by the `where` argument doesn't exist, create a new CasoResponsable with this data.
+     */
+    create: XOR<CasoResponsableCreateInput, CasoResponsableUncheckedCreateInput>
+    /**
+     * In case the CasoResponsable was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CasoResponsableUpdateInput, CasoResponsableUncheckedUpdateInput>
+  }
+
+  /**
+   * CasoResponsable delete
+   */
+  export type CasoResponsableDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+    /**
+     * Filter which CasoResponsable to delete.
+     */
+    where: CasoResponsableWhereUniqueInput
+  }
+
+  /**
+   * CasoResponsable deleteMany
+   */
+  export type CasoResponsableDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CasoResponsables to delete
+     */
+    where?: CasoResponsableWhereInput
+    /**
+     * Limit how many CasoResponsables to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CasoResponsable without action
+   */
+  export type CasoResponsableDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
   }
 
 
@@ -8820,399 +10294,452 @@ export namespace Prisma {
 
 
   /**
-   * Model CasoResponsable
+   * Model Reunion
    */
 
-  export type AggregateCasoResponsable = {
-    _count: CasoResponsableCountAggregateOutputType | null
-    _avg: CasoResponsableAvgAggregateOutputType | null
-    _sum: CasoResponsableSumAggregateOutputType | null
-    _min: CasoResponsableMinAggregateOutputType | null
-    _max: CasoResponsableMaxAggregateOutputType | null
+  export type AggregateReunion = {
+    _count: ReunionCountAggregateOutputType | null
+    _avg: ReunionAvgAggregateOutputType | null
+    _sum: ReunionSumAggregateOutputType | null
+    _min: ReunionMinAggregateOutputType | null
+    _max: ReunionMaxAggregateOutputType | null
   }
 
-  export type CasoResponsableAvgAggregateOutputType = {
+  export type ReunionAvgAggregateOutputType = {
     id: number | null
     casoId: number | null
-    usuarioId: number | null
+    creadorId: number | null
   }
 
-  export type CasoResponsableSumAggregateOutputType = {
+  export type ReunionSumAggregateOutputType = {
     id: number | null
     casoId: number | null
-    usuarioId: number | null
+    creadorId: number | null
   }
 
-  export type CasoResponsableMinAggregateOutputType = {
+  export type ReunionMinAggregateOutputType = {
     id: number | null
+    titulo: string | null
+    fecha: Date | null
+    lugar: string | null
+    observaciones: string | null
     casoId: number | null
-    usuarioId: number | null
-    esPrincipal: boolean | null
+    creadorId: number | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
-  export type CasoResponsableMaxAggregateOutputType = {
+  export type ReunionMaxAggregateOutputType = {
     id: number | null
+    titulo: string | null
+    fecha: Date | null
+    lugar: string | null
+    observaciones: string | null
     casoId: number | null
-    usuarioId: number | null
-    esPrincipal: boolean | null
+    creadorId: number | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
-  export type CasoResponsableCountAggregateOutputType = {
+  export type ReunionCountAggregateOutputType = {
     id: number
+    titulo: number
+    fecha: number
+    lugar: number
+    observaciones: number
     casoId: number
-    usuarioId: number
-    esPrincipal: number
+    creadorId: number
     createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
-  export type CasoResponsableAvgAggregateInputType = {
+  export type ReunionAvgAggregateInputType = {
     id?: true
     casoId?: true
-    usuarioId?: true
+    creadorId?: true
   }
 
-  export type CasoResponsableSumAggregateInputType = {
+  export type ReunionSumAggregateInputType = {
     id?: true
     casoId?: true
-    usuarioId?: true
+    creadorId?: true
   }
 
-  export type CasoResponsableMinAggregateInputType = {
+  export type ReunionMinAggregateInputType = {
     id?: true
+    titulo?: true
+    fecha?: true
+    lugar?: true
+    observaciones?: true
     casoId?: true
-    usuarioId?: true
-    esPrincipal?: true
+    creadorId?: true
     createdAt?: true
+    updatedAt?: true
   }
 
-  export type CasoResponsableMaxAggregateInputType = {
+  export type ReunionMaxAggregateInputType = {
     id?: true
+    titulo?: true
+    fecha?: true
+    lugar?: true
+    observaciones?: true
     casoId?: true
-    usuarioId?: true
-    esPrincipal?: true
+    creadorId?: true
     createdAt?: true
+    updatedAt?: true
   }
 
-  export type CasoResponsableCountAggregateInputType = {
+  export type ReunionCountAggregateInputType = {
     id?: true
+    titulo?: true
+    fecha?: true
+    lugar?: true
+    observaciones?: true
     casoId?: true
-    usuarioId?: true
-    esPrincipal?: true
+    creadorId?: true
     createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
-  export type CasoResponsableAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ReunionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which CasoResponsable to aggregate.
+     * Filter which Reunion to aggregate.
      */
-    where?: CasoResponsableWhereInput
+    where?: ReunionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of CasoResponsables to fetch.
+     * Determine the order of Reunions to fetch.
      */
-    orderBy?: CasoResponsableOrderByWithRelationInput | CasoResponsableOrderByWithRelationInput[]
+    orderBy?: ReunionOrderByWithRelationInput | ReunionOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: CasoResponsableWhereUniqueInput
+    cursor?: ReunionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` CasoResponsables from the position of the cursor.
+     * Take `±n` Reunions from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` CasoResponsables.
+     * Skip the first `n` Reunions.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned CasoResponsables
+     * Count returned Reunions
     **/
-    _count?: true | CasoResponsableCountAggregateInputType
+    _count?: true | ReunionCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: CasoResponsableAvgAggregateInputType
+    _avg?: ReunionAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: CasoResponsableSumAggregateInputType
+    _sum?: ReunionSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: CasoResponsableMinAggregateInputType
+    _min?: ReunionMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: CasoResponsableMaxAggregateInputType
+    _max?: ReunionMaxAggregateInputType
   }
 
-  export type GetCasoResponsableAggregateType<T extends CasoResponsableAggregateArgs> = {
-        [P in keyof T & keyof AggregateCasoResponsable]: P extends '_count' | 'count'
+  export type GetReunionAggregateType<T extends ReunionAggregateArgs> = {
+        [P in keyof T & keyof AggregateReunion]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateCasoResponsable[P]>
-      : GetScalarType<T[P], AggregateCasoResponsable[P]>
+        : GetScalarType<T[P], AggregateReunion[P]>
+      : GetScalarType<T[P], AggregateReunion[P]>
   }
 
 
 
 
-  export type CasoResponsableGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CasoResponsableWhereInput
-    orderBy?: CasoResponsableOrderByWithAggregationInput | CasoResponsableOrderByWithAggregationInput[]
-    by: CasoResponsableScalarFieldEnum[] | CasoResponsableScalarFieldEnum
-    having?: CasoResponsableScalarWhereWithAggregatesInput
+  export type ReunionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReunionWhereInput
+    orderBy?: ReunionOrderByWithAggregationInput | ReunionOrderByWithAggregationInput[]
+    by: ReunionScalarFieldEnum[] | ReunionScalarFieldEnum
+    having?: ReunionScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: CasoResponsableCountAggregateInputType | true
-    _avg?: CasoResponsableAvgAggregateInputType
-    _sum?: CasoResponsableSumAggregateInputType
-    _min?: CasoResponsableMinAggregateInputType
-    _max?: CasoResponsableMaxAggregateInputType
+    _count?: ReunionCountAggregateInputType | true
+    _avg?: ReunionAvgAggregateInputType
+    _sum?: ReunionSumAggregateInputType
+    _min?: ReunionMinAggregateInputType
+    _max?: ReunionMaxAggregateInputType
   }
 
-  export type CasoResponsableGroupByOutputType = {
+  export type ReunionGroupByOutputType = {
     id: number
-    casoId: number
-    usuarioId: number
-    esPrincipal: boolean
+    titulo: string
+    fecha: Date
+    lugar: string | null
+    observaciones: string | null
+    casoId: number | null
+    creadorId: number
     createdAt: Date
-    _count: CasoResponsableCountAggregateOutputType | null
-    _avg: CasoResponsableAvgAggregateOutputType | null
-    _sum: CasoResponsableSumAggregateOutputType | null
-    _min: CasoResponsableMinAggregateOutputType | null
-    _max: CasoResponsableMaxAggregateOutputType | null
+    updatedAt: Date
+    _count: ReunionCountAggregateOutputType | null
+    _avg: ReunionAvgAggregateOutputType | null
+    _sum: ReunionSumAggregateOutputType | null
+    _min: ReunionMinAggregateOutputType | null
+    _max: ReunionMaxAggregateOutputType | null
   }
 
-  type GetCasoResponsableGroupByPayload<T extends CasoResponsableGroupByArgs> = Prisma.PrismaPromise<
+  type GetReunionGroupByPayload<T extends ReunionGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<CasoResponsableGroupByOutputType, T['by']> &
+      PickEnumerable<ReunionGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof CasoResponsableGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof ReunionGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], CasoResponsableGroupByOutputType[P]>
-            : GetScalarType<T[P], CasoResponsableGroupByOutputType[P]>
+              : GetScalarType<T[P], ReunionGroupByOutputType[P]>
+            : GetScalarType<T[P], ReunionGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type CasoResponsableSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ReunionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    titulo?: boolean
+    fecha?: boolean
+    lugar?: boolean
+    observaciones?: boolean
     casoId?: boolean
-    usuarioId?: boolean
-    esPrincipal?: boolean
+    creadorId?: boolean
     createdAt?: boolean
-    caso?: boolean | CasoDefaultArgs<ExtArgs>
-    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["casoResponsable"]>
+    updatedAt?: boolean
+    caso?: boolean | Reunion$casoArgs<ExtArgs>
+    creador?: boolean | UsuarioDefaultArgs<ExtArgs>
+    participantes?: boolean | Reunion$participantesArgs<ExtArgs>
+    _count?: boolean | ReunionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reunion"]>
 
-  export type CasoResponsableSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ReunionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    titulo?: boolean
+    fecha?: boolean
+    lugar?: boolean
+    observaciones?: boolean
     casoId?: boolean
-    usuarioId?: boolean
-    esPrincipal?: boolean
+    creadorId?: boolean
     createdAt?: boolean
-    caso?: boolean | CasoDefaultArgs<ExtArgs>
-    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["casoResponsable"]>
+    updatedAt?: boolean
+    caso?: boolean | Reunion$casoArgs<ExtArgs>
+    creador?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reunion"]>
 
-  export type CasoResponsableSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type ReunionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    titulo?: boolean
+    fecha?: boolean
+    lugar?: boolean
+    observaciones?: boolean
     casoId?: boolean
-    usuarioId?: boolean
-    esPrincipal?: boolean
+    creadorId?: boolean
     createdAt?: boolean
-    caso?: boolean | CasoDefaultArgs<ExtArgs>
-    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["casoResponsable"]>
+    updatedAt?: boolean
+    caso?: boolean | Reunion$casoArgs<ExtArgs>
+    creador?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["reunion"]>
 
-  export type CasoResponsableSelectScalar = {
+  export type ReunionSelectScalar = {
     id?: boolean
+    titulo?: boolean
+    fecha?: boolean
+    lugar?: boolean
+    observaciones?: boolean
     casoId?: boolean
-    usuarioId?: boolean
-    esPrincipal?: boolean
+    creadorId?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type CasoResponsableOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "casoId" | "usuarioId" | "esPrincipal" | "createdAt", ExtArgs["result"]["casoResponsable"]>
-  export type CasoResponsableInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    caso?: boolean | CasoDefaultArgs<ExtArgs>
-    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  export type ReunionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "fecha" | "lugar" | "observaciones" | "casoId" | "creadorId" | "createdAt" | "updatedAt", ExtArgs["result"]["reunion"]>
+  export type ReunionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    caso?: boolean | Reunion$casoArgs<ExtArgs>
+    creador?: boolean | UsuarioDefaultArgs<ExtArgs>
+    participantes?: boolean | Reunion$participantesArgs<ExtArgs>
+    _count?: boolean | ReunionCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type CasoResponsableIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    caso?: boolean | CasoDefaultArgs<ExtArgs>
-    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  export type ReunionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    caso?: boolean | Reunion$casoArgs<ExtArgs>
+    creador?: boolean | UsuarioDefaultArgs<ExtArgs>
   }
-  export type CasoResponsableIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    caso?: boolean | CasoDefaultArgs<ExtArgs>
-    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  export type ReunionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    caso?: boolean | Reunion$casoArgs<ExtArgs>
+    creador?: boolean | UsuarioDefaultArgs<ExtArgs>
   }
 
-  export type $CasoResponsablePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "CasoResponsable"
+  export type $ReunionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Reunion"
     objects: {
-      caso: Prisma.$CasoPayload<ExtArgs>
-      usuario: Prisma.$UsuarioPayload<ExtArgs>
+      caso: Prisma.$CasoPayload<ExtArgs> | null
+      creador: Prisma.$UsuarioPayload<ExtArgs>
+      participantes: Prisma.$ParticipanteReunionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      casoId: number
-      usuarioId: number
-      esPrincipal: boolean
+      titulo: string
+      fecha: Date
+      lugar: string | null
+      observaciones: string | null
+      casoId: number | null
+      creadorId: number
       createdAt: Date
-    }, ExtArgs["result"]["casoResponsable"]>
+      updatedAt: Date
+    }, ExtArgs["result"]["reunion"]>
     composites: {}
   }
 
-  type CasoResponsableGetPayload<S extends boolean | null | undefined | CasoResponsableDefaultArgs> = $Result.GetResult<Prisma.$CasoResponsablePayload, S>
+  type ReunionGetPayload<S extends boolean | null | undefined | ReunionDefaultArgs> = $Result.GetResult<Prisma.$ReunionPayload, S>
 
-  type CasoResponsableCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<CasoResponsableFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: CasoResponsableCountAggregateInputType | true
+  type ReunionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ReunionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ReunionCountAggregateInputType | true
     }
 
-  export interface CasoResponsableDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CasoResponsable'], meta: { name: 'CasoResponsable' } }
+  export interface ReunionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Reunion'], meta: { name: 'Reunion' } }
     /**
-     * Find zero or one CasoResponsable that matches the filter.
-     * @param {CasoResponsableFindUniqueArgs} args - Arguments to find a CasoResponsable
+     * Find zero or one Reunion that matches the filter.
+     * @param {ReunionFindUniqueArgs} args - Arguments to find a Reunion
      * @example
-     * // Get one CasoResponsable
-     * const casoResponsable = await prisma.casoResponsable.findUnique({
+     * // Get one Reunion
+     * const reunion = await prisma.reunion.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends CasoResponsableFindUniqueArgs>(args: SelectSubset<T, CasoResponsableFindUniqueArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends ReunionFindUniqueArgs>(args: SelectSubset<T, ReunionFindUniqueArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one CasoResponsable that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Reunion that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {CasoResponsableFindUniqueOrThrowArgs} args - Arguments to find a CasoResponsable
+     * @param {ReunionFindUniqueOrThrowArgs} args - Arguments to find a Reunion
      * @example
-     * // Get one CasoResponsable
-     * const casoResponsable = await prisma.casoResponsable.findUniqueOrThrow({
+     * // Get one Reunion
+     * const reunion = await prisma.reunion.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends CasoResponsableFindUniqueOrThrowArgs>(args: SelectSubset<T, CasoResponsableFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends ReunionFindUniqueOrThrowArgs>(args: SelectSubset<T, ReunionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first CasoResponsable that matches the filter.
+     * Find the first Reunion that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CasoResponsableFindFirstArgs} args - Arguments to find a CasoResponsable
+     * @param {ReunionFindFirstArgs} args - Arguments to find a Reunion
      * @example
-     * // Get one CasoResponsable
-     * const casoResponsable = await prisma.casoResponsable.findFirst({
+     * // Get one Reunion
+     * const reunion = await prisma.reunion.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends CasoResponsableFindFirstArgs>(args?: SelectSubset<T, CasoResponsableFindFirstArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends ReunionFindFirstArgs>(args?: SelectSubset<T, ReunionFindFirstArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first CasoResponsable that matches the filter or
+     * Find the first Reunion that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CasoResponsableFindFirstOrThrowArgs} args - Arguments to find a CasoResponsable
+     * @param {ReunionFindFirstOrThrowArgs} args - Arguments to find a Reunion
      * @example
-     * // Get one CasoResponsable
-     * const casoResponsable = await prisma.casoResponsable.findFirstOrThrow({
+     * // Get one Reunion
+     * const reunion = await prisma.reunion.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends CasoResponsableFindFirstOrThrowArgs>(args?: SelectSubset<T, CasoResponsableFindFirstOrThrowArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends ReunionFindFirstOrThrowArgs>(args?: SelectSubset<T, ReunionFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more CasoResponsables that matches the filter.
+     * Find zero or more Reunions that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CasoResponsableFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {ReunionFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all CasoResponsables
-     * const casoResponsables = await prisma.casoResponsable.findMany()
+     * // Get all Reunions
+     * const reunions = await prisma.reunion.findMany()
      * 
-     * // Get first 10 CasoResponsables
-     * const casoResponsables = await prisma.casoResponsable.findMany({ take: 10 })
+     * // Get first 10 Reunions
+     * const reunions = await prisma.reunion.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const casoResponsableWithIdOnly = await prisma.casoResponsable.findMany({ select: { id: true } })
+     * const reunionWithIdOnly = await prisma.reunion.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends CasoResponsableFindManyArgs>(args?: SelectSubset<T, CasoResponsableFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends ReunionFindManyArgs>(args?: SelectSubset<T, ReunionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a CasoResponsable.
-     * @param {CasoResponsableCreateArgs} args - Arguments to create a CasoResponsable.
+     * Create a Reunion.
+     * @param {ReunionCreateArgs} args - Arguments to create a Reunion.
      * @example
-     * // Create one CasoResponsable
-     * const CasoResponsable = await prisma.casoResponsable.create({
+     * // Create one Reunion
+     * const Reunion = await prisma.reunion.create({
      *   data: {
-     *     // ... data to create a CasoResponsable
+     *     // ... data to create a Reunion
      *   }
      * })
      * 
      */
-    create<T extends CasoResponsableCreateArgs>(args: SelectSubset<T, CasoResponsableCreateArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends ReunionCreateArgs>(args: SelectSubset<T, ReunionCreateArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many CasoResponsables.
-     * @param {CasoResponsableCreateManyArgs} args - Arguments to create many CasoResponsables.
+     * Create many Reunions.
+     * @param {ReunionCreateManyArgs} args - Arguments to create many Reunions.
      * @example
-     * // Create many CasoResponsables
-     * const casoResponsable = await prisma.casoResponsable.createMany({
+     * // Create many Reunions
+     * const reunion = await prisma.reunion.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends CasoResponsableCreateManyArgs>(args?: SelectSubset<T, CasoResponsableCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends ReunionCreateManyArgs>(args?: SelectSubset<T, ReunionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many CasoResponsables and returns the data saved in the database.
-     * @param {CasoResponsableCreateManyAndReturnArgs} args - Arguments to create many CasoResponsables.
+     * Create many Reunions and returns the data saved in the database.
+     * @param {ReunionCreateManyAndReturnArgs} args - Arguments to create many Reunions.
      * @example
-     * // Create many CasoResponsables
-     * const casoResponsable = await prisma.casoResponsable.createManyAndReturn({
+     * // Create many Reunions
+     * const reunion = await prisma.reunion.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many CasoResponsables and only return the `id`
-     * const casoResponsableWithIdOnly = await prisma.casoResponsable.createManyAndReturn({
+     * // Create many Reunions and only return the `id`
+     * const reunionWithIdOnly = await prisma.reunion.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -9222,28 +10749,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends CasoResponsableCreateManyAndReturnArgs>(args?: SelectSubset<T, CasoResponsableCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends ReunionCreateManyAndReturnArgs>(args?: SelectSubset<T, ReunionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a CasoResponsable.
-     * @param {CasoResponsableDeleteArgs} args - Arguments to delete one CasoResponsable.
+     * Delete a Reunion.
+     * @param {ReunionDeleteArgs} args - Arguments to delete one Reunion.
      * @example
-     * // Delete one CasoResponsable
-     * const CasoResponsable = await prisma.casoResponsable.delete({
+     * // Delete one Reunion
+     * const Reunion = await prisma.reunion.delete({
      *   where: {
-     *     // ... filter to delete one CasoResponsable
+     *     // ... filter to delete one Reunion
      *   }
      * })
      * 
      */
-    delete<T extends CasoResponsableDeleteArgs>(args: SelectSubset<T, CasoResponsableDeleteArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends ReunionDeleteArgs>(args: SelectSubset<T, ReunionDeleteArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one CasoResponsable.
-     * @param {CasoResponsableUpdateArgs} args - Arguments to update one CasoResponsable.
+     * Update one Reunion.
+     * @param {ReunionUpdateArgs} args - Arguments to update one Reunion.
      * @example
-     * // Update one CasoResponsable
-     * const casoResponsable = await prisma.casoResponsable.update({
+     * // Update one Reunion
+     * const reunion = await prisma.reunion.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -9253,30 +10780,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends CasoResponsableUpdateArgs>(args: SelectSubset<T, CasoResponsableUpdateArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends ReunionUpdateArgs>(args: SelectSubset<T, ReunionUpdateArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more CasoResponsables.
-     * @param {CasoResponsableDeleteManyArgs} args - Arguments to filter CasoResponsables to delete.
+     * Delete zero or more Reunions.
+     * @param {ReunionDeleteManyArgs} args - Arguments to filter Reunions to delete.
      * @example
-     * // Delete a few CasoResponsables
-     * const { count } = await prisma.casoResponsable.deleteMany({
+     * // Delete a few Reunions
+     * const { count } = await prisma.reunion.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends CasoResponsableDeleteManyArgs>(args?: SelectSubset<T, CasoResponsableDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends ReunionDeleteManyArgs>(args?: SelectSubset<T, ReunionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more CasoResponsables.
+     * Update zero or more Reunions.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CasoResponsableUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {ReunionUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many CasoResponsables
-     * const casoResponsable = await prisma.casoResponsable.updateMany({
+     * // Update many Reunions
+     * const reunion = await prisma.reunion.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -9286,14 +10813,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends CasoResponsableUpdateManyArgs>(args: SelectSubset<T, CasoResponsableUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends ReunionUpdateManyArgs>(args: SelectSubset<T, ReunionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more CasoResponsables and returns the data updated in the database.
-     * @param {CasoResponsableUpdateManyAndReturnArgs} args - Arguments to update many CasoResponsables.
+     * Update zero or more Reunions and returns the data updated in the database.
+     * @param {ReunionUpdateManyAndReturnArgs} args - Arguments to update many Reunions.
      * @example
-     * // Update many CasoResponsables
-     * const casoResponsable = await prisma.casoResponsable.updateManyAndReturn({
+     * // Update many Reunions
+     * const reunion = await prisma.reunion.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -9302,8 +10829,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more CasoResponsables and only return the `id`
-     * const casoResponsableWithIdOnly = await prisma.casoResponsable.updateManyAndReturn({
+     * // Update zero or more Reunions and only return the `id`
+     * const reunionWithIdOnly = await prisma.reunion.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -9316,56 +10843,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends CasoResponsableUpdateManyAndReturnArgs>(args: SelectSubset<T, CasoResponsableUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends ReunionUpdateManyAndReturnArgs>(args: SelectSubset<T, ReunionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one CasoResponsable.
-     * @param {CasoResponsableUpsertArgs} args - Arguments to update or create a CasoResponsable.
+     * Create or update one Reunion.
+     * @param {ReunionUpsertArgs} args - Arguments to update or create a Reunion.
      * @example
-     * // Update or create a CasoResponsable
-     * const casoResponsable = await prisma.casoResponsable.upsert({
+     * // Update or create a Reunion
+     * const reunion = await prisma.reunion.upsert({
      *   create: {
-     *     // ... data to create a CasoResponsable
+     *     // ... data to create a Reunion
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the CasoResponsable we want to update
+     *     // ... the filter for the Reunion we want to update
      *   }
      * })
      */
-    upsert<T extends CasoResponsableUpsertArgs>(args: SelectSubset<T, CasoResponsableUpsertArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends ReunionUpsertArgs>(args: SelectSubset<T, ReunionUpsertArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of CasoResponsables.
+     * Count the number of Reunions.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CasoResponsableCountArgs} args - Arguments to filter CasoResponsables to count.
+     * @param {ReunionCountArgs} args - Arguments to filter Reunions to count.
      * @example
-     * // Count the number of CasoResponsables
-     * const count = await prisma.casoResponsable.count({
+     * // Count the number of Reunions
+     * const count = await prisma.reunion.count({
      *   where: {
-     *     // ... the filter for the CasoResponsables we want to count
+     *     // ... the filter for the Reunions we want to count
      *   }
      * })
     **/
-    count<T extends CasoResponsableCountArgs>(
-      args?: Subset<T, CasoResponsableCountArgs>,
+    count<T extends ReunionCountArgs>(
+      args?: Subset<T, ReunionCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], CasoResponsableCountAggregateOutputType>
+          : GetScalarType<T['select'], ReunionCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a CasoResponsable.
+     * Allows you to perform aggregations operations on a Reunion.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CasoResponsableAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {ReunionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -9385,13 +10912,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends CasoResponsableAggregateArgs>(args: Subset<T, CasoResponsableAggregateArgs>): Prisma.PrismaPromise<GetCasoResponsableAggregateType<T>>
+    aggregate<T extends ReunionAggregateArgs>(args: Subset<T, ReunionAggregateArgs>): Prisma.PrismaPromise<GetReunionAggregateType<T>>
 
     /**
-     * Group by CasoResponsable.
+     * Group by Reunion.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {CasoResponsableGroupByArgs} args - Group by arguments.
+     * @param {ReunionGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -9406,14 +10933,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends CasoResponsableGroupByArgs,
+      T extends ReunionGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: CasoResponsableGroupByArgs['orderBy'] }
-        : { orderBy?: CasoResponsableGroupByArgs['orderBy'] },
+        ? { orderBy: ReunionGroupByArgs['orderBy'] }
+        : { orderBy?: ReunionGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -9462,23 +10989,24 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, CasoResponsableGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCasoResponsableGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, ReunionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReunionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the CasoResponsable model
+   * Fields of the Reunion model
    */
-  readonly fields: CasoResponsableFieldRefs;
+  readonly fields: ReunionFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for CasoResponsable.
+   * The delegate class that acts as a "Promise-like" for Reunion.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__CasoResponsableClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__ReunionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    caso<T extends CasoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CasoDefaultArgs<ExtArgs>>): Prisma__CasoClient<$Result.GetResult<Prisma.$CasoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    usuario<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    caso<T extends Reunion$casoArgs<ExtArgs> = {}>(args?: Subset<T, Reunion$casoArgs<ExtArgs>>): Prisma__CasoClient<$Result.GetResult<Prisma.$CasoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    creador<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    participantes<T extends Reunion$participantesArgs<ExtArgs> = {}>(args?: Subset<T, Reunion$participantesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipanteReunionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9505,430 +11033,1653 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the CasoResponsable model
+   * Fields of the Reunion model
    */
-  interface CasoResponsableFieldRefs {
-    readonly id: FieldRef<"CasoResponsable", 'Int'>
-    readonly casoId: FieldRef<"CasoResponsable", 'Int'>
-    readonly usuarioId: FieldRef<"CasoResponsable", 'Int'>
-    readonly esPrincipal: FieldRef<"CasoResponsable", 'Boolean'>
-    readonly createdAt: FieldRef<"CasoResponsable", 'DateTime'>
+  interface ReunionFieldRefs {
+    readonly id: FieldRef<"Reunion", 'Int'>
+    readonly titulo: FieldRef<"Reunion", 'String'>
+    readonly fecha: FieldRef<"Reunion", 'DateTime'>
+    readonly lugar: FieldRef<"Reunion", 'String'>
+    readonly observaciones: FieldRef<"Reunion", 'String'>
+    readonly casoId: FieldRef<"Reunion", 'Int'>
+    readonly creadorId: FieldRef<"Reunion", 'Int'>
+    readonly createdAt: FieldRef<"Reunion", 'DateTime'>
+    readonly updatedAt: FieldRef<"Reunion", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * CasoResponsable findUnique
+   * Reunion findUnique
    */
-  export type CasoResponsableFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ReunionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CasoResponsable
+     * Select specific fields to fetch from the Reunion
      */
-    select?: CasoResponsableSelect<ExtArgs> | null
+    select?: ReunionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CasoResponsable
+     * Omit specific fields from the Reunion
      */
-    omit?: CasoResponsableOmit<ExtArgs> | null
+    omit?: ReunionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CasoResponsableInclude<ExtArgs> | null
+    include?: ReunionInclude<ExtArgs> | null
     /**
-     * Filter, which CasoResponsable to fetch.
+     * Filter, which Reunion to fetch.
      */
-    where: CasoResponsableWhereUniqueInput
+    where: ReunionWhereUniqueInput
   }
 
   /**
-   * CasoResponsable findUniqueOrThrow
+   * Reunion findUniqueOrThrow
    */
-  export type CasoResponsableFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ReunionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CasoResponsable
+     * Select specific fields to fetch from the Reunion
      */
-    select?: CasoResponsableSelect<ExtArgs> | null
+    select?: ReunionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CasoResponsable
+     * Omit specific fields from the Reunion
      */
-    omit?: CasoResponsableOmit<ExtArgs> | null
+    omit?: ReunionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CasoResponsableInclude<ExtArgs> | null
+    include?: ReunionInclude<ExtArgs> | null
     /**
-     * Filter, which CasoResponsable to fetch.
+     * Filter, which Reunion to fetch.
      */
-    where: CasoResponsableWhereUniqueInput
+    where: ReunionWhereUniqueInput
   }
 
   /**
-   * CasoResponsable findFirst
+   * Reunion findFirst
    */
-  export type CasoResponsableFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ReunionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CasoResponsable
+     * Select specific fields to fetch from the Reunion
      */
-    select?: CasoResponsableSelect<ExtArgs> | null
+    select?: ReunionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CasoResponsable
+     * Omit specific fields from the Reunion
      */
-    omit?: CasoResponsableOmit<ExtArgs> | null
+    omit?: ReunionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CasoResponsableInclude<ExtArgs> | null
+    include?: ReunionInclude<ExtArgs> | null
     /**
-     * Filter, which CasoResponsable to fetch.
+     * Filter, which Reunion to fetch.
      */
-    where?: CasoResponsableWhereInput
+    where?: ReunionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of CasoResponsables to fetch.
+     * Determine the order of Reunions to fetch.
      */
-    orderBy?: CasoResponsableOrderByWithRelationInput | CasoResponsableOrderByWithRelationInput[]
+    orderBy?: ReunionOrderByWithRelationInput | ReunionOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for CasoResponsables.
+     * Sets the position for searching for Reunions.
      */
-    cursor?: CasoResponsableWhereUniqueInput
+    cursor?: ReunionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` CasoResponsables from the position of the cursor.
+     * Take `±n` Reunions from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` CasoResponsables.
+     * Skip the first `n` Reunions.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of CasoResponsables.
+     * Filter by unique combinations of Reunions.
      */
-    distinct?: CasoResponsableScalarFieldEnum | CasoResponsableScalarFieldEnum[]
+    distinct?: ReunionScalarFieldEnum | ReunionScalarFieldEnum[]
   }
 
   /**
-   * CasoResponsable findFirstOrThrow
+   * Reunion findFirstOrThrow
    */
-  export type CasoResponsableFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ReunionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CasoResponsable
+     * Select specific fields to fetch from the Reunion
      */
-    select?: CasoResponsableSelect<ExtArgs> | null
+    select?: ReunionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CasoResponsable
+     * Omit specific fields from the Reunion
      */
-    omit?: CasoResponsableOmit<ExtArgs> | null
+    omit?: ReunionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CasoResponsableInclude<ExtArgs> | null
+    include?: ReunionInclude<ExtArgs> | null
     /**
-     * Filter, which CasoResponsable to fetch.
+     * Filter, which Reunion to fetch.
      */
-    where?: CasoResponsableWhereInput
+    where?: ReunionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of CasoResponsables to fetch.
+     * Determine the order of Reunions to fetch.
      */
-    orderBy?: CasoResponsableOrderByWithRelationInput | CasoResponsableOrderByWithRelationInput[]
+    orderBy?: ReunionOrderByWithRelationInput | ReunionOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for CasoResponsables.
+     * Sets the position for searching for Reunions.
      */
-    cursor?: CasoResponsableWhereUniqueInput
+    cursor?: ReunionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` CasoResponsables from the position of the cursor.
+     * Take `±n` Reunions from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` CasoResponsables.
+     * Skip the first `n` Reunions.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of CasoResponsables.
+     * Filter by unique combinations of Reunions.
      */
-    distinct?: CasoResponsableScalarFieldEnum | CasoResponsableScalarFieldEnum[]
+    distinct?: ReunionScalarFieldEnum | ReunionScalarFieldEnum[]
   }
 
   /**
-   * CasoResponsable findMany
+   * Reunion findMany
    */
-  export type CasoResponsableFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ReunionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CasoResponsable
+     * Select specific fields to fetch from the Reunion
      */
-    select?: CasoResponsableSelect<ExtArgs> | null
+    select?: ReunionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CasoResponsable
+     * Omit specific fields from the Reunion
      */
-    omit?: CasoResponsableOmit<ExtArgs> | null
+    omit?: ReunionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CasoResponsableInclude<ExtArgs> | null
+    include?: ReunionInclude<ExtArgs> | null
     /**
-     * Filter, which CasoResponsables to fetch.
+     * Filter, which Reunions to fetch.
      */
-    where?: CasoResponsableWhereInput
+    where?: ReunionWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of CasoResponsables to fetch.
+     * Determine the order of Reunions to fetch.
      */
-    orderBy?: CasoResponsableOrderByWithRelationInput | CasoResponsableOrderByWithRelationInput[]
+    orderBy?: ReunionOrderByWithRelationInput | ReunionOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing CasoResponsables.
+     * Sets the position for listing Reunions.
      */
-    cursor?: CasoResponsableWhereUniqueInput
+    cursor?: ReunionWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` CasoResponsables from the position of the cursor.
+     * Take `±n` Reunions from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` CasoResponsables.
+     * Skip the first `n` Reunions.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of CasoResponsables.
+     * Filter by unique combinations of Reunions.
      */
-    distinct?: CasoResponsableScalarFieldEnum | CasoResponsableScalarFieldEnum[]
+    distinct?: ReunionScalarFieldEnum | ReunionScalarFieldEnum[]
   }
 
   /**
-   * CasoResponsable create
+   * Reunion create
    */
-  export type CasoResponsableCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ReunionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CasoResponsable
+     * Select specific fields to fetch from the Reunion
      */
-    select?: CasoResponsableSelect<ExtArgs> | null
+    select?: ReunionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CasoResponsable
+     * Omit specific fields from the Reunion
      */
-    omit?: CasoResponsableOmit<ExtArgs> | null
+    omit?: ReunionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CasoResponsableInclude<ExtArgs> | null
+    include?: ReunionInclude<ExtArgs> | null
     /**
-     * The data needed to create a CasoResponsable.
+     * The data needed to create a Reunion.
      */
-    data: XOR<CasoResponsableCreateInput, CasoResponsableUncheckedCreateInput>
+    data: XOR<ReunionCreateInput, ReunionUncheckedCreateInput>
   }
 
   /**
-   * CasoResponsable createMany
+   * Reunion createMany
    */
-  export type CasoResponsableCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ReunionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many CasoResponsables.
+     * The data used to create many Reunions.
      */
-    data: CasoResponsableCreateManyInput | CasoResponsableCreateManyInput[]
+    data: ReunionCreateManyInput | ReunionCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * CasoResponsable createManyAndReturn
+   * Reunion createManyAndReturn
    */
-  export type CasoResponsableCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ReunionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CasoResponsable
+     * Select specific fields to fetch from the Reunion
      */
-    select?: CasoResponsableSelectCreateManyAndReturn<ExtArgs> | null
+    select?: ReunionSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the CasoResponsable
+     * Omit specific fields from the Reunion
      */
-    omit?: CasoResponsableOmit<ExtArgs> | null
+    omit?: ReunionOmit<ExtArgs> | null
     /**
-     * The data used to create many CasoResponsables.
+     * The data used to create many Reunions.
      */
-    data: CasoResponsableCreateManyInput | CasoResponsableCreateManyInput[]
+    data: ReunionCreateManyInput | ReunionCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CasoResponsableIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: ReunionIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * CasoResponsable update
+   * Reunion update
    */
-  export type CasoResponsableUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ReunionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CasoResponsable
+     * Select specific fields to fetch from the Reunion
      */
-    select?: CasoResponsableSelect<ExtArgs> | null
+    select?: ReunionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CasoResponsable
+     * Omit specific fields from the Reunion
      */
-    omit?: CasoResponsableOmit<ExtArgs> | null
+    omit?: ReunionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CasoResponsableInclude<ExtArgs> | null
+    include?: ReunionInclude<ExtArgs> | null
     /**
-     * The data needed to update a CasoResponsable.
+     * The data needed to update a Reunion.
      */
-    data: XOR<CasoResponsableUpdateInput, CasoResponsableUncheckedUpdateInput>
+    data: XOR<ReunionUpdateInput, ReunionUncheckedUpdateInput>
     /**
-     * Choose, which CasoResponsable to update.
+     * Choose, which Reunion to update.
      */
-    where: CasoResponsableWhereUniqueInput
+    where: ReunionWhereUniqueInput
   }
 
   /**
-   * CasoResponsable updateMany
+   * Reunion updateMany
    */
-  export type CasoResponsableUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ReunionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update CasoResponsables.
+     * The data used to update Reunions.
      */
-    data: XOR<CasoResponsableUpdateManyMutationInput, CasoResponsableUncheckedUpdateManyInput>
+    data: XOR<ReunionUpdateManyMutationInput, ReunionUncheckedUpdateManyInput>
     /**
-     * Filter which CasoResponsables to update
+     * Filter which Reunions to update
      */
-    where?: CasoResponsableWhereInput
+    where?: ReunionWhereInput
     /**
-     * Limit how many CasoResponsables to update.
+     * Limit how many Reunions to update.
      */
     limit?: number
   }
 
   /**
-   * CasoResponsable updateManyAndReturn
+   * Reunion updateManyAndReturn
    */
-  export type CasoResponsableUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ReunionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CasoResponsable
+     * Select specific fields to fetch from the Reunion
      */
-    select?: CasoResponsableSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: ReunionSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the CasoResponsable
+     * Omit specific fields from the Reunion
      */
-    omit?: CasoResponsableOmit<ExtArgs> | null
+    omit?: ReunionOmit<ExtArgs> | null
     /**
-     * The data used to update CasoResponsables.
+     * The data used to update Reunions.
      */
-    data: XOR<CasoResponsableUpdateManyMutationInput, CasoResponsableUncheckedUpdateManyInput>
+    data: XOR<ReunionUpdateManyMutationInput, ReunionUncheckedUpdateManyInput>
     /**
-     * Filter which CasoResponsables to update
+     * Filter which Reunions to update
      */
-    where?: CasoResponsableWhereInput
+    where?: ReunionWhereInput
     /**
-     * Limit how many CasoResponsables to update.
+     * Limit how many Reunions to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CasoResponsableIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: ReunionIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * CasoResponsable upsert
+   * Reunion upsert
    */
-  export type CasoResponsableUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ReunionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CasoResponsable
+     * Select specific fields to fetch from the Reunion
      */
-    select?: CasoResponsableSelect<ExtArgs> | null
+    select?: ReunionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CasoResponsable
+     * Omit specific fields from the Reunion
      */
-    omit?: CasoResponsableOmit<ExtArgs> | null
+    omit?: ReunionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CasoResponsableInclude<ExtArgs> | null
+    include?: ReunionInclude<ExtArgs> | null
     /**
-     * The filter to search for the CasoResponsable to update in case it exists.
+     * The filter to search for the Reunion to update in case it exists.
      */
-    where: CasoResponsableWhereUniqueInput
+    where: ReunionWhereUniqueInput
     /**
-     * In case the CasoResponsable found by the `where` argument doesn't exist, create a new CasoResponsable with this data.
+     * In case the Reunion found by the `where` argument doesn't exist, create a new Reunion with this data.
      */
-    create: XOR<CasoResponsableCreateInput, CasoResponsableUncheckedCreateInput>
+    create: XOR<ReunionCreateInput, ReunionUncheckedCreateInput>
     /**
-     * In case the CasoResponsable was found with the provided `where` argument, update it with this data.
+     * In case the Reunion was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<CasoResponsableUpdateInput, CasoResponsableUncheckedUpdateInput>
+    update: XOR<ReunionUpdateInput, ReunionUncheckedUpdateInput>
   }
 
   /**
-   * CasoResponsable delete
+   * Reunion delete
    */
-  export type CasoResponsableDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ReunionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CasoResponsable
+     * Select specific fields to fetch from the Reunion
      */
-    select?: CasoResponsableSelect<ExtArgs> | null
+    select?: ReunionSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CasoResponsable
+     * Omit specific fields from the Reunion
      */
-    omit?: CasoResponsableOmit<ExtArgs> | null
+    omit?: ReunionOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CasoResponsableInclude<ExtArgs> | null
+    include?: ReunionInclude<ExtArgs> | null
     /**
-     * Filter which CasoResponsable to delete.
+     * Filter which Reunion to delete.
      */
-    where: CasoResponsableWhereUniqueInput
+    where: ReunionWhereUniqueInput
   }
 
   /**
-   * CasoResponsable deleteMany
+   * Reunion deleteMany
    */
-  export type CasoResponsableDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ReunionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which CasoResponsables to delete
+     * Filter which Reunions to delete
      */
-    where?: CasoResponsableWhereInput
+    where?: ReunionWhereInput
     /**
-     * Limit how many CasoResponsables to delete.
+     * Limit how many Reunions to delete.
      */
     limit?: number
   }
 
   /**
-   * CasoResponsable without action
+   * Reunion.caso
    */
-  export type CasoResponsableDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Reunion$casoArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the CasoResponsable
+     * Select specific fields to fetch from the Caso
      */
-    select?: CasoResponsableSelect<ExtArgs> | null
+    select?: CasoSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the CasoResponsable
+     * Omit specific fields from the Caso
      */
-    omit?: CasoResponsableOmit<ExtArgs> | null
+    omit?: CasoOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: CasoResponsableInclude<ExtArgs> | null
+    include?: CasoInclude<ExtArgs> | null
+    where?: CasoWhereInput
+  }
+
+  /**
+   * Reunion.participantes
+   */
+  export type Reunion$participantesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParticipanteReunion
+     */
+    select?: ParticipanteReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParticipanteReunion
+     */
+    omit?: ParticipanteReunionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParticipanteReunionInclude<ExtArgs> | null
+    where?: ParticipanteReunionWhereInput
+    orderBy?: ParticipanteReunionOrderByWithRelationInput | ParticipanteReunionOrderByWithRelationInput[]
+    cursor?: ParticipanteReunionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ParticipanteReunionScalarFieldEnum | ParticipanteReunionScalarFieldEnum[]
+  }
+
+  /**
+   * Reunion without action
+   */
+  export type ReunionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Reunion
+     */
+    select?: ReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Reunion
+     */
+    omit?: ReunionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReunionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ParticipanteReunion
+   */
+
+  export type AggregateParticipanteReunion = {
+    _count: ParticipanteReunionCountAggregateOutputType | null
+    _avg: ParticipanteReunionAvgAggregateOutputType | null
+    _sum: ParticipanteReunionSumAggregateOutputType | null
+    _min: ParticipanteReunionMinAggregateOutputType | null
+    _max: ParticipanteReunionMaxAggregateOutputType | null
+  }
+
+  export type ParticipanteReunionAvgAggregateOutputType = {
+    id: number | null
+    reunionId: number | null
+    usuarioId: number | null
+    clienteId: number | null
+  }
+
+  export type ParticipanteReunionSumAggregateOutputType = {
+    id: number | null
+    reunionId: number | null
+    usuarioId: number | null
+    clienteId: number | null
+  }
+
+  export type ParticipanteReunionMinAggregateOutputType = {
+    id: number | null
+    reunionId: number | null
+    usuarioId: number | null
+    clienteId: number | null
+    nombreExterno: string | null
+    correoExterno: string | null
+  }
+
+  export type ParticipanteReunionMaxAggregateOutputType = {
+    id: number | null
+    reunionId: number | null
+    usuarioId: number | null
+    clienteId: number | null
+    nombreExterno: string | null
+    correoExterno: string | null
+  }
+
+  export type ParticipanteReunionCountAggregateOutputType = {
+    id: number
+    reunionId: number
+    usuarioId: number
+    clienteId: number
+    nombreExterno: number
+    correoExterno: number
+    _all: number
+  }
+
+
+  export type ParticipanteReunionAvgAggregateInputType = {
+    id?: true
+    reunionId?: true
+    usuarioId?: true
+    clienteId?: true
+  }
+
+  export type ParticipanteReunionSumAggregateInputType = {
+    id?: true
+    reunionId?: true
+    usuarioId?: true
+    clienteId?: true
+  }
+
+  export type ParticipanteReunionMinAggregateInputType = {
+    id?: true
+    reunionId?: true
+    usuarioId?: true
+    clienteId?: true
+    nombreExterno?: true
+    correoExterno?: true
+  }
+
+  export type ParticipanteReunionMaxAggregateInputType = {
+    id?: true
+    reunionId?: true
+    usuarioId?: true
+    clienteId?: true
+    nombreExterno?: true
+    correoExterno?: true
+  }
+
+  export type ParticipanteReunionCountAggregateInputType = {
+    id?: true
+    reunionId?: true
+    usuarioId?: true
+    clienteId?: true
+    nombreExterno?: true
+    correoExterno?: true
+    _all?: true
+  }
+
+  export type ParticipanteReunionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ParticipanteReunion to aggregate.
+     */
+    where?: ParticipanteReunionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ParticipanteReunions to fetch.
+     */
+    orderBy?: ParticipanteReunionOrderByWithRelationInput | ParticipanteReunionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ParticipanteReunionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ParticipanteReunions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ParticipanteReunions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ParticipanteReunions
+    **/
+    _count?: true | ParticipanteReunionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ParticipanteReunionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ParticipanteReunionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ParticipanteReunionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ParticipanteReunionMaxAggregateInputType
+  }
+
+  export type GetParticipanteReunionAggregateType<T extends ParticipanteReunionAggregateArgs> = {
+        [P in keyof T & keyof AggregateParticipanteReunion]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateParticipanteReunion[P]>
+      : GetScalarType<T[P], AggregateParticipanteReunion[P]>
+  }
+
+
+
+
+  export type ParticipanteReunionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ParticipanteReunionWhereInput
+    orderBy?: ParticipanteReunionOrderByWithAggregationInput | ParticipanteReunionOrderByWithAggregationInput[]
+    by: ParticipanteReunionScalarFieldEnum[] | ParticipanteReunionScalarFieldEnum
+    having?: ParticipanteReunionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ParticipanteReunionCountAggregateInputType | true
+    _avg?: ParticipanteReunionAvgAggregateInputType
+    _sum?: ParticipanteReunionSumAggregateInputType
+    _min?: ParticipanteReunionMinAggregateInputType
+    _max?: ParticipanteReunionMaxAggregateInputType
+  }
+
+  export type ParticipanteReunionGroupByOutputType = {
+    id: number
+    reunionId: number
+    usuarioId: number | null
+    clienteId: number | null
+    nombreExterno: string | null
+    correoExterno: string | null
+    _count: ParticipanteReunionCountAggregateOutputType | null
+    _avg: ParticipanteReunionAvgAggregateOutputType | null
+    _sum: ParticipanteReunionSumAggregateOutputType | null
+    _min: ParticipanteReunionMinAggregateOutputType | null
+    _max: ParticipanteReunionMaxAggregateOutputType | null
+  }
+
+  type GetParticipanteReunionGroupByPayload<T extends ParticipanteReunionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ParticipanteReunionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ParticipanteReunionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ParticipanteReunionGroupByOutputType[P]>
+            : GetScalarType<T[P], ParticipanteReunionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ParticipanteReunionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    reunionId?: boolean
+    usuarioId?: boolean
+    clienteId?: boolean
+    nombreExterno?: boolean
+    correoExterno?: boolean
+    reunion?: boolean | ReunionDefaultArgs<ExtArgs>
+    usuario?: boolean | ParticipanteReunion$usuarioArgs<ExtArgs>
+    cliente?: boolean | ParticipanteReunion$clienteArgs<ExtArgs>
+  }, ExtArgs["result"]["participanteReunion"]>
+
+  export type ParticipanteReunionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    reunionId?: boolean
+    usuarioId?: boolean
+    clienteId?: boolean
+    nombreExterno?: boolean
+    correoExterno?: boolean
+    reunion?: boolean | ReunionDefaultArgs<ExtArgs>
+    usuario?: boolean | ParticipanteReunion$usuarioArgs<ExtArgs>
+    cliente?: boolean | ParticipanteReunion$clienteArgs<ExtArgs>
+  }, ExtArgs["result"]["participanteReunion"]>
+
+  export type ParticipanteReunionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    reunionId?: boolean
+    usuarioId?: boolean
+    clienteId?: boolean
+    nombreExterno?: boolean
+    correoExterno?: boolean
+    reunion?: boolean | ReunionDefaultArgs<ExtArgs>
+    usuario?: boolean | ParticipanteReunion$usuarioArgs<ExtArgs>
+    cliente?: boolean | ParticipanteReunion$clienteArgs<ExtArgs>
+  }, ExtArgs["result"]["participanteReunion"]>
+
+  export type ParticipanteReunionSelectScalar = {
+    id?: boolean
+    reunionId?: boolean
+    usuarioId?: boolean
+    clienteId?: boolean
+    nombreExterno?: boolean
+    correoExterno?: boolean
+  }
+
+  export type ParticipanteReunionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "reunionId" | "usuarioId" | "clienteId" | "nombreExterno" | "correoExterno", ExtArgs["result"]["participanteReunion"]>
+  export type ParticipanteReunionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reunion?: boolean | ReunionDefaultArgs<ExtArgs>
+    usuario?: boolean | ParticipanteReunion$usuarioArgs<ExtArgs>
+    cliente?: boolean | ParticipanteReunion$clienteArgs<ExtArgs>
+  }
+  export type ParticipanteReunionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reunion?: boolean | ReunionDefaultArgs<ExtArgs>
+    usuario?: boolean | ParticipanteReunion$usuarioArgs<ExtArgs>
+    cliente?: boolean | ParticipanteReunion$clienteArgs<ExtArgs>
+  }
+  export type ParticipanteReunionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    reunion?: boolean | ReunionDefaultArgs<ExtArgs>
+    usuario?: boolean | ParticipanteReunion$usuarioArgs<ExtArgs>
+    cliente?: boolean | ParticipanteReunion$clienteArgs<ExtArgs>
+  }
+
+  export type $ParticipanteReunionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ParticipanteReunion"
+    objects: {
+      reunion: Prisma.$ReunionPayload<ExtArgs>
+      usuario: Prisma.$UsuarioPayload<ExtArgs> | null
+      cliente: Prisma.$ClientePayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      reunionId: number
+      usuarioId: number | null
+      clienteId: number | null
+      nombreExterno: string | null
+      correoExterno: string | null
+    }, ExtArgs["result"]["participanteReunion"]>
+    composites: {}
+  }
+
+  type ParticipanteReunionGetPayload<S extends boolean | null | undefined | ParticipanteReunionDefaultArgs> = $Result.GetResult<Prisma.$ParticipanteReunionPayload, S>
+
+  type ParticipanteReunionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ParticipanteReunionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ParticipanteReunionCountAggregateInputType | true
+    }
+
+  export interface ParticipanteReunionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ParticipanteReunion'], meta: { name: 'ParticipanteReunion' } }
+    /**
+     * Find zero or one ParticipanteReunion that matches the filter.
+     * @param {ParticipanteReunionFindUniqueArgs} args - Arguments to find a ParticipanteReunion
+     * @example
+     * // Get one ParticipanteReunion
+     * const participanteReunion = await prisma.participanteReunion.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ParticipanteReunionFindUniqueArgs>(args: SelectSubset<T, ParticipanteReunionFindUniqueArgs<ExtArgs>>): Prisma__ParticipanteReunionClient<$Result.GetResult<Prisma.$ParticipanteReunionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ParticipanteReunion that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ParticipanteReunionFindUniqueOrThrowArgs} args - Arguments to find a ParticipanteReunion
+     * @example
+     * // Get one ParticipanteReunion
+     * const participanteReunion = await prisma.participanteReunion.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ParticipanteReunionFindUniqueOrThrowArgs>(args: SelectSubset<T, ParticipanteReunionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ParticipanteReunionClient<$Result.GetResult<Prisma.$ParticipanteReunionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ParticipanteReunion that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParticipanteReunionFindFirstArgs} args - Arguments to find a ParticipanteReunion
+     * @example
+     * // Get one ParticipanteReunion
+     * const participanteReunion = await prisma.participanteReunion.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ParticipanteReunionFindFirstArgs>(args?: SelectSubset<T, ParticipanteReunionFindFirstArgs<ExtArgs>>): Prisma__ParticipanteReunionClient<$Result.GetResult<Prisma.$ParticipanteReunionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ParticipanteReunion that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParticipanteReunionFindFirstOrThrowArgs} args - Arguments to find a ParticipanteReunion
+     * @example
+     * // Get one ParticipanteReunion
+     * const participanteReunion = await prisma.participanteReunion.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ParticipanteReunionFindFirstOrThrowArgs>(args?: SelectSubset<T, ParticipanteReunionFindFirstOrThrowArgs<ExtArgs>>): Prisma__ParticipanteReunionClient<$Result.GetResult<Prisma.$ParticipanteReunionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ParticipanteReunions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParticipanteReunionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ParticipanteReunions
+     * const participanteReunions = await prisma.participanteReunion.findMany()
+     * 
+     * // Get first 10 ParticipanteReunions
+     * const participanteReunions = await prisma.participanteReunion.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const participanteReunionWithIdOnly = await prisma.participanteReunion.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ParticipanteReunionFindManyArgs>(args?: SelectSubset<T, ParticipanteReunionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipanteReunionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ParticipanteReunion.
+     * @param {ParticipanteReunionCreateArgs} args - Arguments to create a ParticipanteReunion.
+     * @example
+     * // Create one ParticipanteReunion
+     * const ParticipanteReunion = await prisma.participanteReunion.create({
+     *   data: {
+     *     // ... data to create a ParticipanteReunion
+     *   }
+     * })
+     * 
+     */
+    create<T extends ParticipanteReunionCreateArgs>(args: SelectSubset<T, ParticipanteReunionCreateArgs<ExtArgs>>): Prisma__ParticipanteReunionClient<$Result.GetResult<Prisma.$ParticipanteReunionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ParticipanteReunions.
+     * @param {ParticipanteReunionCreateManyArgs} args - Arguments to create many ParticipanteReunions.
+     * @example
+     * // Create many ParticipanteReunions
+     * const participanteReunion = await prisma.participanteReunion.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ParticipanteReunionCreateManyArgs>(args?: SelectSubset<T, ParticipanteReunionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ParticipanteReunions and returns the data saved in the database.
+     * @param {ParticipanteReunionCreateManyAndReturnArgs} args - Arguments to create many ParticipanteReunions.
+     * @example
+     * // Create many ParticipanteReunions
+     * const participanteReunion = await prisma.participanteReunion.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ParticipanteReunions and only return the `id`
+     * const participanteReunionWithIdOnly = await prisma.participanteReunion.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ParticipanteReunionCreateManyAndReturnArgs>(args?: SelectSubset<T, ParticipanteReunionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipanteReunionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ParticipanteReunion.
+     * @param {ParticipanteReunionDeleteArgs} args - Arguments to delete one ParticipanteReunion.
+     * @example
+     * // Delete one ParticipanteReunion
+     * const ParticipanteReunion = await prisma.participanteReunion.delete({
+     *   where: {
+     *     // ... filter to delete one ParticipanteReunion
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ParticipanteReunionDeleteArgs>(args: SelectSubset<T, ParticipanteReunionDeleteArgs<ExtArgs>>): Prisma__ParticipanteReunionClient<$Result.GetResult<Prisma.$ParticipanteReunionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ParticipanteReunion.
+     * @param {ParticipanteReunionUpdateArgs} args - Arguments to update one ParticipanteReunion.
+     * @example
+     * // Update one ParticipanteReunion
+     * const participanteReunion = await prisma.participanteReunion.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ParticipanteReunionUpdateArgs>(args: SelectSubset<T, ParticipanteReunionUpdateArgs<ExtArgs>>): Prisma__ParticipanteReunionClient<$Result.GetResult<Prisma.$ParticipanteReunionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ParticipanteReunions.
+     * @param {ParticipanteReunionDeleteManyArgs} args - Arguments to filter ParticipanteReunions to delete.
+     * @example
+     * // Delete a few ParticipanteReunions
+     * const { count } = await prisma.participanteReunion.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ParticipanteReunionDeleteManyArgs>(args?: SelectSubset<T, ParticipanteReunionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ParticipanteReunions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParticipanteReunionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ParticipanteReunions
+     * const participanteReunion = await prisma.participanteReunion.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ParticipanteReunionUpdateManyArgs>(args: SelectSubset<T, ParticipanteReunionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ParticipanteReunions and returns the data updated in the database.
+     * @param {ParticipanteReunionUpdateManyAndReturnArgs} args - Arguments to update many ParticipanteReunions.
+     * @example
+     * // Update many ParticipanteReunions
+     * const participanteReunion = await prisma.participanteReunion.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ParticipanteReunions and only return the `id`
+     * const participanteReunionWithIdOnly = await prisma.participanteReunion.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ParticipanteReunionUpdateManyAndReturnArgs>(args: SelectSubset<T, ParticipanteReunionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParticipanteReunionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ParticipanteReunion.
+     * @param {ParticipanteReunionUpsertArgs} args - Arguments to update or create a ParticipanteReunion.
+     * @example
+     * // Update or create a ParticipanteReunion
+     * const participanteReunion = await prisma.participanteReunion.upsert({
+     *   create: {
+     *     // ... data to create a ParticipanteReunion
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ParticipanteReunion we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ParticipanteReunionUpsertArgs>(args: SelectSubset<T, ParticipanteReunionUpsertArgs<ExtArgs>>): Prisma__ParticipanteReunionClient<$Result.GetResult<Prisma.$ParticipanteReunionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ParticipanteReunions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParticipanteReunionCountArgs} args - Arguments to filter ParticipanteReunions to count.
+     * @example
+     * // Count the number of ParticipanteReunions
+     * const count = await prisma.participanteReunion.count({
+     *   where: {
+     *     // ... the filter for the ParticipanteReunions we want to count
+     *   }
+     * })
+    **/
+    count<T extends ParticipanteReunionCountArgs>(
+      args?: Subset<T, ParticipanteReunionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ParticipanteReunionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ParticipanteReunion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParticipanteReunionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ParticipanteReunionAggregateArgs>(args: Subset<T, ParticipanteReunionAggregateArgs>): Prisma.PrismaPromise<GetParticipanteReunionAggregateType<T>>
+
+    /**
+     * Group by ParticipanteReunion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ParticipanteReunionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ParticipanteReunionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ParticipanteReunionGroupByArgs['orderBy'] }
+        : { orderBy?: ParticipanteReunionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ParticipanteReunionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetParticipanteReunionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ParticipanteReunion model
+   */
+  readonly fields: ParticipanteReunionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ParticipanteReunion.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ParticipanteReunionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    reunion<T extends ReunionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ReunionDefaultArgs<ExtArgs>>): Prisma__ReunionClient<$Result.GetResult<Prisma.$ReunionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    usuario<T extends ParticipanteReunion$usuarioArgs<ExtArgs> = {}>(args?: Subset<T, ParticipanteReunion$usuarioArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    cliente<T extends ParticipanteReunion$clienteArgs<ExtArgs> = {}>(args?: Subset<T, ParticipanteReunion$clienteArgs<ExtArgs>>): Prisma__ClienteClient<$Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ParticipanteReunion model
+   */
+  interface ParticipanteReunionFieldRefs {
+    readonly id: FieldRef<"ParticipanteReunion", 'Int'>
+    readonly reunionId: FieldRef<"ParticipanteReunion", 'Int'>
+    readonly usuarioId: FieldRef<"ParticipanteReunion", 'Int'>
+    readonly clienteId: FieldRef<"ParticipanteReunion", 'Int'>
+    readonly nombreExterno: FieldRef<"ParticipanteReunion", 'String'>
+    readonly correoExterno: FieldRef<"ParticipanteReunion", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ParticipanteReunion findUnique
+   */
+  export type ParticipanteReunionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParticipanteReunion
+     */
+    select?: ParticipanteReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParticipanteReunion
+     */
+    omit?: ParticipanteReunionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParticipanteReunionInclude<ExtArgs> | null
+    /**
+     * Filter, which ParticipanteReunion to fetch.
+     */
+    where: ParticipanteReunionWhereUniqueInput
+  }
+
+  /**
+   * ParticipanteReunion findUniqueOrThrow
+   */
+  export type ParticipanteReunionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParticipanteReunion
+     */
+    select?: ParticipanteReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParticipanteReunion
+     */
+    omit?: ParticipanteReunionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParticipanteReunionInclude<ExtArgs> | null
+    /**
+     * Filter, which ParticipanteReunion to fetch.
+     */
+    where: ParticipanteReunionWhereUniqueInput
+  }
+
+  /**
+   * ParticipanteReunion findFirst
+   */
+  export type ParticipanteReunionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParticipanteReunion
+     */
+    select?: ParticipanteReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParticipanteReunion
+     */
+    omit?: ParticipanteReunionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParticipanteReunionInclude<ExtArgs> | null
+    /**
+     * Filter, which ParticipanteReunion to fetch.
+     */
+    where?: ParticipanteReunionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ParticipanteReunions to fetch.
+     */
+    orderBy?: ParticipanteReunionOrderByWithRelationInput | ParticipanteReunionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ParticipanteReunions.
+     */
+    cursor?: ParticipanteReunionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ParticipanteReunions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ParticipanteReunions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ParticipanteReunions.
+     */
+    distinct?: ParticipanteReunionScalarFieldEnum | ParticipanteReunionScalarFieldEnum[]
+  }
+
+  /**
+   * ParticipanteReunion findFirstOrThrow
+   */
+  export type ParticipanteReunionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParticipanteReunion
+     */
+    select?: ParticipanteReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParticipanteReunion
+     */
+    omit?: ParticipanteReunionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParticipanteReunionInclude<ExtArgs> | null
+    /**
+     * Filter, which ParticipanteReunion to fetch.
+     */
+    where?: ParticipanteReunionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ParticipanteReunions to fetch.
+     */
+    orderBy?: ParticipanteReunionOrderByWithRelationInput | ParticipanteReunionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ParticipanteReunions.
+     */
+    cursor?: ParticipanteReunionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ParticipanteReunions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ParticipanteReunions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ParticipanteReunions.
+     */
+    distinct?: ParticipanteReunionScalarFieldEnum | ParticipanteReunionScalarFieldEnum[]
+  }
+
+  /**
+   * ParticipanteReunion findMany
+   */
+  export type ParticipanteReunionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParticipanteReunion
+     */
+    select?: ParticipanteReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParticipanteReunion
+     */
+    omit?: ParticipanteReunionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParticipanteReunionInclude<ExtArgs> | null
+    /**
+     * Filter, which ParticipanteReunions to fetch.
+     */
+    where?: ParticipanteReunionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ParticipanteReunions to fetch.
+     */
+    orderBy?: ParticipanteReunionOrderByWithRelationInput | ParticipanteReunionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ParticipanteReunions.
+     */
+    cursor?: ParticipanteReunionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ParticipanteReunions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ParticipanteReunions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ParticipanteReunions.
+     */
+    distinct?: ParticipanteReunionScalarFieldEnum | ParticipanteReunionScalarFieldEnum[]
+  }
+
+  /**
+   * ParticipanteReunion create
+   */
+  export type ParticipanteReunionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParticipanteReunion
+     */
+    select?: ParticipanteReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParticipanteReunion
+     */
+    omit?: ParticipanteReunionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParticipanteReunionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ParticipanteReunion.
+     */
+    data: XOR<ParticipanteReunionCreateInput, ParticipanteReunionUncheckedCreateInput>
+  }
+
+  /**
+   * ParticipanteReunion createMany
+   */
+  export type ParticipanteReunionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ParticipanteReunions.
+     */
+    data: ParticipanteReunionCreateManyInput | ParticipanteReunionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ParticipanteReunion createManyAndReturn
+   */
+  export type ParticipanteReunionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParticipanteReunion
+     */
+    select?: ParticipanteReunionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParticipanteReunion
+     */
+    omit?: ParticipanteReunionOmit<ExtArgs> | null
+    /**
+     * The data used to create many ParticipanteReunions.
+     */
+    data: ParticipanteReunionCreateManyInput | ParticipanteReunionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParticipanteReunionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ParticipanteReunion update
+   */
+  export type ParticipanteReunionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParticipanteReunion
+     */
+    select?: ParticipanteReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParticipanteReunion
+     */
+    omit?: ParticipanteReunionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParticipanteReunionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ParticipanteReunion.
+     */
+    data: XOR<ParticipanteReunionUpdateInput, ParticipanteReunionUncheckedUpdateInput>
+    /**
+     * Choose, which ParticipanteReunion to update.
+     */
+    where: ParticipanteReunionWhereUniqueInput
+  }
+
+  /**
+   * ParticipanteReunion updateMany
+   */
+  export type ParticipanteReunionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ParticipanteReunions.
+     */
+    data: XOR<ParticipanteReunionUpdateManyMutationInput, ParticipanteReunionUncheckedUpdateManyInput>
+    /**
+     * Filter which ParticipanteReunions to update
+     */
+    where?: ParticipanteReunionWhereInput
+    /**
+     * Limit how many ParticipanteReunions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ParticipanteReunion updateManyAndReturn
+   */
+  export type ParticipanteReunionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParticipanteReunion
+     */
+    select?: ParticipanteReunionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParticipanteReunion
+     */
+    omit?: ParticipanteReunionOmit<ExtArgs> | null
+    /**
+     * The data used to update ParticipanteReunions.
+     */
+    data: XOR<ParticipanteReunionUpdateManyMutationInput, ParticipanteReunionUncheckedUpdateManyInput>
+    /**
+     * Filter which ParticipanteReunions to update
+     */
+    where?: ParticipanteReunionWhereInput
+    /**
+     * Limit how many ParticipanteReunions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParticipanteReunionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ParticipanteReunion upsert
+   */
+  export type ParticipanteReunionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParticipanteReunion
+     */
+    select?: ParticipanteReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParticipanteReunion
+     */
+    omit?: ParticipanteReunionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParticipanteReunionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ParticipanteReunion to update in case it exists.
+     */
+    where: ParticipanteReunionWhereUniqueInput
+    /**
+     * In case the ParticipanteReunion found by the `where` argument doesn't exist, create a new ParticipanteReunion with this data.
+     */
+    create: XOR<ParticipanteReunionCreateInput, ParticipanteReunionUncheckedCreateInput>
+    /**
+     * In case the ParticipanteReunion was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ParticipanteReunionUpdateInput, ParticipanteReunionUncheckedUpdateInput>
+  }
+
+  /**
+   * ParticipanteReunion delete
+   */
+  export type ParticipanteReunionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParticipanteReunion
+     */
+    select?: ParticipanteReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParticipanteReunion
+     */
+    omit?: ParticipanteReunionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParticipanteReunionInclude<ExtArgs> | null
+    /**
+     * Filter which ParticipanteReunion to delete.
+     */
+    where: ParticipanteReunionWhereUniqueInput
+  }
+
+  /**
+   * ParticipanteReunion deleteMany
+   */
+  export type ParticipanteReunionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ParticipanteReunions to delete
+     */
+    where?: ParticipanteReunionWhereInput
+    /**
+     * Limit how many ParticipanteReunions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ParticipanteReunion.usuario
+   */
+  export type ParticipanteReunion$usuarioArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Usuario
+     */
+    select?: UsuarioSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Usuario
+     */
+    omit?: UsuarioOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UsuarioInclude<ExtArgs> | null
+    where?: UsuarioWhereInput
+  }
+
+  /**
+   * ParticipanteReunion.cliente
+   */
+  export type ParticipanteReunion$clienteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cliente
+     */
+    select?: ClienteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cliente
+     */
+    omit?: ClienteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClienteInclude<ExtArgs> | null
+    where?: ClienteWhereInput
+  }
+
+  /**
+   * ParticipanteReunion without action
+   */
+  export type ParticipanteReunionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ParticipanteReunion
+     */
+    select?: ParticipanteReunionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ParticipanteReunion
+     */
+    omit?: ParticipanteReunionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ParticipanteReunionInclude<ExtArgs> | null
   }
 
 
@@ -9989,6 +12740,17 @@ export namespace Prisma {
   export type CasoScalarFieldEnum = (typeof CasoScalarFieldEnum)[keyof typeof CasoScalarFieldEnum]
 
 
+  export const CasoResponsableScalarFieldEnum: {
+    id: 'id',
+    casoId: 'casoId',
+    usuarioId: 'usuarioId',
+    esPrincipal: 'esPrincipal',
+    createdAt: 'createdAt'
+  };
+
+  export type CasoResponsableScalarFieldEnum = (typeof CasoResponsableScalarFieldEnum)[keyof typeof CasoResponsableScalarFieldEnum]
+
+
   export const AudienciaScalarFieldEnum: {
     id: 'id',
     fecha: 'fecha',
@@ -10033,15 +12795,31 @@ export namespace Prisma {
   export type RecordatorioScalarFieldEnum = (typeof RecordatorioScalarFieldEnum)[keyof typeof RecordatorioScalarFieldEnum]
 
 
-  export const CasoResponsableScalarFieldEnum: {
+  export const ReunionScalarFieldEnum: {
     id: 'id',
+    titulo: 'titulo',
+    fecha: 'fecha',
+    lugar: 'lugar',
+    observaciones: 'observaciones',
     casoId: 'casoId',
-    usuarioId: 'usuarioId',
-    esPrincipal: 'esPrincipal',
-    createdAt: 'createdAt'
+    creadorId: 'creadorId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
-  export type CasoResponsableScalarFieldEnum = (typeof CasoResponsableScalarFieldEnum)[keyof typeof CasoResponsableScalarFieldEnum]
+  export type ReunionScalarFieldEnum = (typeof ReunionScalarFieldEnum)[keyof typeof ReunionScalarFieldEnum]
+
+
+  export const ParticipanteReunionScalarFieldEnum: {
+    id: 'id',
+    reunionId: 'reunionId',
+    usuarioId: 'usuarioId',
+    clienteId: 'clienteId',
+    nombreExterno: 'nombreExterno',
+    correoExterno: 'correoExterno'
+  };
+
+  export type ParticipanteReunionScalarFieldEnum = (typeof ParticipanteReunionScalarFieldEnum)[keyof typeof ParticipanteReunionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -10144,6 +12922,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'EstadoAudiencia'
    */
   export type EnumEstadoAudienciaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoAudiencia'>
@@ -10154,13 +12939,6 @@ export namespace Prisma {
    * Reference to a field of type 'EstadoAudiencia[]'
    */
   export type ListEnumEstadoAudienciaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoAudiencia[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -10197,6 +12975,8 @@ export namespace Prisma {
     audiencias?: AudienciaListRelationFilter
     citas?: CitaListRelationFilter
     recordatorios?: RecordatorioListRelationFilter
+    reunionesCreadas?: ReunionListRelationFilter
+    participacionesReunion?: ParticipanteReunionListRelationFilter
   }
 
   export type UsuarioOrderByWithRelationInput = {
@@ -10212,6 +12992,8 @@ export namespace Prisma {
     audiencias?: AudienciaOrderByRelationAggregateInput
     citas?: CitaOrderByRelationAggregateInput
     recordatorios?: RecordatorioOrderByRelationAggregateInput
+    reunionesCreadas?: ReunionOrderByRelationAggregateInput
+    participacionesReunion?: ParticipanteReunionOrderByRelationAggregateInput
   }
 
   export type UsuarioWhereUniqueInput = Prisma.AtLeast<{
@@ -10230,6 +13012,8 @@ export namespace Prisma {
     audiencias?: AudienciaListRelationFilter
     citas?: CitaListRelationFilter
     recordatorios?: RecordatorioListRelationFilter
+    reunionesCreadas?: ReunionListRelationFilter
+    participacionesReunion?: ParticipanteReunionListRelationFilter
   }, "id" | "correo">
 
   export type UsuarioOrderByWithAggregationInput = {
@@ -10272,6 +13056,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Cliente"> | Date | string
     updatedAt?: DateTimeFilter<"Cliente"> | Date | string
     casos?: CasoListRelationFilter
+    participacionesReunion?: ParticipanteReunionListRelationFilter
   }
 
   export type ClienteOrderByWithRelationInput = {
@@ -10283,6 +13068,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     casos?: CasoOrderByRelationAggregateInput
+    participacionesReunion?: ParticipanteReunionOrderByRelationAggregateInput
   }
 
   export type ClienteWhereUniqueInput = Prisma.AtLeast<{
@@ -10297,6 +13083,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Cliente"> | Date | string
     updatedAt?: DateTimeFilter<"Cliente"> | Date | string
     casos?: CasoListRelationFilter
+    participacionesReunion?: ParticipanteReunionListRelationFilter
   }, "id" | "correo">
 
   export type ClienteOrderByWithAggregationInput = {
@@ -10348,6 +13135,7 @@ export namespace Prisma {
     citas?: CitaListRelationFilter
     recordatorios?: RecordatorioListRelationFilter
     responsables?: CasoResponsableListRelationFilter
+    reuniones?: ReunionListRelationFilter
   }
 
   export type CasoOrderByWithRelationInput = {
@@ -10368,6 +13156,7 @@ export namespace Prisma {
     citas?: CitaOrderByRelationAggregateInput
     recordatorios?: RecordatorioOrderByRelationAggregateInput
     responsables?: CasoResponsableOrderByRelationAggregateInput
+    reuniones?: ReunionOrderByRelationAggregateInput
   }
 
   export type CasoWhereUniqueInput = Prisma.AtLeast<{
@@ -10391,6 +13180,7 @@ export namespace Prisma {
     citas?: CitaListRelationFilter
     recordatorios?: RecordatorioListRelationFilter
     responsables?: CasoResponsableListRelationFilter
+    reuniones?: ReunionListRelationFilter
   }, "id" | "numero">
 
   export type CasoOrderByWithAggregationInput = {
@@ -10427,6 +13217,67 @@ export namespace Prisma {
     clienteId?: IntWithAggregatesFilter<"Caso"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Caso"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Caso"> | Date | string
+  }
+
+  export type CasoResponsableWhereInput = {
+    AND?: CasoResponsableWhereInput | CasoResponsableWhereInput[]
+    OR?: CasoResponsableWhereInput[]
+    NOT?: CasoResponsableWhereInput | CasoResponsableWhereInput[]
+    id?: IntFilter<"CasoResponsable"> | number
+    casoId?: IntFilter<"CasoResponsable"> | number
+    usuarioId?: IntFilter<"CasoResponsable"> | number
+    esPrincipal?: BoolFilter<"CasoResponsable"> | boolean
+    createdAt?: DateTimeFilter<"CasoResponsable"> | Date | string
+    caso?: XOR<CasoScalarRelationFilter, CasoWhereInput>
+    usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+  }
+
+  export type CasoResponsableOrderByWithRelationInput = {
+    id?: SortOrder
+    casoId?: SortOrder
+    usuarioId?: SortOrder
+    esPrincipal?: SortOrder
+    createdAt?: SortOrder
+    caso?: CasoOrderByWithRelationInput
+    usuario?: UsuarioOrderByWithRelationInput
+  }
+
+  export type CasoResponsableWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    casoId_usuarioId?: CasoResponsableCasoIdUsuarioIdCompoundUniqueInput
+    AND?: CasoResponsableWhereInput | CasoResponsableWhereInput[]
+    OR?: CasoResponsableWhereInput[]
+    NOT?: CasoResponsableWhereInput | CasoResponsableWhereInput[]
+    casoId?: IntFilter<"CasoResponsable"> | number
+    usuarioId?: IntFilter<"CasoResponsable"> | number
+    esPrincipal?: BoolFilter<"CasoResponsable"> | boolean
+    createdAt?: DateTimeFilter<"CasoResponsable"> | Date | string
+    caso?: XOR<CasoScalarRelationFilter, CasoWhereInput>
+    usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+  }, "id" | "casoId_usuarioId">
+
+  export type CasoResponsableOrderByWithAggregationInput = {
+    id?: SortOrder
+    casoId?: SortOrder
+    usuarioId?: SortOrder
+    esPrincipal?: SortOrder
+    createdAt?: SortOrder
+    _count?: CasoResponsableCountOrderByAggregateInput
+    _avg?: CasoResponsableAvgOrderByAggregateInput
+    _max?: CasoResponsableMaxOrderByAggregateInput
+    _min?: CasoResponsableMinOrderByAggregateInput
+    _sum?: CasoResponsableSumOrderByAggregateInput
+  }
+
+  export type CasoResponsableScalarWhereWithAggregatesInput = {
+    AND?: CasoResponsableScalarWhereWithAggregatesInput | CasoResponsableScalarWhereWithAggregatesInput[]
+    OR?: CasoResponsableScalarWhereWithAggregatesInput[]
+    NOT?: CasoResponsableScalarWhereWithAggregatesInput | CasoResponsableScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"CasoResponsable"> | number
+    casoId?: IntWithAggregatesFilter<"CasoResponsable"> | number
+    usuarioId?: IntWithAggregatesFilter<"CasoResponsable"> | number
+    esPrincipal?: BoolWithAggregatesFilter<"CasoResponsable"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"CasoResponsable"> | Date | string
   }
 
   export type AudienciaWhereInput = {
@@ -10664,65 +13515,155 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Recordatorio"> | Date | string
   }
 
-  export type CasoResponsableWhereInput = {
-    AND?: CasoResponsableWhereInput | CasoResponsableWhereInput[]
-    OR?: CasoResponsableWhereInput[]
-    NOT?: CasoResponsableWhereInput | CasoResponsableWhereInput[]
-    id?: IntFilter<"CasoResponsable"> | number
-    casoId?: IntFilter<"CasoResponsable"> | number
-    usuarioId?: IntFilter<"CasoResponsable"> | number
-    esPrincipal?: BoolFilter<"CasoResponsable"> | boolean
-    createdAt?: DateTimeFilter<"CasoResponsable"> | Date | string
-    caso?: XOR<CasoScalarRelationFilter, CasoWhereInput>
-    usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+  export type ReunionWhereInput = {
+    AND?: ReunionWhereInput | ReunionWhereInput[]
+    OR?: ReunionWhereInput[]
+    NOT?: ReunionWhereInput | ReunionWhereInput[]
+    id?: IntFilter<"Reunion"> | number
+    titulo?: StringFilter<"Reunion"> | string
+    fecha?: DateTimeFilter<"Reunion"> | Date | string
+    lugar?: StringNullableFilter<"Reunion"> | string | null
+    observaciones?: StringNullableFilter<"Reunion"> | string | null
+    casoId?: IntNullableFilter<"Reunion"> | number | null
+    creadorId?: IntFilter<"Reunion"> | number
+    createdAt?: DateTimeFilter<"Reunion"> | Date | string
+    updatedAt?: DateTimeFilter<"Reunion"> | Date | string
+    caso?: XOR<CasoNullableScalarRelationFilter, CasoWhereInput> | null
+    creador?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+    participantes?: ParticipanteReunionListRelationFilter
   }
 
-  export type CasoResponsableOrderByWithRelationInput = {
+  export type ReunionOrderByWithRelationInput = {
     id?: SortOrder
-    casoId?: SortOrder
-    usuarioId?: SortOrder
-    esPrincipal?: SortOrder
+    titulo?: SortOrder
+    fecha?: SortOrder
+    lugar?: SortOrderInput | SortOrder
+    observaciones?: SortOrderInput | SortOrder
+    casoId?: SortOrderInput | SortOrder
+    creadorId?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     caso?: CasoOrderByWithRelationInput
-    usuario?: UsuarioOrderByWithRelationInput
+    creador?: UsuarioOrderByWithRelationInput
+    participantes?: ParticipanteReunionOrderByRelationAggregateInput
   }
 
-  export type CasoResponsableWhereUniqueInput = Prisma.AtLeast<{
+  export type ReunionWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    casoId_usuarioId?: CasoResponsableCasoIdUsuarioIdCompoundUniqueInput
-    AND?: CasoResponsableWhereInput | CasoResponsableWhereInput[]
-    OR?: CasoResponsableWhereInput[]
-    NOT?: CasoResponsableWhereInput | CasoResponsableWhereInput[]
-    casoId?: IntFilter<"CasoResponsable"> | number
-    usuarioId?: IntFilter<"CasoResponsable"> | number
-    esPrincipal?: BoolFilter<"CasoResponsable"> | boolean
-    createdAt?: DateTimeFilter<"CasoResponsable"> | Date | string
-    caso?: XOR<CasoScalarRelationFilter, CasoWhereInput>
-    usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
-  }, "id" | "casoId_usuarioId">
+    AND?: ReunionWhereInput | ReunionWhereInput[]
+    OR?: ReunionWhereInput[]
+    NOT?: ReunionWhereInput | ReunionWhereInput[]
+    titulo?: StringFilter<"Reunion"> | string
+    fecha?: DateTimeFilter<"Reunion"> | Date | string
+    lugar?: StringNullableFilter<"Reunion"> | string | null
+    observaciones?: StringNullableFilter<"Reunion"> | string | null
+    casoId?: IntNullableFilter<"Reunion"> | number | null
+    creadorId?: IntFilter<"Reunion"> | number
+    createdAt?: DateTimeFilter<"Reunion"> | Date | string
+    updatedAt?: DateTimeFilter<"Reunion"> | Date | string
+    caso?: XOR<CasoNullableScalarRelationFilter, CasoWhereInput> | null
+    creador?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+    participantes?: ParticipanteReunionListRelationFilter
+  }, "id">
 
-  export type CasoResponsableOrderByWithAggregationInput = {
+  export type ReunionOrderByWithAggregationInput = {
     id?: SortOrder
-    casoId?: SortOrder
-    usuarioId?: SortOrder
-    esPrincipal?: SortOrder
+    titulo?: SortOrder
+    fecha?: SortOrder
+    lugar?: SortOrderInput | SortOrder
+    observaciones?: SortOrderInput | SortOrder
+    casoId?: SortOrderInput | SortOrder
+    creadorId?: SortOrder
     createdAt?: SortOrder
-    _count?: CasoResponsableCountOrderByAggregateInput
-    _avg?: CasoResponsableAvgOrderByAggregateInput
-    _max?: CasoResponsableMaxOrderByAggregateInput
-    _min?: CasoResponsableMinOrderByAggregateInput
-    _sum?: CasoResponsableSumOrderByAggregateInput
+    updatedAt?: SortOrder
+    _count?: ReunionCountOrderByAggregateInput
+    _avg?: ReunionAvgOrderByAggregateInput
+    _max?: ReunionMaxOrderByAggregateInput
+    _min?: ReunionMinOrderByAggregateInput
+    _sum?: ReunionSumOrderByAggregateInput
   }
 
-  export type CasoResponsableScalarWhereWithAggregatesInput = {
-    AND?: CasoResponsableScalarWhereWithAggregatesInput | CasoResponsableScalarWhereWithAggregatesInput[]
-    OR?: CasoResponsableScalarWhereWithAggregatesInput[]
-    NOT?: CasoResponsableScalarWhereWithAggregatesInput | CasoResponsableScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"CasoResponsable"> | number
-    casoId?: IntWithAggregatesFilter<"CasoResponsable"> | number
-    usuarioId?: IntWithAggregatesFilter<"CasoResponsable"> | number
-    esPrincipal?: BoolWithAggregatesFilter<"CasoResponsable"> | boolean
-    createdAt?: DateTimeWithAggregatesFilter<"CasoResponsable"> | Date | string
+  export type ReunionScalarWhereWithAggregatesInput = {
+    AND?: ReunionScalarWhereWithAggregatesInput | ReunionScalarWhereWithAggregatesInput[]
+    OR?: ReunionScalarWhereWithAggregatesInput[]
+    NOT?: ReunionScalarWhereWithAggregatesInput | ReunionScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Reunion"> | number
+    titulo?: StringWithAggregatesFilter<"Reunion"> | string
+    fecha?: DateTimeWithAggregatesFilter<"Reunion"> | Date | string
+    lugar?: StringNullableWithAggregatesFilter<"Reunion"> | string | null
+    observaciones?: StringNullableWithAggregatesFilter<"Reunion"> | string | null
+    casoId?: IntNullableWithAggregatesFilter<"Reunion"> | number | null
+    creadorId?: IntWithAggregatesFilter<"Reunion"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Reunion"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Reunion"> | Date | string
+  }
+
+  export type ParticipanteReunionWhereInput = {
+    AND?: ParticipanteReunionWhereInput | ParticipanteReunionWhereInput[]
+    OR?: ParticipanteReunionWhereInput[]
+    NOT?: ParticipanteReunionWhereInput | ParticipanteReunionWhereInput[]
+    id?: IntFilter<"ParticipanteReunion"> | number
+    reunionId?: IntFilter<"ParticipanteReunion"> | number
+    usuarioId?: IntNullableFilter<"ParticipanteReunion"> | number | null
+    clienteId?: IntNullableFilter<"ParticipanteReunion"> | number | null
+    nombreExterno?: StringNullableFilter<"ParticipanteReunion"> | string | null
+    correoExterno?: StringNullableFilter<"ParticipanteReunion"> | string | null
+    reunion?: XOR<ReunionScalarRelationFilter, ReunionWhereInput>
+    usuario?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
+    cliente?: XOR<ClienteNullableScalarRelationFilter, ClienteWhereInput> | null
+  }
+
+  export type ParticipanteReunionOrderByWithRelationInput = {
+    id?: SortOrder
+    reunionId?: SortOrder
+    usuarioId?: SortOrderInput | SortOrder
+    clienteId?: SortOrderInput | SortOrder
+    nombreExterno?: SortOrderInput | SortOrder
+    correoExterno?: SortOrderInput | SortOrder
+    reunion?: ReunionOrderByWithRelationInput
+    usuario?: UsuarioOrderByWithRelationInput
+    cliente?: ClienteOrderByWithRelationInput
+  }
+
+  export type ParticipanteReunionWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: ParticipanteReunionWhereInput | ParticipanteReunionWhereInput[]
+    OR?: ParticipanteReunionWhereInput[]
+    NOT?: ParticipanteReunionWhereInput | ParticipanteReunionWhereInput[]
+    reunionId?: IntFilter<"ParticipanteReunion"> | number
+    usuarioId?: IntNullableFilter<"ParticipanteReunion"> | number | null
+    clienteId?: IntNullableFilter<"ParticipanteReunion"> | number | null
+    nombreExterno?: StringNullableFilter<"ParticipanteReunion"> | string | null
+    correoExterno?: StringNullableFilter<"ParticipanteReunion"> | string | null
+    reunion?: XOR<ReunionScalarRelationFilter, ReunionWhereInput>
+    usuario?: XOR<UsuarioNullableScalarRelationFilter, UsuarioWhereInput> | null
+    cliente?: XOR<ClienteNullableScalarRelationFilter, ClienteWhereInput> | null
+  }, "id">
+
+  export type ParticipanteReunionOrderByWithAggregationInput = {
+    id?: SortOrder
+    reunionId?: SortOrder
+    usuarioId?: SortOrderInput | SortOrder
+    clienteId?: SortOrderInput | SortOrder
+    nombreExterno?: SortOrderInput | SortOrder
+    correoExterno?: SortOrderInput | SortOrder
+    _count?: ParticipanteReunionCountOrderByAggregateInput
+    _avg?: ParticipanteReunionAvgOrderByAggregateInput
+    _max?: ParticipanteReunionMaxOrderByAggregateInput
+    _min?: ParticipanteReunionMinOrderByAggregateInput
+    _sum?: ParticipanteReunionSumOrderByAggregateInput
+  }
+
+  export type ParticipanteReunionScalarWhereWithAggregatesInput = {
+    AND?: ParticipanteReunionScalarWhereWithAggregatesInput | ParticipanteReunionScalarWhereWithAggregatesInput[]
+    OR?: ParticipanteReunionScalarWhereWithAggregatesInput[]
+    NOT?: ParticipanteReunionScalarWhereWithAggregatesInput | ParticipanteReunionScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"ParticipanteReunion"> | number
+    reunionId?: IntWithAggregatesFilter<"ParticipanteReunion"> | number
+    usuarioId?: IntNullableWithAggregatesFilter<"ParticipanteReunion"> | number | null
+    clienteId?: IntNullableWithAggregatesFilter<"ParticipanteReunion"> | number | null
+    nombreExterno?: StringNullableWithAggregatesFilter<"ParticipanteReunion"> | string | null
+    correoExterno?: StringNullableWithAggregatesFilter<"ParticipanteReunion"> | string | null
   }
 
   export type UsuarioCreateInput = {
@@ -10737,6 +13678,8 @@ export namespace Prisma {
     audiencias?: AudienciaCreateNestedManyWithoutUsuarioInput
     citas?: CitaCreateNestedManyWithoutUsuarioInput
     recordatorios?: RecordatorioCreateNestedManyWithoutUsuarioInput
+    reunionesCreadas?: ReunionCreateNestedManyWithoutCreadorInput
+    participacionesReunion?: ParticipanteReunionCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioUncheckedCreateInput = {
@@ -10752,6 +13695,8 @@ export namespace Prisma {
     audiencias?: AudienciaUncheckedCreateNestedManyWithoutUsuarioInput
     citas?: CitaUncheckedCreateNestedManyWithoutUsuarioInput
     recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutUsuarioInput
+    reunionesCreadas?: ReunionUncheckedCreateNestedManyWithoutCreadorInput
+    participacionesReunion?: ParticipanteReunionUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioUpdateInput = {
@@ -10766,6 +13711,8 @@ export namespace Prisma {
     audiencias?: AudienciaUpdateManyWithoutUsuarioNestedInput
     citas?: CitaUpdateManyWithoutUsuarioNestedInput
     recordatorios?: RecordatorioUpdateManyWithoutUsuarioNestedInput
+    reunionesCreadas?: ReunionUpdateManyWithoutCreadorNestedInput
+    participacionesReunion?: ParticipanteReunionUpdateManyWithoutUsuarioNestedInput
   }
 
   export type UsuarioUncheckedUpdateInput = {
@@ -10781,6 +13728,8 @@ export namespace Prisma {
     audiencias?: AudienciaUncheckedUpdateManyWithoutUsuarioNestedInput
     citas?: CitaUncheckedUpdateManyWithoutUsuarioNestedInput
     recordatorios?: RecordatorioUncheckedUpdateManyWithoutUsuarioNestedInput
+    reunionesCreadas?: ReunionUncheckedUpdateManyWithoutCreadorNestedInput
+    participacionesReunion?: ParticipanteReunionUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
   export type UsuarioCreateManyInput = {
@@ -10820,6 +13769,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     casos?: CasoCreateNestedManyWithoutClienteInput
+    participacionesReunion?: ParticipanteReunionCreateNestedManyWithoutClienteInput
   }
 
   export type ClienteUncheckedCreateInput = {
@@ -10831,6 +13781,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     casos?: CasoUncheckedCreateNestedManyWithoutClienteInput
+    participacionesReunion?: ParticipanteReunionUncheckedCreateNestedManyWithoutClienteInput
   }
 
   export type ClienteUpdateInput = {
@@ -10841,6 +13792,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     casos?: CasoUpdateManyWithoutClienteNestedInput
+    participacionesReunion?: ParticipanteReunionUpdateManyWithoutClienteNestedInput
   }
 
   export type ClienteUncheckedUpdateInput = {
@@ -10852,6 +13804,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     casos?: CasoUncheckedUpdateManyWithoutClienteNestedInput
+    participacionesReunion?: ParticipanteReunionUncheckedUpdateManyWithoutClienteNestedInput
   }
 
   export type ClienteCreateManyInput = {
@@ -10898,6 +13851,7 @@ export namespace Prisma {
     citas?: CitaCreateNestedManyWithoutCasoInput
     recordatorios?: RecordatorioCreateNestedManyWithoutCasoInput
     responsables?: CasoResponsableCreateNestedManyWithoutCasoInput
+    reuniones?: ReunionCreateNestedManyWithoutCasoInput
   }
 
   export type CasoUncheckedCreateInput = {
@@ -10916,6 +13870,7 @@ export namespace Prisma {
     citas?: CitaUncheckedCreateNestedManyWithoutCasoInput
     recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutCasoInput
     responsables?: CasoResponsableUncheckedCreateNestedManyWithoutCasoInput
+    reuniones?: ReunionUncheckedCreateNestedManyWithoutCasoInput
   }
 
   export type CasoUpdateInput = {
@@ -10933,6 +13888,7 @@ export namespace Prisma {
     citas?: CitaUpdateManyWithoutCasoNestedInput
     recordatorios?: RecordatorioUpdateManyWithoutCasoNestedInput
     responsables?: CasoResponsableUpdateManyWithoutCasoNestedInput
+    reuniones?: ReunionUpdateManyWithoutCasoNestedInput
   }
 
   export type CasoUncheckedUpdateInput = {
@@ -10951,6 +13907,7 @@ export namespace Prisma {
     citas?: CitaUncheckedUpdateManyWithoutCasoNestedInput
     recordatorios?: RecordatorioUncheckedUpdateManyWithoutCasoNestedInput
     responsables?: CasoResponsableUncheckedUpdateManyWithoutCasoNestedInput
+    reuniones?: ReunionUncheckedUpdateManyWithoutCasoNestedInput
   }
 
   export type CasoCreateManyInput = {
@@ -10990,6 +13947,57 @@ export namespace Prisma {
     clienteId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CasoResponsableCreateInput = {
+    esPrincipal?: boolean
+    createdAt?: Date | string
+    caso: CasoCreateNestedOneWithoutResponsablesInput
+    usuario: UsuarioCreateNestedOneWithoutCasosAsignadosInput
+  }
+
+  export type CasoResponsableUncheckedCreateInput = {
+    id?: number
+    casoId: number
+    usuarioId: number
+    esPrincipal?: boolean
+    createdAt?: Date | string
+  }
+
+  export type CasoResponsableUpdateInput = {
+    esPrincipal?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    caso?: CasoUpdateOneRequiredWithoutResponsablesNestedInput
+    usuario?: UsuarioUpdateOneRequiredWithoutCasosAsignadosNestedInput
+  }
+
+  export type CasoResponsableUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    casoId?: IntFieldUpdateOperationsInput | number
+    usuarioId?: IntFieldUpdateOperationsInput | number
+    esPrincipal?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CasoResponsableCreateManyInput = {
+    id?: number
+    casoId: number
+    usuarioId: number
+    esPrincipal?: boolean
+    createdAt?: Date | string
+  }
+
+  export type CasoResponsableUpdateManyMutationInput = {
+    esPrincipal?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CasoResponsableUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    casoId?: IntFieldUpdateOperationsInput | number
+    usuarioId?: IntFieldUpdateOperationsInput | number
+    esPrincipal?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AudienciaCreateInput = {
@@ -11222,55 +14230,144 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type CasoResponsableCreateInput = {
-    esPrincipal?: boolean
+  export type ReunionCreateInput = {
+    titulo: string
+    fecha: Date | string
+    lugar?: string | null
+    observaciones?: string | null
     createdAt?: Date | string
-    caso: CasoCreateNestedOneWithoutResponsablesInput
-    usuario: UsuarioCreateNestedOneWithoutCasosAsignadosInput
+    updatedAt?: Date | string
+    caso?: CasoCreateNestedOneWithoutReunionesInput
+    creador: UsuarioCreateNestedOneWithoutReunionesCreadasInput
+    participantes?: ParticipanteReunionCreateNestedManyWithoutReunionInput
   }
 
-  export type CasoResponsableUncheckedCreateInput = {
+  export type ReunionUncheckedCreateInput = {
     id?: number
-    casoId: number
-    usuarioId: number
-    esPrincipal?: boolean
+    titulo: string
+    fecha: Date | string
+    lugar?: string | null
+    observaciones?: string | null
+    casoId?: number | null
+    creadorId: number
     createdAt?: Date | string
+    updatedAt?: Date | string
+    participantes?: ParticipanteReunionUncheckedCreateNestedManyWithoutReunionInput
   }
 
-  export type CasoResponsableUpdateInput = {
-    esPrincipal?: BoolFieldUpdateOperationsInput | boolean
+  export type ReunionUpdateInput = {
+    titulo?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    lugar?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    caso?: CasoUpdateOneRequiredWithoutResponsablesNestedInput
-    usuario?: UsuarioUpdateOneRequiredWithoutCasosAsignadosNestedInput
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    caso?: CasoUpdateOneWithoutReunionesNestedInput
+    creador?: UsuarioUpdateOneRequiredWithoutReunionesCreadasNestedInput
+    participantes?: ParticipanteReunionUpdateManyWithoutReunionNestedInput
   }
 
-  export type CasoResponsableUncheckedUpdateInput = {
+  export type ReunionUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    casoId?: IntFieldUpdateOperationsInput | number
-    usuarioId?: IntFieldUpdateOperationsInput | number
-    esPrincipal?: BoolFieldUpdateOperationsInput | boolean
+    titulo?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    lugar?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    casoId?: NullableIntFieldUpdateOperationsInput | number | null
+    creadorId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    participantes?: ParticipanteReunionUncheckedUpdateManyWithoutReunionNestedInput
   }
 
-  export type CasoResponsableCreateManyInput = {
+  export type ReunionCreateManyInput = {
     id?: number
-    casoId: number
-    usuarioId: number
-    esPrincipal?: boolean
+    titulo: string
+    fecha: Date | string
+    lugar?: string | null
+    observaciones?: string | null
+    casoId?: number | null
+    creadorId: number
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type CasoResponsableUpdateManyMutationInput = {
-    esPrincipal?: BoolFieldUpdateOperationsInput | boolean
+  export type ReunionUpdateManyMutationInput = {
+    titulo?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    lugar?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type CasoResponsableUncheckedUpdateManyInput = {
+  export type ReunionUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    casoId?: IntFieldUpdateOperationsInput | number
-    usuarioId?: IntFieldUpdateOperationsInput | number
-    esPrincipal?: BoolFieldUpdateOperationsInput | boolean
+    titulo?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    lugar?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    casoId?: NullableIntFieldUpdateOperationsInput | number | null
+    creadorId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ParticipanteReunionCreateInput = {
+    nombreExterno?: string | null
+    correoExterno?: string | null
+    reunion: ReunionCreateNestedOneWithoutParticipantesInput
+    usuario?: UsuarioCreateNestedOneWithoutParticipacionesReunionInput
+    cliente?: ClienteCreateNestedOneWithoutParticipacionesReunionInput
+  }
+
+  export type ParticipanteReunionUncheckedCreateInput = {
+    id?: number
+    reunionId: number
+    usuarioId?: number | null
+    clienteId?: number | null
+    nombreExterno?: string | null
+    correoExterno?: string | null
+  }
+
+  export type ParticipanteReunionUpdateInput = {
+    nombreExterno?: NullableStringFieldUpdateOperationsInput | string | null
+    correoExterno?: NullableStringFieldUpdateOperationsInput | string | null
+    reunion?: ReunionUpdateOneRequiredWithoutParticipantesNestedInput
+    usuario?: UsuarioUpdateOneWithoutParticipacionesReunionNestedInput
+    cliente?: ClienteUpdateOneWithoutParticipacionesReunionNestedInput
+  }
+
+  export type ParticipanteReunionUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    reunionId?: IntFieldUpdateOperationsInput | number
+    usuarioId?: NullableIntFieldUpdateOperationsInput | number | null
+    clienteId?: NullableIntFieldUpdateOperationsInput | number | null
+    nombreExterno?: NullableStringFieldUpdateOperationsInput | string | null
+    correoExterno?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ParticipanteReunionCreateManyInput = {
+    id?: number
+    reunionId: number
+    usuarioId?: number | null
+    clienteId?: number | null
+    nombreExterno?: string | null
+    correoExterno?: string | null
+  }
+
+  export type ParticipanteReunionUpdateManyMutationInput = {
+    nombreExterno?: NullableStringFieldUpdateOperationsInput | string | null
+    correoExterno?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ParticipanteReunionUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    reunionId?: IntFieldUpdateOperationsInput | number
+    usuarioId?: NullableIntFieldUpdateOperationsInput | number | null
+    clienteId?: NullableIntFieldUpdateOperationsInput | number | null
+    nombreExterno?: NullableStringFieldUpdateOperationsInput | string | null
+    correoExterno?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -11347,6 +14444,18 @@ export namespace Prisma {
     none?: RecordatorioWhereInput
   }
 
+  export type ReunionListRelationFilter = {
+    every?: ReunionWhereInput
+    some?: ReunionWhereInput
+    none?: ReunionWhereInput
+  }
+
+  export type ParticipanteReunionListRelationFilter = {
+    every?: ParticipanteReunionWhereInput
+    some?: ParticipanteReunionWhereInput
+    none?: ParticipanteReunionWhereInput
+  }
+
   export type CasoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -11364,6 +14473,14 @@ export namespace Prisma {
   }
 
   export type RecordatorioOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ReunionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ParticipanteReunionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -11645,16 +14762,70 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type EnumEstadoAudienciaFilter<$PrismaModel = never> = {
-    equals?: $Enums.EstadoAudiencia | EnumEstadoAudienciaFieldRefInput<$PrismaModel>
-    in?: $Enums.EstadoAudiencia[] | ListEnumEstadoAudienciaFieldRefInput<$PrismaModel>
-    notIn?: $Enums.EstadoAudiencia[] | ListEnumEstadoAudienciaFieldRefInput<$PrismaModel>
-    not?: NestedEnumEstadoAudienciaFilter<$PrismaModel> | $Enums.EstadoAudiencia
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type CasoScalarRelationFilter = {
     is?: CasoWhereInput
     isNot?: CasoWhereInput
+  }
+
+  export type CasoResponsableCasoIdUsuarioIdCompoundUniqueInput = {
+    casoId: number
+    usuarioId: number
+  }
+
+  export type CasoResponsableCountOrderByAggregateInput = {
+    id?: SortOrder
+    casoId?: SortOrder
+    usuarioId?: SortOrder
+    esPrincipal?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CasoResponsableAvgOrderByAggregateInput = {
+    id?: SortOrder
+    casoId?: SortOrder
+    usuarioId?: SortOrder
+  }
+
+  export type CasoResponsableMaxOrderByAggregateInput = {
+    id?: SortOrder
+    casoId?: SortOrder
+    usuarioId?: SortOrder
+    esPrincipal?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CasoResponsableMinOrderByAggregateInput = {
+    id?: SortOrder
+    casoId?: SortOrder
+    usuarioId?: SortOrder
+    esPrincipal?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CasoResponsableSumOrderByAggregateInput = {
+    id?: SortOrder
+    casoId?: SortOrder
+    usuarioId?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type EnumEstadoAudienciaFilter<$PrismaModel = never> = {
+    equals?: $Enums.EstadoAudiencia | EnumEstadoAudienciaFieldRefInput<$PrismaModel>
+    in?: $Enums.EstadoAudiencia[] | ListEnumEstadoAudienciaFieldRefInput<$PrismaModel>
+    notIn?: $Enums.EstadoAudiencia[] | ListEnumEstadoAudienciaFieldRefInput<$PrismaModel>
+    not?: NestedEnumEstadoAudienciaFilter<$PrismaModel> | $Enums.EstadoAudiencia
   }
 
   export type AudienciaCountOrderByAggregateInput = {
@@ -11792,11 +14963,6 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type RecordatorioCountOrderByAggregateInput = {
     id?: SortOrder
     titulo?: SortOrder
@@ -11845,53 +15011,108 @@ export namespace Prisma {
     usuarioId?: SortOrder
   }
 
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
-  export type CasoResponsableCasoIdUsuarioIdCompoundUniqueInput = {
-    casoId: number
-    usuarioId: number
-  }
-
-  export type CasoResponsableCountOrderByAggregateInput = {
+  export type ReunionCountOrderByAggregateInput = {
     id?: SortOrder
+    titulo?: SortOrder
+    fecha?: SortOrder
+    lugar?: SortOrder
+    observaciones?: SortOrder
     casoId?: SortOrder
-    usuarioId?: SortOrder
-    esPrincipal?: SortOrder
+    creadorId?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type CasoResponsableAvgOrderByAggregateInput = {
+  export type ReunionAvgOrderByAggregateInput = {
     id?: SortOrder
     casoId?: SortOrder
-    usuarioId?: SortOrder
+    creadorId?: SortOrder
   }
 
-  export type CasoResponsableMaxOrderByAggregateInput = {
+  export type ReunionMaxOrderByAggregateInput = {
     id?: SortOrder
+    titulo?: SortOrder
+    fecha?: SortOrder
+    lugar?: SortOrder
+    observaciones?: SortOrder
     casoId?: SortOrder
-    usuarioId?: SortOrder
-    esPrincipal?: SortOrder
+    creadorId?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type CasoResponsableMinOrderByAggregateInput = {
+  export type ReunionMinOrderByAggregateInput = {
     id?: SortOrder
+    titulo?: SortOrder
+    fecha?: SortOrder
+    lugar?: SortOrder
+    observaciones?: SortOrder
     casoId?: SortOrder
-    usuarioId?: SortOrder
-    esPrincipal?: SortOrder
+    creadorId?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type CasoResponsableSumOrderByAggregateInput = {
+  export type ReunionSumOrderByAggregateInput = {
     id?: SortOrder
     casoId?: SortOrder
+    creadorId?: SortOrder
+  }
+
+  export type ReunionScalarRelationFilter = {
+    is?: ReunionWhereInput
+    isNot?: ReunionWhereInput
+  }
+
+  export type UsuarioNullableScalarRelationFilter = {
+    is?: UsuarioWhereInput | null
+    isNot?: UsuarioWhereInput | null
+  }
+
+  export type ClienteNullableScalarRelationFilter = {
+    is?: ClienteWhereInput | null
+    isNot?: ClienteWhereInput | null
+  }
+
+  export type ParticipanteReunionCountOrderByAggregateInput = {
+    id?: SortOrder
+    reunionId?: SortOrder
     usuarioId?: SortOrder
+    clienteId?: SortOrder
+    nombreExterno?: SortOrder
+    correoExterno?: SortOrder
+  }
+
+  export type ParticipanteReunionAvgOrderByAggregateInput = {
+    id?: SortOrder
+    reunionId?: SortOrder
+    usuarioId?: SortOrder
+    clienteId?: SortOrder
+  }
+
+  export type ParticipanteReunionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    reunionId?: SortOrder
+    usuarioId?: SortOrder
+    clienteId?: SortOrder
+    nombreExterno?: SortOrder
+    correoExterno?: SortOrder
+  }
+
+  export type ParticipanteReunionMinOrderByAggregateInput = {
+    id?: SortOrder
+    reunionId?: SortOrder
+    usuarioId?: SortOrder
+    clienteId?: SortOrder
+    nombreExterno?: SortOrder
+    correoExterno?: SortOrder
+  }
+
+  export type ParticipanteReunionSumOrderByAggregateInput = {
+    id?: SortOrder
+    reunionId?: SortOrder
+    usuarioId?: SortOrder
+    clienteId?: SortOrder
   }
 
   export type CasoCreateNestedManyWithoutUsuarioInput = {
@@ -11929,6 +15150,20 @@ export namespace Prisma {
     connect?: RecordatorioWhereUniqueInput | RecordatorioWhereUniqueInput[]
   }
 
+  export type ReunionCreateNestedManyWithoutCreadorInput = {
+    create?: XOR<ReunionCreateWithoutCreadorInput, ReunionUncheckedCreateWithoutCreadorInput> | ReunionCreateWithoutCreadorInput[] | ReunionUncheckedCreateWithoutCreadorInput[]
+    connectOrCreate?: ReunionCreateOrConnectWithoutCreadorInput | ReunionCreateOrConnectWithoutCreadorInput[]
+    createMany?: ReunionCreateManyCreadorInputEnvelope
+    connect?: ReunionWhereUniqueInput | ReunionWhereUniqueInput[]
+  }
+
+  export type ParticipanteReunionCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<ParticipanteReunionCreateWithoutUsuarioInput, ParticipanteReunionUncheckedCreateWithoutUsuarioInput> | ParticipanteReunionCreateWithoutUsuarioInput[] | ParticipanteReunionUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: ParticipanteReunionCreateOrConnectWithoutUsuarioInput | ParticipanteReunionCreateOrConnectWithoutUsuarioInput[]
+    createMany?: ParticipanteReunionCreateManyUsuarioInputEnvelope
+    connect?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+  }
+
   export type CasoUncheckedCreateNestedManyWithoutUsuarioInput = {
     create?: XOR<CasoCreateWithoutUsuarioInput, CasoUncheckedCreateWithoutUsuarioInput> | CasoCreateWithoutUsuarioInput[] | CasoUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: CasoCreateOrConnectWithoutUsuarioInput | CasoCreateOrConnectWithoutUsuarioInput[]
@@ -11962,6 +15197,20 @@ export namespace Prisma {
     connectOrCreate?: RecordatorioCreateOrConnectWithoutUsuarioInput | RecordatorioCreateOrConnectWithoutUsuarioInput[]
     createMany?: RecordatorioCreateManyUsuarioInputEnvelope
     connect?: RecordatorioWhereUniqueInput | RecordatorioWhereUniqueInput[]
+  }
+
+  export type ReunionUncheckedCreateNestedManyWithoutCreadorInput = {
+    create?: XOR<ReunionCreateWithoutCreadorInput, ReunionUncheckedCreateWithoutCreadorInput> | ReunionCreateWithoutCreadorInput[] | ReunionUncheckedCreateWithoutCreadorInput[]
+    connectOrCreate?: ReunionCreateOrConnectWithoutCreadorInput | ReunionCreateOrConnectWithoutCreadorInput[]
+    createMany?: ReunionCreateManyCreadorInputEnvelope
+    connect?: ReunionWhereUniqueInput | ReunionWhereUniqueInput[]
+  }
+
+  export type ParticipanteReunionUncheckedCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<ParticipanteReunionCreateWithoutUsuarioInput, ParticipanteReunionUncheckedCreateWithoutUsuarioInput> | ParticipanteReunionCreateWithoutUsuarioInput[] | ParticipanteReunionUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: ParticipanteReunionCreateOrConnectWithoutUsuarioInput | ParticipanteReunionCreateOrConnectWithoutUsuarioInput[]
+    createMany?: ParticipanteReunionCreateManyUsuarioInputEnvelope
+    connect?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -12046,6 +15295,34 @@ export namespace Prisma {
     deleteMany?: RecordatorioScalarWhereInput | RecordatorioScalarWhereInput[]
   }
 
+  export type ReunionUpdateManyWithoutCreadorNestedInput = {
+    create?: XOR<ReunionCreateWithoutCreadorInput, ReunionUncheckedCreateWithoutCreadorInput> | ReunionCreateWithoutCreadorInput[] | ReunionUncheckedCreateWithoutCreadorInput[]
+    connectOrCreate?: ReunionCreateOrConnectWithoutCreadorInput | ReunionCreateOrConnectWithoutCreadorInput[]
+    upsert?: ReunionUpsertWithWhereUniqueWithoutCreadorInput | ReunionUpsertWithWhereUniqueWithoutCreadorInput[]
+    createMany?: ReunionCreateManyCreadorInputEnvelope
+    set?: ReunionWhereUniqueInput | ReunionWhereUniqueInput[]
+    disconnect?: ReunionWhereUniqueInput | ReunionWhereUniqueInput[]
+    delete?: ReunionWhereUniqueInput | ReunionWhereUniqueInput[]
+    connect?: ReunionWhereUniqueInput | ReunionWhereUniqueInput[]
+    update?: ReunionUpdateWithWhereUniqueWithoutCreadorInput | ReunionUpdateWithWhereUniqueWithoutCreadorInput[]
+    updateMany?: ReunionUpdateManyWithWhereWithoutCreadorInput | ReunionUpdateManyWithWhereWithoutCreadorInput[]
+    deleteMany?: ReunionScalarWhereInput | ReunionScalarWhereInput[]
+  }
+
+  export type ParticipanteReunionUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<ParticipanteReunionCreateWithoutUsuarioInput, ParticipanteReunionUncheckedCreateWithoutUsuarioInput> | ParticipanteReunionCreateWithoutUsuarioInput[] | ParticipanteReunionUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: ParticipanteReunionCreateOrConnectWithoutUsuarioInput | ParticipanteReunionCreateOrConnectWithoutUsuarioInput[]
+    upsert?: ParticipanteReunionUpsertWithWhereUniqueWithoutUsuarioInput | ParticipanteReunionUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: ParticipanteReunionCreateManyUsuarioInputEnvelope
+    set?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    disconnect?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    delete?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    connect?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    update?: ParticipanteReunionUpdateWithWhereUniqueWithoutUsuarioInput | ParticipanteReunionUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: ParticipanteReunionUpdateManyWithWhereWithoutUsuarioInput | ParticipanteReunionUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: ParticipanteReunionScalarWhereInput | ParticipanteReunionScalarWhereInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -12124,6 +15401,34 @@ export namespace Prisma {
     deleteMany?: RecordatorioScalarWhereInput | RecordatorioScalarWhereInput[]
   }
 
+  export type ReunionUncheckedUpdateManyWithoutCreadorNestedInput = {
+    create?: XOR<ReunionCreateWithoutCreadorInput, ReunionUncheckedCreateWithoutCreadorInput> | ReunionCreateWithoutCreadorInput[] | ReunionUncheckedCreateWithoutCreadorInput[]
+    connectOrCreate?: ReunionCreateOrConnectWithoutCreadorInput | ReunionCreateOrConnectWithoutCreadorInput[]
+    upsert?: ReunionUpsertWithWhereUniqueWithoutCreadorInput | ReunionUpsertWithWhereUniqueWithoutCreadorInput[]
+    createMany?: ReunionCreateManyCreadorInputEnvelope
+    set?: ReunionWhereUniqueInput | ReunionWhereUniqueInput[]
+    disconnect?: ReunionWhereUniqueInput | ReunionWhereUniqueInput[]
+    delete?: ReunionWhereUniqueInput | ReunionWhereUniqueInput[]
+    connect?: ReunionWhereUniqueInput | ReunionWhereUniqueInput[]
+    update?: ReunionUpdateWithWhereUniqueWithoutCreadorInput | ReunionUpdateWithWhereUniqueWithoutCreadorInput[]
+    updateMany?: ReunionUpdateManyWithWhereWithoutCreadorInput | ReunionUpdateManyWithWhereWithoutCreadorInput[]
+    deleteMany?: ReunionScalarWhereInput | ReunionScalarWhereInput[]
+  }
+
+  export type ParticipanteReunionUncheckedUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<ParticipanteReunionCreateWithoutUsuarioInput, ParticipanteReunionUncheckedCreateWithoutUsuarioInput> | ParticipanteReunionCreateWithoutUsuarioInput[] | ParticipanteReunionUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: ParticipanteReunionCreateOrConnectWithoutUsuarioInput | ParticipanteReunionCreateOrConnectWithoutUsuarioInput[]
+    upsert?: ParticipanteReunionUpsertWithWhereUniqueWithoutUsuarioInput | ParticipanteReunionUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: ParticipanteReunionCreateManyUsuarioInputEnvelope
+    set?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    disconnect?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    delete?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    connect?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    update?: ParticipanteReunionUpdateWithWhereUniqueWithoutUsuarioInput | ParticipanteReunionUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: ParticipanteReunionUpdateManyWithWhereWithoutUsuarioInput | ParticipanteReunionUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: ParticipanteReunionScalarWhereInput | ParticipanteReunionScalarWhereInput[]
+  }
+
   export type CasoCreateNestedManyWithoutClienteInput = {
     create?: XOR<CasoCreateWithoutClienteInput, CasoUncheckedCreateWithoutClienteInput> | CasoCreateWithoutClienteInput[] | CasoUncheckedCreateWithoutClienteInput[]
     connectOrCreate?: CasoCreateOrConnectWithoutClienteInput | CasoCreateOrConnectWithoutClienteInput[]
@@ -12131,11 +15436,25 @@ export namespace Prisma {
     connect?: CasoWhereUniqueInput | CasoWhereUniqueInput[]
   }
 
+  export type ParticipanteReunionCreateNestedManyWithoutClienteInput = {
+    create?: XOR<ParticipanteReunionCreateWithoutClienteInput, ParticipanteReunionUncheckedCreateWithoutClienteInput> | ParticipanteReunionCreateWithoutClienteInput[] | ParticipanteReunionUncheckedCreateWithoutClienteInput[]
+    connectOrCreate?: ParticipanteReunionCreateOrConnectWithoutClienteInput | ParticipanteReunionCreateOrConnectWithoutClienteInput[]
+    createMany?: ParticipanteReunionCreateManyClienteInputEnvelope
+    connect?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+  }
+
   export type CasoUncheckedCreateNestedManyWithoutClienteInput = {
     create?: XOR<CasoCreateWithoutClienteInput, CasoUncheckedCreateWithoutClienteInput> | CasoCreateWithoutClienteInput[] | CasoUncheckedCreateWithoutClienteInput[]
     connectOrCreate?: CasoCreateOrConnectWithoutClienteInput | CasoCreateOrConnectWithoutClienteInput[]
     createMany?: CasoCreateManyClienteInputEnvelope
     connect?: CasoWhereUniqueInput | CasoWhereUniqueInput[]
+  }
+
+  export type ParticipanteReunionUncheckedCreateNestedManyWithoutClienteInput = {
+    create?: XOR<ParticipanteReunionCreateWithoutClienteInput, ParticipanteReunionUncheckedCreateWithoutClienteInput> | ParticipanteReunionCreateWithoutClienteInput[] | ParticipanteReunionUncheckedCreateWithoutClienteInput[]
+    connectOrCreate?: ParticipanteReunionCreateOrConnectWithoutClienteInput | ParticipanteReunionCreateOrConnectWithoutClienteInput[]
+    createMany?: ParticipanteReunionCreateManyClienteInputEnvelope
+    connect?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -12156,6 +15475,20 @@ export namespace Prisma {
     deleteMany?: CasoScalarWhereInput | CasoScalarWhereInput[]
   }
 
+  export type ParticipanteReunionUpdateManyWithoutClienteNestedInput = {
+    create?: XOR<ParticipanteReunionCreateWithoutClienteInput, ParticipanteReunionUncheckedCreateWithoutClienteInput> | ParticipanteReunionCreateWithoutClienteInput[] | ParticipanteReunionUncheckedCreateWithoutClienteInput[]
+    connectOrCreate?: ParticipanteReunionCreateOrConnectWithoutClienteInput | ParticipanteReunionCreateOrConnectWithoutClienteInput[]
+    upsert?: ParticipanteReunionUpsertWithWhereUniqueWithoutClienteInput | ParticipanteReunionUpsertWithWhereUniqueWithoutClienteInput[]
+    createMany?: ParticipanteReunionCreateManyClienteInputEnvelope
+    set?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    disconnect?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    delete?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    connect?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    update?: ParticipanteReunionUpdateWithWhereUniqueWithoutClienteInput | ParticipanteReunionUpdateWithWhereUniqueWithoutClienteInput[]
+    updateMany?: ParticipanteReunionUpdateManyWithWhereWithoutClienteInput | ParticipanteReunionUpdateManyWithWhereWithoutClienteInput[]
+    deleteMany?: ParticipanteReunionScalarWhereInput | ParticipanteReunionScalarWhereInput[]
+  }
+
   export type CasoUncheckedUpdateManyWithoutClienteNestedInput = {
     create?: XOR<CasoCreateWithoutClienteInput, CasoUncheckedCreateWithoutClienteInput> | CasoCreateWithoutClienteInput[] | CasoUncheckedCreateWithoutClienteInput[]
     connectOrCreate?: CasoCreateOrConnectWithoutClienteInput | CasoCreateOrConnectWithoutClienteInput[]
@@ -12168,6 +15501,20 @@ export namespace Prisma {
     update?: CasoUpdateWithWhereUniqueWithoutClienteInput | CasoUpdateWithWhereUniqueWithoutClienteInput[]
     updateMany?: CasoUpdateManyWithWhereWithoutClienteInput | CasoUpdateManyWithWhereWithoutClienteInput[]
     deleteMany?: CasoScalarWhereInput | CasoScalarWhereInput[]
+  }
+
+  export type ParticipanteReunionUncheckedUpdateManyWithoutClienteNestedInput = {
+    create?: XOR<ParticipanteReunionCreateWithoutClienteInput, ParticipanteReunionUncheckedCreateWithoutClienteInput> | ParticipanteReunionCreateWithoutClienteInput[] | ParticipanteReunionUncheckedCreateWithoutClienteInput[]
+    connectOrCreate?: ParticipanteReunionCreateOrConnectWithoutClienteInput | ParticipanteReunionCreateOrConnectWithoutClienteInput[]
+    upsert?: ParticipanteReunionUpsertWithWhereUniqueWithoutClienteInput | ParticipanteReunionUpsertWithWhereUniqueWithoutClienteInput[]
+    createMany?: ParticipanteReunionCreateManyClienteInputEnvelope
+    set?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    disconnect?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    delete?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    connect?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    update?: ParticipanteReunionUpdateWithWhereUniqueWithoutClienteInput | ParticipanteReunionUpdateWithWhereUniqueWithoutClienteInput[]
+    updateMany?: ParticipanteReunionUpdateManyWithWhereWithoutClienteInput | ParticipanteReunionUpdateManyWithWhereWithoutClienteInput[]
+    deleteMany?: ParticipanteReunionScalarWhereInput | ParticipanteReunionScalarWhereInput[]
   }
 
   export type UsuarioCreateNestedOneWithoutCasosInput = {
@@ -12210,6 +15557,13 @@ export namespace Prisma {
     connect?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
   }
 
+  export type ReunionCreateNestedManyWithoutCasoInput = {
+    create?: XOR<ReunionCreateWithoutCasoInput, ReunionUncheckedCreateWithoutCasoInput> | ReunionCreateWithoutCasoInput[] | ReunionUncheckedCreateWithoutCasoInput[]
+    connectOrCreate?: ReunionCreateOrConnectWithoutCasoInput | ReunionCreateOrConnectWithoutCasoInput[]
+    createMany?: ReunionCreateManyCasoInputEnvelope
+    connect?: ReunionWhereUniqueInput | ReunionWhereUniqueInput[]
+  }
+
   export type AudienciaUncheckedCreateNestedManyWithoutCasoInput = {
     create?: XOR<AudienciaCreateWithoutCasoInput, AudienciaUncheckedCreateWithoutCasoInput> | AudienciaCreateWithoutCasoInput[] | AudienciaUncheckedCreateWithoutCasoInput[]
     connectOrCreate?: AudienciaCreateOrConnectWithoutCasoInput | AudienciaCreateOrConnectWithoutCasoInput[]
@@ -12236,6 +15590,13 @@ export namespace Prisma {
     connectOrCreate?: CasoResponsableCreateOrConnectWithoutCasoInput | CasoResponsableCreateOrConnectWithoutCasoInput[]
     createMany?: CasoResponsableCreateManyCasoInputEnvelope
     connect?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
+  }
+
+  export type ReunionUncheckedCreateNestedManyWithoutCasoInput = {
+    create?: XOR<ReunionCreateWithoutCasoInput, ReunionUncheckedCreateWithoutCasoInput> | ReunionCreateWithoutCasoInput[] | ReunionUncheckedCreateWithoutCasoInput[]
+    connectOrCreate?: ReunionCreateOrConnectWithoutCasoInput | ReunionCreateOrConnectWithoutCasoInput[]
+    createMany?: ReunionCreateManyCasoInputEnvelope
+    connect?: ReunionWhereUniqueInput | ReunionWhereUniqueInput[]
   }
 
   export type EnumEstadoCasoFieldUpdateOperationsInput = {
@@ -12318,6 +15679,20 @@ export namespace Prisma {
     deleteMany?: CasoResponsableScalarWhereInput | CasoResponsableScalarWhereInput[]
   }
 
+  export type ReunionUpdateManyWithoutCasoNestedInput = {
+    create?: XOR<ReunionCreateWithoutCasoInput, ReunionUncheckedCreateWithoutCasoInput> | ReunionCreateWithoutCasoInput[] | ReunionUncheckedCreateWithoutCasoInput[]
+    connectOrCreate?: ReunionCreateOrConnectWithoutCasoInput | ReunionCreateOrConnectWithoutCasoInput[]
+    upsert?: ReunionUpsertWithWhereUniqueWithoutCasoInput | ReunionUpsertWithWhereUniqueWithoutCasoInput[]
+    createMany?: ReunionCreateManyCasoInputEnvelope
+    set?: ReunionWhereUniqueInput | ReunionWhereUniqueInput[]
+    disconnect?: ReunionWhereUniqueInput | ReunionWhereUniqueInput[]
+    delete?: ReunionWhereUniqueInput | ReunionWhereUniqueInput[]
+    connect?: ReunionWhereUniqueInput | ReunionWhereUniqueInput[]
+    update?: ReunionUpdateWithWhereUniqueWithoutCasoInput | ReunionUpdateWithWhereUniqueWithoutCasoInput[]
+    updateMany?: ReunionUpdateManyWithWhereWithoutCasoInput | ReunionUpdateManyWithWhereWithoutCasoInput[]
+    deleteMany?: ReunionScalarWhereInput | ReunionScalarWhereInput[]
+  }
+
   export type AudienciaUncheckedUpdateManyWithoutCasoNestedInput = {
     create?: XOR<AudienciaCreateWithoutCasoInput, AudienciaUncheckedCreateWithoutCasoInput> | AudienciaCreateWithoutCasoInput[] | AudienciaUncheckedCreateWithoutCasoInput[]
     connectOrCreate?: AudienciaCreateOrConnectWithoutCasoInput | AudienciaCreateOrConnectWithoutCasoInput[]
@@ -12372,6 +15747,52 @@ export namespace Prisma {
     update?: CasoResponsableUpdateWithWhereUniqueWithoutCasoInput | CasoResponsableUpdateWithWhereUniqueWithoutCasoInput[]
     updateMany?: CasoResponsableUpdateManyWithWhereWithoutCasoInput | CasoResponsableUpdateManyWithWhereWithoutCasoInput[]
     deleteMany?: CasoResponsableScalarWhereInput | CasoResponsableScalarWhereInput[]
+  }
+
+  export type ReunionUncheckedUpdateManyWithoutCasoNestedInput = {
+    create?: XOR<ReunionCreateWithoutCasoInput, ReunionUncheckedCreateWithoutCasoInput> | ReunionCreateWithoutCasoInput[] | ReunionUncheckedCreateWithoutCasoInput[]
+    connectOrCreate?: ReunionCreateOrConnectWithoutCasoInput | ReunionCreateOrConnectWithoutCasoInput[]
+    upsert?: ReunionUpsertWithWhereUniqueWithoutCasoInput | ReunionUpsertWithWhereUniqueWithoutCasoInput[]
+    createMany?: ReunionCreateManyCasoInputEnvelope
+    set?: ReunionWhereUniqueInput | ReunionWhereUniqueInput[]
+    disconnect?: ReunionWhereUniqueInput | ReunionWhereUniqueInput[]
+    delete?: ReunionWhereUniqueInput | ReunionWhereUniqueInput[]
+    connect?: ReunionWhereUniqueInput | ReunionWhereUniqueInput[]
+    update?: ReunionUpdateWithWhereUniqueWithoutCasoInput | ReunionUpdateWithWhereUniqueWithoutCasoInput[]
+    updateMany?: ReunionUpdateManyWithWhereWithoutCasoInput | ReunionUpdateManyWithWhereWithoutCasoInput[]
+    deleteMany?: ReunionScalarWhereInput | ReunionScalarWhereInput[]
+  }
+
+  export type CasoCreateNestedOneWithoutResponsablesInput = {
+    create?: XOR<CasoCreateWithoutResponsablesInput, CasoUncheckedCreateWithoutResponsablesInput>
+    connectOrCreate?: CasoCreateOrConnectWithoutResponsablesInput
+    connect?: CasoWhereUniqueInput
+  }
+
+  export type UsuarioCreateNestedOneWithoutCasosAsignadosInput = {
+    create?: XOR<UsuarioCreateWithoutCasosAsignadosInput, UsuarioUncheckedCreateWithoutCasosAsignadosInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutCasosAsignadosInput
+    connect?: UsuarioWhereUniqueInput
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type CasoUpdateOneRequiredWithoutResponsablesNestedInput = {
+    create?: XOR<CasoCreateWithoutResponsablesInput, CasoUncheckedCreateWithoutResponsablesInput>
+    connectOrCreate?: CasoCreateOrConnectWithoutResponsablesInput
+    upsert?: CasoUpsertWithoutResponsablesInput
+    connect?: CasoWhereUniqueInput
+    update?: XOR<XOR<CasoUpdateToOneWithWhereWithoutResponsablesInput, CasoUpdateWithoutResponsablesInput>, CasoUncheckedUpdateWithoutResponsablesInput>
+  }
+
+  export type UsuarioUpdateOneRequiredWithoutCasosAsignadosNestedInput = {
+    create?: XOR<UsuarioCreateWithoutCasosAsignadosInput, UsuarioUncheckedCreateWithoutCasosAsignadosInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutCasosAsignadosInput
+    upsert?: UsuarioUpsertWithoutCasosAsignadosInput
+    connect?: UsuarioWhereUniqueInput
+    update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutCasosAsignadosInput, UsuarioUpdateWithoutCasosAsignadosInput>, UsuarioUncheckedUpdateWithoutCasosAsignadosInput>
   }
 
   export type CasoCreateNestedOneWithoutAudienciasInput = {
@@ -12456,10 +15877,6 @@ export namespace Prisma {
     connect?: UsuarioWhereUniqueInput
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
   export type CasoUpdateOneWithoutRecordatoriosNestedInput = {
     create?: XOR<CasoCreateWithoutRecordatoriosInput, CasoUncheckedCreateWithoutRecordatoriosInput>
     connectOrCreate?: CasoCreateOrConnectWithoutRecordatoriosInput
@@ -12478,32 +15895,122 @@ export namespace Prisma {
     update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutRecordatoriosInput, UsuarioUpdateWithoutRecordatoriosInput>, UsuarioUncheckedUpdateWithoutRecordatoriosInput>
   }
 
-  export type CasoCreateNestedOneWithoutResponsablesInput = {
-    create?: XOR<CasoCreateWithoutResponsablesInput, CasoUncheckedCreateWithoutResponsablesInput>
-    connectOrCreate?: CasoCreateOrConnectWithoutResponsablesInput
+  export type CasoCreateNestedOneWithoutReunionesInput = {
+    create?: XOR<CasoCreateWithoutReunionesInput, CasoUncheckedCreateWithoutReunionesInput>
+    connectOrCreate?: CasoCreateOrConnectWithoutReunionesInput
     connect?: CasoWhereUniqueInput
   }
 
-  export type UsuarioCreateNestedOneWithoutCasosAsignadosInput = {
-    create?: XOR<UsuarioCreateWithoutCasosAsignadosInput, UsuarioUncheckedCreateWithoutCasosAsignadosInput>
-    connectOrCreate?: UsuarioCreateOrConnectWithoutCasosAsignadosInput
+  export type UsuarioCreateNestedOneWithoutReunionesCreadasInput = {
+    create?: XOR<UsuarioCreateWithoutReunionesCreadasInput, UsuarioUncheckedCreateWithoutReunionesCreadasInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutReunionesCreadasInput
     connect?: UsuarioWhereUniqueInput
   }
 
-  export type CasoUpdateOneRequiredWithoutResponsablesNestedInput = {
-    create?: XOR<CasoCreateWithoutResponsablesInput, CasoUncheckedCreateWithoutResponsablesInput>
-    connectOrCreate?: CasoCreateOrConnectWithoutResponsablesInput
-    upsert?: CasoUpsertWithoutResponsablesInput
+  export type ParticipanteReunionCreateNestedManyWithoutReunionInput = {
+    create?: XOR<ParticipanteReunionCreateWithoutReunionInput, ParticipanteReunionUncheckedCreateWithoutReunionInput> | ParticipanteReunionCreateWithoutReunionInput[] | ParticipanteReunionUncheckedCreateWithoutReunionInput[]
+    connectOrCreate?: ParticipanteReunionCreateOrConnectWithoutReunionInput | ParticipanteReunionCreateOrConnectWithoutReunionInput[]
+    createMany?: ParticipanteReunionCreateManyReunionInputEnvelope
+    connect?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+  }
+
+  export type ParticipanteReunionUncheckedCreateNestedManyWithoutReunionInput = {
+    create?: XOR<ParticipanteReunionCreateWithoutReunionInput, ParticipanteReunionUncheckedCreateWithoutReunionInput> | ParticipanteReunionCreateWithoutReunionInput[] | ParticipanteReunionUncheckedCreateWithoutReunionInput[]
+    connectOrCreate?: ParticipanteReunionCreateOrConnectWithoutReunionInput | ParticipanteReunionCreateOrConnectWithoutReunionInput[]
+    createMany?: ParticipanteReunionCreateManyReunionInputEnvelope
+    connect?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+  }
+
+  export type CasoUpdateOneWithoutReunionesNestedInput = {
+    create?: XOR<CasoCreateWithoutReunionesInput, CasoUncheckedCreateWithoutReunionesInput>
+    connectOrCreate?: CasoCreateOrConnectWithoutReunionesInput
+    upsert?: CasoUpsertWithoutReunionesInput
+    disconnect?: CasoWhereInput | boolean
+    delete?: CasoWhereInput | boolean
     connect?: CasoWhereUniqueInput
-    update?: XOR<XOR<CasoUpdateToOneWithWhereWithoutResponsablesInput, CasoUpdateWithoutResponsablesInput>, CasoUncheckedUpdateWithoutResponsablesInput>
+    update?: XOR<XOR<CasoUpdateToOneWithWhereWithoutReunionesInput, CasoUpdateWithoutReunionesInput>, CasoUncheckedUpdateWithoutReunionesInput>
   }
 
-  export type UsuarioUpdateOneRequiredWithoutCasosAsignadosNestedInput = {
-    create?: XOR<UsuarioCreateWithoutCasosAsignadosInput, UsuarioUncheckedCreateWithoutCasosAsignadosInput>
-    connectOrCreate?: UsuarioCreateOrConnectWithoutCasosAsignadosInput
-    upsert?: UsuarioUpsertWithoutCasosAsignadosInput
+  export type UsuarioUpdateOneRequiredWithoutReunionesCreadasNestedInput = {
+    create?: XOR<UsuarioCreateWithoutReunionesCreadasInput, UsuarioUncheckedCreateWithoutReunionesCreadasInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutReunionesCreadasInput
+    upsert?: UsuarioUpsertWithoutReunionesCreadasInput
     connect?: UsuarioWhereUniqueInput
-    update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutCasosAsignadosInput, UsuarioUpdateWithoutCasosAsignadosInput>, UsuarioUncheckedUpdateWithoutCasosAsignadosInput>
+    update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutReunionesCreadasInput, UsuarioUpdateWithoutReunionesCreadasInput>, UsuarioUncheckedUpdateWithoutReunionesCreadasInput>
+  }
+
+  export type ParticipanteReunionUpdateManyWithoutReunionNestedInput = {
+    create?: XOR<ParticipanteReunionCreateWithoutReunionInput, ParticipanteReunionUncheckedCreateWithoutReunionInput> | ParticipanteReunionCreateWithoutReunionInput[] | ParticipanteReunionUncheckedCreateWithoutReunionInput[]
+    connectOrCreate?: ParticipanteReunionCreateOrConnectWithoutReunionInput | ParticipanteReunionCreateOrConnectWithoutReunionInput[]
+    upsert?: ParticipanteReunionUpsertWithWhereUniqueWithoutReunionInput | ParticipanteReunionUpsertWithWhereUniqueWithoutReunionInput[]
+    createMany?: ParticipanteReunionCreateManyReunionInputEnvelope
+    set?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    disconnect?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    delete?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    connect?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    update?: ParticipanteReunionUpdateWithWhereUniqueWithoutReunionInput | ParticipanteReunionUpdateWithWhereUniqueWithoutReunionInput[]
+    updateMany?: ParticipanteReunionUpdateManyWithWhereWithoutReunionInput | ParticipanteReunionUpdateManyWithWhereWithoutReunionInput[]
+    deleteMany?: ParticipanteReunionScalarWhereInput | ParticipanteReunionScalarWhereInput[]
+  }
+
+  export type ParticipanteReunionUncheckedUpdateManyWithoutReunionNestedInput = {
+    create?: XOR<ParticipanteReunionCreateWithoutReunionInput, ParticipanteReunionUncheckedCreateWithoutReunionInput> | ParticipanteReunionCreateWithoutReunionInput[] | ParticipanteReunionUncheckedCreateWithoutReunionInput[]
+    connectOrCreate?: ParticipanteReunionCreateOrConnectWithoutReunionInput | ParticipanteReunionCreateOrConnectWithoutReunionInput[]
+    upsert?: ParticipanteReunionUpsertWithWhereUniqueWithoutReunionInput | ParticipanteReunionUpsertWithWhereUniqueWithoutReunionInput[]
+    createMany?: ParticipanteReunionCreateManyReunionInputEnvelope
+    set?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    disconnect?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    delete?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    connect?: ParticipanteReunionWhereUniqueInput | ParticipanteReunionWhereUniqueInput[]
+    update?: ParticipanteReunionUpdateWithWhereUniqueWithoutReunionInput | ParticipanteReunionUpdateWithWhereUniqueWithoutReunionInput[]
+    updateMany?: ParticipanteReunionUpdateManyWithWhereWithoutReunionInput | ParticipanteReunionUpdateManyWithWhereWithoutReunionInput[]
+    deleteMany?: ParticipanteReunionScalarWhereInput | ParticipanteReunionScalarWhereInput[]
+  }
+
+  export type ReunionCreateNestedOneWithoutParticipantesInput = {
+    create?: XOR<ReunionCreateWithoutParticipantesInput, ReunionUncheckedCreateWithoutParticipantesInput>
+    connectOrCreate?: ReunionCreateOrConnectWithoutParticipantesInput
+    connect?: ReunionWhereUniqueInput
+  }
+
+  export type UsuarioCreateNestedOneWithoutParticipacionesReunionInput = {
+    create?: XOR<UsuarioCreateWithoutParticipacionesReunionInput, UsuarioUncheckedCreateWithoutParticipacionesReunionInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutParticipacionesReunionInput
+    connect?: UsuarioWhereUniqueInput
+  }
+
+  export type ClienteCreateNestedOneWithoutParticipacionesReunionInput = {
+    create?: XOR<ClienteCreateWithoutParticipacionesReunionInput, ClienteUncheckedCreateWithoutParticipacionesReunionInput>
+    connectOrCreate?: ClienteCreateOrConnectWithoutParticipacionesReunionInput
+    connect?: ClienteWhereUniqueInput
+  }
+
+  export type ReunionUpdateOneRequiredWithoutParticipantesNestedInput = {
+    create?: XOR<ReunionCreateWithoutParticipantesInput, ReunionUncheckedCreateWithoutParticipantesInput>
+    connectOrCreate?: ReunionCreateOrConnectWithoutParticipantesInput
+    upsert?: ReunionUpsertWithoutParticipantesInput
+    connect?: ReunionWhereUniqueInput
+    update?: XOR<XOR<ReunionUpdateToOneWithWhereWithoutParticipantesInput, ReunionUpdateWithoutParticipantesInput>, ReunionUncheckedUpdateWithoutParticipantesInput>
+  }
+
+  export type UsuarioUpdateOneWithoutParticipacionesReunionNestedInput = {
+    create?: XOR<UsuarioCreateWithoutParticipacionesReunionInput, UsuarioUncheckedCreateWithoutParticipacionesReunionInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutParticipacionesReunionInput
+    upsert?: UsuarioUpsertWithoutParticipacionesReunionInput
+    disconnect?: UsuarioWhereInput | boolean
+    delete?: UsuarioWhereInput | boolean
+    connect?: UsuarioWhereUniqueInput
+    update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutParticipacionesReunionInput, UsuarioUpdateWithoutParticipacionesReunionInput>, UsuarioUncheckedUpdateWithoutParticipacionesReunionInput>
+  }
+
+  export type ClienteUpdateOneWithoutParticipacionesReunionNestedInput = {
+    create?: XOR<ClienteCreateWithoutParticipacionesReunionInput, ClienteUncheckedCreateWithoutParticipacionesReunionInput>
+    connectOrCreate?: ClienteCreateOrConnectWithoutParticipacionesReunionInput
+    upsert?: ClienteUpsertWithoutParticipacionesReunionInput
+    disconnect?: ClienteWhereInput | boolean
+    delete?: ClienteWhereInput | boolean
+    connect?: ClienteWhereUniqueInput
+    update?: XOR<XOR<ClienteUpdateToOneWithWhereWithoutParticipacionesReunionInput, ClienteUpdateWithoutParticipacionesReunionInput>, ClienteUncheckedUpdateWithoutParticipacionesReunionInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -12701,6 +16208,19 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedEnumEstadoAudienciaFilter<$PrismaModel = never> = {
     equals?: $Enums.EstadoAudiencia | EnumEstadoAudienciaFieldRefInput<$PrismaModel>
     in?: $Enums.EstadoAudiencia[] | ListEnumEstadoAudienciaFieldRefInput<$PrismaModel>
@@ -12745,19 +16265,6 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type CasoCreateWithoutUsuarioInput = {
     numero: string
     asunto: string
@@ -12772,6 +16279,7 @@ export namespace Prisma {
     citas?: CitaCreateNestedManyWithoutCasoInput
     recordatorios?: RecordatorioCreateNestedManyWithoutCasoInput
     responsables?: CasoResponsableCreateNestedManyWithoutCasoInput
+    reuniones?: ReunionCreateNestedManyWithoutCasoInput
   }
 
   export type CasoUncheckedCreateWithoutUsuarioInput = {
@@ -12789,6 +16297,7 @@ export namespace Prisma {
     citas?: CitaUncheckedCreateNestedManyWithoutCasoInput
     recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutCasoInput
     responsables?: CasoResponsableUncheckedCreateNestedManyWithoutCasoInput
+    reuniones?: ReunionUncheckedCreateNestedManyWithoutCasoInput
   }
 
   export type CasoCreateOrConnectWithoutUsuarioInput = {
@@ -12912,6 +16421,64 @@ export namespace Prisma {
 
   export type RecordatorioCreateManyUsuarioInputEnvelope = {
     data: RecordatorioCreateManyUsuarioInput | RecordatorioCreateManyUsuarioInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ReunionCreateWithoutCreadorInput = {
+    titulo: string
+    fecha: Date | string
+    lugar?: string | null
+    observaciones?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    caso?: CasoCreateNestedOneWithoutReunionesInput
+    participantes?: ParticipanteReunionCreateNestedManyWithoutReunionInput
+  }
+
+  export type ReunionUncheckedCreateWithoutCreadorInput = {
+    id?: number
+    titulo: string
+    fecha: Date | string
+    lugar?: string | null
+    observaciones?: string | null
+    casoId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    participantes?: ParticipanteReunionUncheckedCreateNestedManyWithoutReunionInput
+  }
+
+  export type ReunionCreateOrConnectWithoutCreadorInput = {
+    where: ReunionWhereUniqueInput
+    create: XOR<ReunionCreateWithoutCreadorInput, ReunionUncheckedCreateWithoutCreadorInput>
+  }
+
+  export type ReunionCreateManyCreadorInputEnvelope = {
+    data: ReunionCreateManyCreadorInput | ReunionCreateManyCreadorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ParticipanteReunionCreateWithoutUsuarioInput = {
+    nombreExterno?: string | null
+    correoExterno?: string | null
+    reunion: ReunionCreateNestedOneWithoutParticipantesInput
+    cliente?: ClienteCreateNestedOneWithoutParticipacionesReunionInput
+  }
+
+  export type ParticipanteReunionUncheckedCreateWithoutUsuarioInput = {
+    id?: number
+    reunionId: number
+    clienteId?: number | null
+    nombreExterno?: string | null
+    correoExterno?: string | null
+  }
+
+  export type ParticipanteReunionCreateOrConnectWithoutUsuarioInput = {
+    where: ParticipanteReunionWhereUniqueInput
+    create: XOR<ParticipanteReunionCreateWithoutUsuarioInput, ParticipanteReunionUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type ParticipanteReunionCreateManyUsuarioInputEnvelope = {
+    data: ParticipanteReunionCreateManyUsuarioInput | ParticipanteReunionCreateManyUsuarioInput[]
     skipDuplicates?: boolean
   }
 
@@ -13067,6 +16634,65 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Recordatorio"> | Date | string
   }
 
+  export type ReunionUpsertWithWhereUniqueWithoutCreadorInput = {
+    where: ReunionWhereUniqueInput
+    update: XOR<ReunionUpdateWithoutCreadorInput, ReunionUncheckedUpdateWithoutCreadorInput>
+    create: XOR<ReunionCreateWithoutCreadorInput, ReunionUncheckedCreateWithoutCreadorInput>
+  }
+
+  export type ReunionUpdateWithWhereUniqueWithoutCreadorInput = {
+    where: ReunionWhereUniqueInput
+    data: XOR<ReunionUpdateWithoutCreadorInput, ReunionUncheckedUpdateWithoutCreadorInput>
+  }
+
+  export type ReunionUpdateManyWithWhereWithoutCreadorInput = {
+    where: ReunionScalarWhereInput
+    data: XOR<ReunionUpdateManyMutationInput, ReunionUncheckedUpdateManyWithoutCreadorInput>
+  }
+
+  export type ReunionScalarWhereInput = {
+    AND?: ReunionScalarWhereInput | ReunionScalarWhereInput[]
+    OR?: ReunionScalarWhereInput[]
+    NOT?: ReunionScalarWhereInput | ReunionScalarWhereInput[]
+    id?: IntFilter<"Reunion"> | number
+    titulo?: StringFilter<"Reunion"> | string
+    fecha?: DateTimeFilter<"Reunion"> | Date | string
+    lugar?: StringNullableFilter<"Reunion"> | string | null
+    observaciones?: StringNullableFilter<"Reunion"> | string | null
+    casoId?: IntNullableFilter<"Reunion"> | number | null
+    creadorId?: IntFilter<"Reunion"> | number
+    createdAt?: DateTimeFilter<"Reunion"> | Date | string
+    updatedAt?: DateTimeFilter<"Reunion"> | Date | string
+  }
+
+  export type ParticipanteReunionUpsertWithWhereUniqueWithoutUsuarioInput = {
+    where: ParticipanteReunionWhereUniqueInput
+    update: XOR<ParticipanteReunionUpdateWithoutUsuarioInput, ParticipanteReunionUncheckedUpdateWithoutUsuarioInput>
+    create: XOR<ParticipanteReunionCreateWithoutUsuarioInput, ParticipanteReunionUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type ParticipanteReunionUpdateWithWhereUniqueWithoutUsuarioInput = {
+    where: ParticipanteReunionWhereUniqueInput
+    data: XOR<ParticipanteReunionUpdateWithoutUsuarioInput, ParticipanteReunionUncheckedUpdateWithoutUsuarioInput>
+  }
+
+  export type ParticipanteReunionUpdateManyWithWhereWithoutUsuarioInput = {
+    where: ParticipanteReunionScalarWhereInput
+    data: XOR<ParticipanteReunionUpdateManyMutationInput, ParticipanteReunionUncheckedUpdateManyWithoutUsuarioInput>
+  }
+
+  export type ParticipanteReunionScalarWhereInput = {
+    AND?: ParticipanteReunionScalarWhereInput | ParticipanteReunionScalarWhereInput[]
+    OR?: ParticipanteReunionScalarWhereInput[]
+    NOT?: ParticipanteReunionScalarWhereInput | ParticipanteReunionScalarWhereInput[]
+    id?: IntFilter<"ParticipanteReunion"> | number
+    reunionId?: IntFilter<"ParticipanteReunion"> | number
+    usuarioId?: IntNullableFilter<"ParticipanteReunion"> | number | null
+    clienteId?: IntNullableFilter<"ParticipanteReunion"> | number | null
+    nombreExterno?: StringNullableFilter<"ParticipanteReunion"> | string | null
+    correoExterno?: StringNullableFilter<"ParticipanteReunion"> | string | null
+  }
+
   export type CasoCreateWithoutClienteInput = {
     numero: string
     asunto: string
@@ -13081,6 +16707,7 @@ export namespace Prisma {
     citas?: CitaCreateNestedManyWithoutCasoInput
     recordatorios?: RecordatorioCreateNestedManyWithoutCasoInput
     responsables?: CasoResponsableCreateNestedManyWithoutCasoInput
+    reuniones?: ReunionCreateNestedManyWithoutCasoInput
   }
 
   export type CasoUncheckedCreateWithoutClienteInput = {
@@ -13098,6 +16725,7 @@ export namespace Prisma {
     citas?: CitaUncheckedCreateNestedManyWithoutCasoInput
     recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutCasoInput
     responsables?: CasoResponsableUncheckedCreateNestedManyWithoutCasoInput
+    reuniones?: ReunionUncheckedCreateNestedManyWithoutCasoInput
   }
 
   export type CasoCreateOrConnectWithoutClienteInput = {
@@ -13107,6 +16735,31 @@ export namespace Prisma {
 
   export type CasoCreateManyClienteInputEnvelope = {
     data: CasoCreateManyClienteInput | CasoCreateManyClienteInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ParticipanteReunionCreateWithoutClienteInput = {
+    nombreExterno?: string | null
+    correoExterno?: string | null
+    reunion: ReunionCreateNestedOneWithoutParticipantesInput
+    usuario?: UsuarioCreateNestedOneWithoutParticipacionesReunionInput
+  }
+
+  export type ParticipanteReunionUncheckedCreateWithoutClienteInput = {
+    id?: number
+    reunionId: number
+    usuarioId?: number | null
+    nombreExterno?: string | null
+    correoExterno?: string | null
+  }
+
+  export type ParticipanteReunionCreateOrConnectWithoutClienteInput = {
+    where: ParticipanteReunionWhereUniqueInput
+    create: XOR<ParticipanteReunionCreateWithoutClienteInput, ParticipanteReunionUncheckedCreateWithoutClienteInput>
+  }
+
+  export type ParticipanteReunionCreateManyClienteInputEnvelope = {
+    data: ParticipanteReunionCreateManyClienteInput | ParticipanteReunionCreateManyClienteInput[]
     skipDuplicates?: boolean
   }
 
@@ -13126,6 +16779,22 @@ export namespace Prisma {
     data: XOR<CasoUpdateManyMutationInput, CasoUncheckedUpdateManyWithoutClienteInput>
   }
 
+  export type ParticipanteReunionUpsertWithWhereUniqueWithoutClienteInput = {
+    where: ParticipanteReunionWhereUniqueInput
+    update: XOR<ParticipanteReunionUpdateWithoutClienteInput, ParticipanteReunionUncheckedUpdateWithoutClienteInput>
+    create: XOR<ParticipanteReunionCreateWithoutClienteInput, ParticipanteReunionUncheckedCreateWithoutClienteInput>
+  }
+
+  export type ParticipanteReunionUpdateWithWhereUniqueWithoutClienteInput = {
+    where: ParticipanteReunionWhereUniqueInput
+    data: XOR<ParticipanteReunionUpdateWithoutClienteInput, ParticipanteReunionUncheckedUpdateWithoutClienteInput>
+  }
+
+  export type ParticipanteReunionUpdateManyWithWhereWithoutClienteInput = {
+    where: ParticipanteReunionScalarWhereInput
+    data: XOR<ParticipanteReunionUpdateManyMutationInput, ParticipanteReunionUncheckedUpdateManyWithoutClienteInput>
+  }
+
   export type UsuarioCreateWithoutCasosInput = {
     nombre: string
     correo: string
@@ -13137,6 +16806,8 @@ export namespace Prisma {
     audiencias?: AudienciaCreateNestedManyWithoutUsuarioInput
     citas?: CitaCreateNestedManyWithoutUsuarioInput
     recordatorios?: RecordatorioCreateNestedManyWithoutUsuarioInput
+    reunionesCreadas?: ReunionCreateNestedManyWithoutCreadorInput
+    participacionesReunion?: ParticipanteReunionCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioUncheckedCreateWithoutCasosInput = {
@@ -13151,6 +16822,8 @@ export namespace Prisma {
     audiencias?: AudienciaUncheckedCreateNestedManyWithoutUsuarioInput
     citas?: CitaUncheckedCreateNestedManyWithoutUsuarioInput
     recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutUsuarioInput
+    reunionesCreadas?: ReunionUncheckedCreateNestedManyWithoutCreadorInput
+    participacionesReunion?: ParticipanteReunionUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioCreateOrConnectWithoutCasosInput = {
@@ -13165,6 +16838,7 @@ export namespace Prisma {
     direccion?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    participacionesReunion?: ParticipanteReunionCreateNestedManyWithoutClienteInput
   }
 
   export type ClienteUncheckedCreateWithoutCasosInput = {
@@ -13175,6 +16849,7 @@ export namespace Prisma {
     direccion?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    participacionesReunion?: ParticipanteReunionUncheckedCreateNestedManyWithoutClienteInput
   }
 
   export type ClienteCreateOrConnectWithoutCasosInput = {
@@ -13296,6 +16971,39 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ReunionCreateWithoutCasoInput = {
+    titulo: string
+    fecha: Date | string
+    lugar?: string | null
+    observaciones?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creador: UsuarioCreateNestedOneWithoutReunionesCreadasInput
+    participantes?: ParticipanteReunionCreateNestedManyWithoutReunionInput
+  }
+
+  export type ReunionUncheckedCreateWithoutCasoInput = {
+    id?: number
+    titulo: string
+    fecha: Date | string
+    lugar?: string | null
+    observaciones?: string | null
+    creadorId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    participantes?: ParticipanteReunionUncheckedCreateNestedManyWithoutReunionInput
+  }
+
+  export type ReunionCreateOrConnectWithoutCasoInput = {
+    where: ReunionWhereUniqueInput
+    create: XOR<ReunionCreateWithoutCasoInput, ReunionUncheckedCreateWithoutCasoInput>
+  }
+
+  export type ReunionCreateManyCasoInputEnvelope = {
+    data: ReunionCreateManyCasoInput | ReunionCreateManyCasoInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UsuarioUpsertWithoutCasosInput = {
     update: XOR<UsuarioUpdateWithoutCasosInput, UsuarioUncheckedUpdateWithoutCasosInput>
     create: XOR<UsuarioCreateWithoutCasosInput, UsuarioUncheckedCreateWithoutCasosInput>
@@ -13318,6 +17026,8 @@ export namespace Prisma {
     audiencias?: AudienciaUpdateManyWithoutUsuarioNestedInput
     citas?: CitaUpdateManyWithoutUsuarioNestedInput
     recordatorios?: RecordatorioUpdateManyWithoutUsuarioNestedInput
+    reunionesCreadas?: ReunionUpdateManyWithoutCreadorNestedInput
+    participacionesReunion?: ParticipanteReunionUpdateManyWithoutUsuarioNestedInput
   }
 
   export type UsuarioUncheckedUpdateWithoutCasosInput = {
@@ -13332,6 +17042,8 @@ export namespace Prisma {
     audiencias?: AudienciaUncheckedUpdateManyWithoutUsuarioNestedInput
     citas?: CitaUncheckedUpdateManyWithoutUsuarioNestedInput
     recordatorios?: RecordatorioUncheckedUpdateManyWithoutUsuarioNestedInput
+    reunionesCreadas?: ReunionUncheckedUpdateManyWithoutCreadorNestedInput
+    participacionesReunion?: ParticipanteReunionUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
   export type ClienteUpsertWithoutCasosInput = {
@@ -13352,6 +17064,7 @@ export namespace Prisma {
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    participacionesReunion?: ParticipanteReunionUpdateManyWithoutClienteNestedInput
   }
 
   export type ClienteUncheckedUpdateWithoutCasosInput = {
@@ -13362,6 +17075,7 @@ export namespace Prisma {
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    participacionesReunion?: ParticipanteReunionUncheckedUpdateManyWithoutClienteNestedInput
   }
 
   export type AudienciaUpsertWithWhereUniqueWithoutCasoInput = {
@@ -13428,460 +17142,20 @@ export namespace Prisma {
     data: XOR<CasoResponsableUpdateManyMutationInput, CasoResponsableUncheckedUpdateManyWithoutCasoInput>
   }
 
-  export type CasoCreateWithoutAudienciasInput = {
-    numero: string
-    asunto: string
-    tipo: string
-    estado?: $Enums.EstadoCaso
-    fechaInicio: Date | string
-    fechaCierre?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    usuario: UsuarioCreateNestedOneWithoutCasosInput
-    cliente: ClienteCreateNestedOneWithoutCasosInput
-    citas?: CitaCreateNestedManyWithoutCasoInput
-    recordatorios?: RecordatorioCreateNestedManyWithoutCasoInput
-    responsables?: CasoResponsableCreateNestedManyWithoutCasoInput
+  export type ReunionUpsertWithWhereUniqueWithoutCasoInput = {
+    where: ReunionWhereUniqueInput
+    update: XOR<ReunionUpdateWithoutCasoInput, ReunionUncheckedUpdateWithoutCasoInput>
+    create: XOR<ReunionCreateWithoutCasoInput, ReunionUncheckedCreateWithoutCasoInput>
   }
 
-  export type CasoUncheckedCreateWithoutAudienciasInput = {
-    id?: number
-    numero: string
-    asunto: string
-    tipo: string
-    estado?: $Enums.EstadoCaso
-    fechaInicio: Date | string
-    fechaCierre?: Date | string | null
-    usuarioId: number
-    clienteId: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    citas?: CitaUncheckedCreateNestedManyWithoutCasoInput
-    recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutCasoInput
-    responsables?: CasoResponsableUncheckedCreateNestedManyWithoutCasoInput
+  export type ReunionUpdateWithWhereUniqueWithoutCasoInput = {
+    where: ReunionWhereUniqueInput
+    data: XOR<ReunionUpdateWithoutCasoInput, ReunionUncheckedUpdateWithoutCasoInput>
   }
 
-  export type CasoCreateOrConnectWithoutAudienciasInput = {
-    where: CasoWhereUniqueInput
-    create: XOR<CasoCreateWithoutAudienciasInput, CasoUncheckedCreateWithoutAudienciasInput>
-  }
-
-  export type UsuarioCreateWithoutAudienciasInput = {
-    nombre: string
-    correo: string
-    clave: string
-    rol?: $Enums.RolUsuario
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    casos?: CasoCreateNestedManyWithoutUsuarioInput
-    casosAsignados?: CasoResponsableCreateNestedManyWithoutUsuarioInput
-    citas?: CitaCreateNestedManyWithoutUsuarioInput
-    recordatorios?: RecordatorioCreateNestedManyWithoutUsuarioInput
-  }
-
-  export type UsuarioUncheckedCreateWithoutAudienciasInput = {
-    id?: number
-    nombre: string
-    correo: string
-    clave: string
-    rol?: $Enums.RolUsuario
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    casos?: CasoUncheckedCreateNestedManyWithoutUsuarioInput
-    casosAsignados?: CasoResponsableUncheckedCreateNestedManyWithoutUsuarioInput
-    citas?: CitaUncheckedCreateNestedManyWithoutUsuarioInput
-    recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutUsuarioInput
-  }
-
-  export type UsuarioCreateOrConnectWithoutAudienciasInput = {
-    where: UsuarioWhereUniqueInput
-    create: XOR<UsuarioCreateWithoutAudienciasInput, UsuarioUncheckedCreateWithoutAudienciasInput>
-  }
-
-  export type CasoUpsertWithoutAudienciasInput = {
-    update: XOR<CasoUpdateWithoutAudienciasInput, CasoUncheckedUpdateWithoutAudienciasInput>
-    create: XOR<CasoCreateWithoutAudienciasInput, CasoUncheckedCreateWithoutAudienciasInput>
-    where?: CasoWhereInput
-  }
-
-  export type CasoUpdateToOneWithWhereWithoutAudienciasInput = {
-    where?: CasoWhereInput
-    data: XOR<CasoUpdateWithoutAudienciasInput, CasoUncheckedUpdateWithoutAudienciasInput>
-  }
-
-  export type CasoUpdateWithoutAudienciasInput = {
-    numero?: StringFieldUpdateOperationsInput | string
-    asunto?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    estado?: EnumEstadoCasoFieldUpdateOperationsInput | $Enums.EstadoCaso
-    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaCierre?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    usuario?: UsuarioUpdateOneRequiredWithoutCasosNestedInput
-    cliente?: ClienteUpdateOneRequiredWithoutCasosNestedInput
-    citas?: CitaUpdateManyWithoutCasoNestedInput
-    recordatorios?: RecordatorioUpdateManyWithoutCasoNestedInput
-    responsables?: CasoResponsableUpdateManyWithoutCasoNestedInput
-  }
-
-  export type CasoUncheckedUpdateWithoutAudienciasInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    numero?: StringFieldUpdateOperationsInput | string
-    asunto?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    estado?: EnumEstadoCasoFieldUpdateOperationsInput | $Enums.EstadoCaso
-    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaCierre?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    usuarioId?: IntFieldUpdateOperationsInput | number
-    clienteId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    citas?: CitaUncheckedUpdateManyWithoutCasoNestedInput
-    recordatorios?: RecordatorioUncheckedUpdateManyWithoutCasoNestedInput
-    responsables?: CasoResponsableUncheckedUpdateManyWithoutCasoNestedInput
-  }
-
-  export type UsuarioUpsertWithoutAudienciasInput = {
-    update: XOR<UsuarioUpdateWithoutAudienciasInput, UsuarioUncheckedUpdateWithoutAudienciasInput>
-    create: XOR<UsuarioCreateWithoutAudienciasInput, UsuarioUncheckedCreateWithoutAudienciasInput>
-    where?: UsuarioWhereInput
-  }
-
-  export type UsuarioUpdateToOneWithWhereWithoutAudienciasInput = {
-    where?: UsuarioWhereInput
-    data: XOR<UsuarioUpdateWithoutAudienciasInput, UsuarioUncheckedUpdateWithoutAudienciasInput>
-  }
-
-  export type UsuarioUpdateWithoutAudienciasInput = {
-    nombre?: StringFieldUpdateOperationsInput | string
-    correo?: StringFieldUpdateOperationsInput | string
-    clave?: StringFieldUpdateOperationsInput | string
-    rol?: EnumRolUsuarioFieldUpdateOperationsInput | $Enums.RolUsuario
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    casos?: CasoUpdateManyWithoutUsuarioNestedInput
-    casosAsignados?: CasoResponsableUpdateManyWithoutUsuarioNestedInput
-    citas?: CitaUpdateManyWithoutUsuarioNestedInput
-    recordatorios?: RecordatorioUpdateManyWithoutUsuarioNestedInput
-  }
-
-  export type UsuarioUncheckedUpdateWithoutAudienciasInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nombre?: StringFieldUpdateOperationsInput | string
-    correo?: StringFieldUpdateOperationsInput | string
-    clave?: StringFieldUpdateOperationsInput | string
-    rol?: EnumRolUsuarioFieldUpdateOperationsInput | $Enums.RolUsuario
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    casos?: CasoUncheckedUpdateManyWithoutUsuarioNestedInput
-    casosAsignados?: CasoResponsableUncheckedUpdateManyWithoutUsuarioNestedInput
-    citas?: CitaUncheckedUpdateManyWithoutUsuarioNestedInput
-    recordatorios?: RecordatorioUncheckedUpdateManyWithoutUsuarioNestedInput
-  }
-
-  export type CasoCreateWithoutCitasInput = {
-    numero: string
-    asunto: string
-    tipo: string
-    estado?: $Enums.EstadoCaso
-    fechaInicio: Date | string
-    fechaCierre?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    usuario: UsuarioCreateNestedOneWithoutCasosInput
-    cliente: ClienteCreateNestedOneWithoutCasosInput
-    audiencias?: AudienciaCreateNestedManyWithoutCasoInput
-    recordatorios?: RecordatorioCreateNestedManyWithoutCasoInput
-    responsables?: CasoResponsableCreateNestedManyWithoutCasoInput
-  }
-
-  export type CasoUncheckedCreateWithoutCitasInput = {
-    id?: number
-    numero: string
-    asunto: string
-    tipo: string
-    estado?: $Enums.EstadoCaso
-    fechaInicio: Date | string
-    fechaCierre?: Date | string | null
-    usuarioId: number
-    clienteId: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    audiencias?: AudienciaUncheckedCreateNestedManyWithoutCasoInput
-    recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutCasoInput
-    responsables?: CasoResponsableUncheckedCreateNestedManyWithoutCasoInput
-  }
-
-  export type CasoCreateOrConnectWithoutCitasInput = {
-    where: CasoWhereUniqueInput
-    create: XOR<CasoCreateWithoutCitasInput, CasoUncheckedCreateWithoutCitasInput>
-  }
-
-  export type UsuarioCreateWithoutCitasInput = {
-    nombre: string
-    correo: string
-    clave: string
-    rol?: $Enums.RolUsuario
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    casos?: CasoCreateNestedManyWithoutUsuarioInput
-    casosAsignados?: CasoResponsableCreateNestedManyWithoutUsuarioInput
-    audiencias?: AudienciaCreateNestedManyWithoutUsuarioInput
-    recordatorios?: RecordatorioCreateNestedManyWithoutUsuarioInput
-  }
-
-  export type UsuarioUncheckedCreateWithoutCitasInput = {
-    id?: number
-    nombre: string
-    correo: string
-    clave: string
-    rol?: $Enums.RolUsuario
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    casos?: CasoUncheckedCreateNestedManyWithoutUsuarioInput
-    casosAsignados?: CasoResponsableUncheckedCreateNestedManyWithoutUsuarioInput
-    audiencias?: AudienciaUncheckedCreateNestedManyWithoutUsuarioInput
-    recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutUsuarioInput
-  }
-
-  export type UsuarioCreateOrConnectWithoutCitasInput = {
-    where: UsuarioWhereUniqueInput
-    create: XOR<UsuarioCreateWithoutCitasInput, UsuarioUncheckedCreateWithoutCitasInput>
-  }
-
-  export type CasoUpsertWithoutCitasInput = {
-    update: XOR<CasoUpdateWithoutCitasInput, CasoUncheckedUpdateWithoutCitasInput>
-    create: XOR<CasoCreateWithoutCitasInput, CasoUncheckedCreateWithoutCitasInput>
-    where?: CasoWhereInput
-  }
-
-  export type CasoUpdateToOneWithWhereWithoutCitasInput = {
-    where?: CasoWhereInput
-    data: XOR<CasoUpdateWithoutCitasInput, CasoUncheckedUpdateWithoutCitasInput>
-  }
-
-  export type CasoUpdateWithoutCitasInput = {
-    numero?: StringFieldUpdateOperationsInput | string
-    asunto?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    estado?: EnumEstadoCasoFieldUpdateOperationsInput | $Enums.EstadoCaso
-    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaCierre?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    usuario?: UsuarioUpdateOneRequiredWithoutCasosNestedInput
-    cliente?: ClienteUpdateOneRequiredWithoutCasosNestedInput
-    audiencias?: AudienciaUpdateManyWithoutCasoNestedInput
-    recordatorios?: RecordatorioUpdateManyWithoutCasoNestedInput
-    responsables?: CasoResponsableUpdateManyWithoutCasoNestedInput
-  }
-
-  export type CasoUncheckedUpdateWithoutCitasInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    numero?: StringFieldUpdateOperationsInput | string
-    asunto?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    estado?: EnumEstadoCasoFieldUpdateOperationsInput | $Enums.EstadoCaso
-    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaCierre?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    usuarioId?: IntFieldUpdateOperationsInput | number
-    clienteId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    audiencias?: AudienciaUncheckedUpdateManyWithoutCasoNestedInput
-    recordatorios?: RecordatorioUncheckedUpdateManyWithoutCasoNestedInput
-    responsables?: CasoResponsableUncheckedUpdateManyWithoutCasoNestedInput
-  }
-
-  export type UsuarioUpsertWithoutCitasInput = {
-    update: XOR<UsuarioUpdateWithoutCitasInput, UsuarioUncheckedUpdateWithoutCitasInput>
-    create: XOR<UsuarioCreateWithoutCitasInput, UsuarioUncheckedCreateWithoutCitasInput>
-    where?: UsuarioWhereInput
-  }
-
-  export type UsuarioUpdateToOneWithWhereWithoutCitasInput = {
-    where?: UsuarioWhereInput
-    data: XOR<UsuarioUpdateWithoutCitasInput, UsuarioUncheckedUpdateWithoutCitasInput>
-  }
-
-  export type UsuarioUpdateWithoutCitasInput = {
-    nombre?: StringFieldUpdateOperationsInput | string
-    correo?: StringFieldUpdateOperationsInput | string
-    clave?: StringFieldUpdateOperationsInput | string
-    rol?: EnumRolUsuarioFieldUpdateOperationsInput | $Enums.RolUsuario
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    casos?: CasoUpdateManyWithoutUsuarioNestedInput
-    casosAsignados?: CasoResponsableUpdateManyWithoutUsuarioNestedInput
-    audiencias?: AudienciaUpdateManyWithoutUsuarioNestedInput
-    recordatorios?: RecordatorioUpdateManyWithoutUsuarioNestedInput
-  }
-
-  export type UsuarioUncheckedUpdateWithoutCitasInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nombre?: StringFieldUpdateOperationsInput | string
-    correo?: StringFieldUpdateOperationsInput | string
-    clave?: StringFieldUpdateOperationsInput | string
-    rol?: EnumRolUsuarioFieldUpdateOperationsInput | $Enums.RolUsuario
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    casos?: CasoUncheckedUpdateManyWithoutUsuarioNestedInput
-    casosAsignados?: CasoResponsableUncheckedUpdateManyWithoutUsuarioNestedInput
-    audiencias?: AudienciaUncheckedUpdateManyWithoutUsuarioNestedInput
-    recordatorios?: RecordatorioUncheckedUpdateManyWithoutUsuarioNestedInput
-  }
-
-  export type CasoCreateWithoutRecordatoriosInput = {
-    numero: string
-    asunto: string
-    tipo: string
-    estado?: $Enums.EstadoCaso
-    fechaInicio: Date | string
-    fechaCierre?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    usuario: UsuarioCreateNestedOneWithoutCasosInput
-    cliente: ClienteCreateNestedOneWithoutCasosInput
-    audiencias?: AudienciaCreateNestedManyWithoutCasoInput
-    citas?: CitaCreateNestedManyWithoutCasoInput
-    responsables?: CasoResponsableCreateNestedManyWithoutCasoInput
-  }
-
-  export type CasoUncheckedCreateWithoutRecordatoriosInput = {
-    id?: number
-    numero: string
-    asunto: string
-    tipo: string
-    estado?: $Enums.EstadoCaso
-    fechaInicio: Date | string
-    fechaCierre?: Date | string | null
-    usuarioId: number
-    clienteId: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    audiencias?: AudienciaUncheckedCreateNestedManyWithoutCasoInput
-    citas?: CitaUncheckedCreateNestedManyWithoutCasoInput
-    responsables?: CasoResponsableUncheckedCreateNestedManyWithoutCasoInput
-  }
-
-  export type CasoCreateOrConnectWithoutRecordatoriosInput = {
-    where: CasoWhereUniqueInput
-    create: XOR<CasoCreateWithoutRecordatoriosInput, CasoUncheckedCreateWithoutRecordatoriosInput>
-  }
-
-  export type UsuarioCreateWithoutRecordatoriosInput = {
-    nombre: string
-    correo: string
-    clave: string
-    rol?: $Enums.RolUsuario
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    casos?: CasoCreateNestedManyWithoutUsuarioInput
-    casosAsignados?: CasoResponsableCreateNestedManyWithoutUsuarioInput
-    audiencias?: AudienciaCreateNestedManyWithoutUsuarioInput
-    citas?: CitaCreateNestedManyWithoutUsuarioInput
-  }
-
-  export type UsuarioUncheckedCreateWithoutRecordatoriosInput = {
-    id?: number
-    nombre: string
-    correo: string
-    clave: string
-    rol?: $Enums.RolUsuario
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    casos?: CasoUncheckedCreateNestedManyWithoutUsuarioInput
-    casosAsignados?: CasoResponsableUncheckedCreateNestedManyWithoutUsuarioInput
-    audiencias?: AudienciaUncheckedCreateNestedManyWithoutUsuarioInput
-    citas?: CitaUncheckedCreateNestedManyWithoutUsuarioInput
-  }
-
-  export type UsuarioCreateOrConnectWithoutRecordatoriosInput = {
-    where: UsuarioWhereUniqueInput
-    create: XOR<UsuarioCreateWithoutRecordatoriosInput, UsuarioUncheckedCreateWithoutRecordatoriosInput>
-  }
-
-  export type CasoUpsertWithoutRecordatoriosInput = {
-    update: XOR<CasoUpdateWithoutRecordatoriosInput, CasoUncheckedUpdateWithoutRecordatoriosInput>
-    create: XOR<CasoCreateWithoutRecordatoriosInput, CasoUncheckedCreateWithoutRecordatoriosInput>
-    where?: CasoWhereInput
-  }
-
-  export type CasoUpdateToOneWithWhereWithoutRecordatoriosInput = {
-    where?: CasoWhereInput
-    data: XOR<CasoUpdateWithoutRecordatoriosInput, CasoUncheckedUpdateWithoutRecordatoriosInput>
-  }
-
-  export type CasoUpdateWithoutRecordatoriosInput = {
-    numero?: StringFieldUpdateOperationsInput | string
-    asunto?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    estado?: EnumEstadoCasoFieldUpdateOperationsInput | $Enums.EstadoCaso
-    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaCierre?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    usuario?: UsuarioUpdateOneRequiredWithoutCasosNestedInput
-    cliente?: ClienteUpdateOneRequiredWithoutCasosNestedInput
-    audiencias?: AudienciaUpdateManyWithoutCasoNestedInput
-    citas?: CitaUpdateManyWithoutCasoNestedInput
-    responsables?: CasoResponsableUpdateManyWithoutCasoNestedInput
-  }
-
-  export type CasoUncheckedUpdateWithoutRecordatoriosInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    numero?: StringFieldUpdateOperationsInput | string
-    asunto?: StringFieldUpdateOperationsInput | string
-    tipo?: StringFieldUpdateOperationsInput | string
-    estado?: EnumEstadoCasoFieldUpdateOperationsInput | $Enums.EstadoCaso
-    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaCierre?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    usuarioId?: IntFieldUpdateOperationsInput | number
-    clienteId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    audiencias?: AudienciaUncheckedUpdateManyWithoutCasoNestedInput
-    citas?: CitaUncheckedUpdateManyWithoutCasoNestedInput
-    responsables?: CasoResponsableUncheckedUpdateManyWithoutCasoNestedInput
-  }
-
-  export type UsuarioUpsertWithoutRecordatoriosInput = {
-    update: XOR<UsuarioUpdateWithoutRecordatoriosInput, UsuarioUncheckedUpdateWithoutRecordatoriosInput>
-    create: XOR<UsuarioCreateWithoutRecordatoriosInput, UsuarioUncheckedCreateWithoutRecordatoriosInput>
-    where?: UsuarioWhereInput
-  }
-
-  export type UsuarioUpdateToOneWithWhereWithoutRecordatoriosInput = {
-    where?: UsuarioWhereInput
-    data: XOR<UsuarioUpdateWithoutRecordatoriosInput, UsuarioUncheckedUpdateWithoutRecordatoriosInput>
-  }
-
-  export type UsuarioUpdateWithoutRecordatoriosInput = {
-    nombre?: StringFieldUpdateOperationsInput | string
-    correo?: StringFieldUpdateOperationsInput | string
-    clave?: StringFieldUpdateOperationsInput | string
-    rol?: EnumRolUsuarioFieldUpdateOperationsInput | $Enums.RolUsuario
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    casos?: CasoUpdateManyWithoutUsuarioNestedInput
-    casosAsignados?: CasoResponsableUpdateManyWithoutUsuarioNestedInput
-    audiencias?: AudienciaUpdateManyWithoutUsuarioNestedInput
-    citas?: CitaUpdateManyWithoutUsuarioNestedInput
-  }
-
-  export type UsuarioUncheckedUpdateWithoutRecordatoriosInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    nombre?: StringFieldUpdateOperationsInput | string
-    correo?: StringFieldUpdateOperationsInput | string
-    clave?: StringFieldUpdateOperationsInput | string
-    rol?: EnumRolUsuarioFieldUpdateOperationsInput | $Enums.RolUsuario
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    casos?: CasoUncheckedUpdateManyWithoutUsuarioNestedInput
-    casosAsignados?: CasoResponsableUncheckedUpdateManyWithoutUsuarioNestedInput
-    audiencias?: AudienciaUncheckedUpdateManyWithoutUsuarioNestedInput
-    citas?: CitaUncheckedUpdateManyWithoutUsuarioNestedInput
+  export type ReunionUpdateManyWithWhereWithoutCasoInput = {
+    where: ReunionScalarWhereInput
+    data: XOR<ReunionUpdateManyMutationInput, ReunionUncheckedUpdateManyWithoutCasoInput>
   }
 
   export type CasoCreateWithoutResponsablesInput = {
@@ -13898,6 +17172,7 @@ export namespace Prisma {
     audiencias?: AudienciaCreateNestedManyWithoutCasoInput
     citas?: CitaCreateNestedManyWithoutCasoInput
     recordatorios?: RecordatorioCreateNestedManyWithoutCasoInput
+    reuniones?: ReunionCreateNestedManyWithoutCasoInput
   }
 
   export type CasoUncheckedCreateWithoutResponsablesInput = {
@@ -13915,6 +17190,7 @@ export namespace Prisma {
     audiencias?: AudienciaUncheckedCreateNestedManyWithoutCasoInput
     citas?: CitaUncheckedCreateNestedManyWithoutCasoInput
     recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutCasoInput
+    reuniones?: ReunionUncheckedCreateNestedManyWithoutCasoInput
   }
 
   export type CasoCreateOrConnectWithoutResponsablesInput = {
@@ -13933,6 +17209,8 @@ export namespace Prisma {
     audiencias?: AudienciaCreateNestedManyWithoutUsuarioInput
     citas?: CitaCreateNestedManyWithoutUsuarioInput
     recordatorios?: RecordatorioCreateNestedManyWithoutUsuarioInput
+    reunionesCreadas?: ReunionCreateNestedManyWithoutCreadorInput
+    participacionesReunion?: ParticipanteReunionCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioUncheckedCreateWithoutCasosAsignadosInput = {
@@ -13947,6 +17225,8 @@ export namespace Prisma {
     audiencias?: AudienciaUncheckedCreateNestedManyWithoutUsuarioInput
     citas?: CitaUncheckedCreateNestedManyWithoutUsuarioInput
     recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutUsuarioInput
+    reunionesCreadas?: ReunionUncheckedCreateNestedManyWithoutCreadorInput
+    participacionesReunion?: ParticipanteReunionUncheckedCreateNestedManyWithoutUsuarioInput
   }
 
   export type UsuarioCreateOrConnectWithoutCasosAsignadosInput = {
@@ -13979,6 +17259,7 @@ export namespace Prisma {
     audiencias?: AudienciaUpdateManyWithoutCasoNestedInput
     citas?: CitaUpdateManyWithoutCasoNestedInput
     recordatorios?: RecordatorioUpdateManyWithoutCasoNestedInput
+    reuniones?: ReunionUpdateManyWithoutCasoNestedInput
   }
 
   export type CasoUncheckedUpdateWithoutResponsablesInput = {
@@ -13996,6 +17277,7 @@ export namespace Prisma {
     audiencias?: AudienciaUncheckedUpdateManyWithoutCasoNestedInput
     citas?: CitaUncheckedUpdateManyWithoutCasoNestedInput
     recordatorios?: RecordatorioUncheckedUpdateManyWithoutCasoNestedInput
+    reuniones?: ReunionUncheckedUpdateManyWithoutCasoNestedInput
   }
 
   export type UsuarioUpsertWithoutCasosAsignadosInput = {
@@ -14020,6 +17302,8 @@ export namespace Prisma {
     audiencias?: AudienciaUpdateManyWithoutUsuarioNestedInput
     citas?: CitaUpdateManyWithoutUsuarioNestedInput
     recordatorios?: RecordatorioUpdateManyWithoutUsuarioNestedInput
+    reunionesCreadas?: ReunionUpdateManyWithoutCreadorNestedInput
+    participacionesReunion?: ParticipanteReunionUpdateManyWithoutUsuarioNestedInput
   }
 
   export type UsuarioUncheckedUpdateWithoutCasosAsignadosInput = {
@@ -14034,6 +17318,903 @@ export namespace Prisma {
     audiencias?: AudienciaUncheckedUpdateManyWithoutUsuarioNestedInput
     citas?: CitaUncheckedUpdateManyWithoutUsuarioNestedInput
     recordatorios?: RecordatorioUncheckedUpdateManyWithoutUsuarioNestedInput
+    reunionesCreadas?: ReunionUncheckedUpdateManyWithoutCreadorNestedInput
+    participacionesReunion?: ParticipanteReunionUncheckedUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type CasoCreateWithoutAudienciasInput = {
+    numero: string
+    asunto: string
+    tipo: string
+    estado?: $Enums.EstadoCaso
+    fechaInicio: Date | string
+    fechaCierre?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuario: UsuarioCreateNestedOneWithoutCasosInput
+    cliente: ClienteCreateNestedOneWithoutCasosInput
+    citas?: CitaCreateNestedManyWithoutCasoInput
+    recordatorios?: RecordatorioCreateNestedManyWithoutCasoInput
+    responsables?: CasoResponsableCreateNestedManyWithoutCasoInput
+    reuniones?: ReunionCreateNestedManyWithoutCasoInput
+  }
+
+  export type CasoUncheckedCreateWithoutAudienciasInput = {
+    id?: number
+    numero: string
+    asunto: string
+    tipo: string
+    estado?: $Enums.EstadoCaso
+    fechaInicio: Date | string
+    fechaCierre?: Date | string | null
+    usuarioId: number
+    clienteId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    citas?: CitaUncheckedCreateNestedManyWithoutCasoInput
+    recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutCasoInput
+    responsables?: CasoResponsableUncheckedCreateNestedManyWithoutCasoInput
+    reuniones?: ReunionUncheckedCreateNestedManyWithoutCasoInput
+  }
+
+  export type CasoCreateOrConnectWithoutAudienciasInput = {
+    where: CasoWhereUniqueInput
+    create: XOR<CasoCreateWithoutAudienciasInput, CasoUncheckedCreateWithoutAudienciasInput>
+  }
+
+  export type UsuarioCreateWithoutAudienciasInput = {
+    nombre: string
+    correo: string
+    clave: string
+    rol?: $Enums.RolUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    casos?: CasoCreateNestedManyWithoutUsuarioInput
+    casosAsignados?: CasoResponsableCreateNestedManyWithoutUsuarioInput
+    citas?: CitaCreateNestedManyWithoutUsuarioInput
+    recordatorios?: RecordatorioCreateNestedManyWithoutUsuarioInput
+    reunionesCreadas?: ReunionCreateNestedManyWithoutCreadorInput
+    participacionesReunion?: ParticipanteReunionCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioUncheckedCreateWithoutAudienciasInput = {
+    id?: number
+    nombre: string
+    correo: string
+    clave: string
+    rol?: $Enums.RolUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    casos?: CasoUncheckedCreateNestedManyWithoutUsuarioInput
+    casosAsignados?: CasoResponsableUncheckedCreateNestedManyWithoutUsuarioInput
+    citas?: CitaUncheckedCreateNestedManyWithoutUsuarioInput
+    recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutUsuarioInput
+    reunionesCreadas?: ReunionUncheckedCreateNestedManyWithoutCreadorInput
+    participacionesReunion?: ParticipanteReunionUncheckedCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioCreateOrConnectWithoutAudienciasInput = {
+    where: UsuarioWhereUniqueInput
+    create: XOR<UsuarioCreateWithoutAudienciasInput, UsuarioUncheckedCreateWithoutAudienciasInput>
+  }
+
+  export type CasoUpsertWithoutAudienciasInput = {
+    update: XOR<CasoUpdateWithoutAudienciasInput, CasoUncheckedUpdateWithoutAudienciasInput>
+    create: XOR<CasoCreateWithoutAudienciasInput, CasoUncheckedCreateWithoutAudienciasInput>
+    where?: CasoWhereInput
+  }
+
+  export type CasoUpdateToOneWithWhereWithoutAudienciasInput = {
+    where?: CasoWhereInput
+    data: XOR<CasoUpdateWithoutAudienciasInput, CasoUncheckedUpdateWithoutAudienciasInput>
+  }
+
+  export type CasoUpdateWithoutAudienciasInput = {
+    numero?: StringFieldUpdateOperationsInput | string
+    asunto?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: EnumEstadoCasoFieldUpdateOperationsInput | $Enums.EstadoCaso
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCierre?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuario?: UsuarioUpdateOneRequiredWithoutCasosNestedInput
+    cliente?: ClienteUpdateOneRequiredWithoutCasosNestedInput
+    citas?: CitaUpdateManyWithoutCasoNestedInput
+    recordatorios?: RecordatorioUpdateManyWithoutCasoNestedInput
+    responsables?: CasoResponsableUpdateManyWithoutCasoNestedInput
+    reuniones?: ReunionUpdateManyWithoutCasoNestedInput
+  }
+
+  export type CasoUncheckedUpdateWithoutAudienciasInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    numero?: StringFieldUpdateOperationsInput | string
+    asunto?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: EnumEstadoCasoFieldUpdateOperationsInput | $Enums.EstadoCaso
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCierre?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    usuarioId?: IntFieldUpdateOperationsInput | number
+    clienteId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    citas?: CitaUncheckedUpdateManyWithoutCasoNestedInput
+    recordatorios?: RecordatorioUncheckedUpdateManyWithoutCasoNestedInput
+    responsables?: CasoResponsableUncheckedUpdateManyWithoutCasoNestedInput
+    reuniones?: ReunionUncheckedUpdateManyWithoutCasoNestedInput
+  }
+
+  export type UsuarioUpsertWithoutAudienciasInput = {
+    update: XOR<UsuarioUpdateWithoutAudienciasInput, UsuarioUncheckedUpdateWithoutAudienciasInput>
+    create: XOR<UsuarioCreateWithoutAudienciasInput, UsuarioUncheckedCreateWithoutAudienciasInput>
+    where?: UsuarioWhereInput
+  }
+
+  export type UsuarioUpdateToOneWithWhereWithoutAudienciasInput = {
+    where?: UsuarioWhereInput
+    data: XOR<UsuarioUpdateWithoutAudienciasInput, UsuarioUncheckedUpdateWithoutAudienciasInput>
+  }
+
+  export type UsuarioUpdateWithoutAudienciasInput = {
+    nombre?: StringFieldUpdateOperationsInput | string
+    correo?: StringFieldUpdateOperationsInput | string
+    clave?: StringFieldUpdateOperationsInput | string
+    rol?: EnumRolUsuarioFieldUpdateOperationsInput | $Enums.RolUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    casos?: CasoUpdateManyWithoutUsuarioNestedInput
+    casosAsignados?: CasoResponsableUpdateManyWithoutUsuarioNestedInput
+    citas?: CitaUpdateManyWithoutUsuarioNestedInput
+    recordatorios?: RecordatorioUpdateManyWithoutUsuarioNestedInput
+    reunionesCreadas?: ReunionUpdateManyWithoutCreadorNestedInput
+    participacionesReunion?: ParticipanteReunionUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioUncheckedUpdateWithoutAudienciasInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nombre?: StringFieldUpdateOperationsInput | string
+    correo?: StringFieldUpdateOperationsInput | string
+    clave?: StringFieldUpdateOperationsInput | string
+    rol?: EnumRolUsuarioFieldUpdateOperationsInput | $Enums.RolUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    casos?: CasoUncheckedUpdateManyWithoutUsuarioNestedInput
+    casosAsignados?: CasoResponsableUncheckedUpdateManyWithoutUsuarioNestedInput
+    citas?: CitaUncheckedUpdateManyWithoutUsuarioNestedInput
+    recordatorios?: RecordatorioUncheckedUpdateManyWithoutUsuarioNestedInput
+    reunionesCreadas?: ReunionUncheckedUpdateManyWithoutCreadorNestedInput
+    participacionesReunion?: ParticipanteReunionUncheckedUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type CasoCreateWithoutCitasInput = {
+    numero: string
+    asunto: string
+    tipo: string
+    estado?: $Enums.EstadoCaso
+    fechaInicio: Date | string
+    fechaCierre?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuario: UsuarioCreateNestedOneWithoutCasosInput
+    cliente: ClienteCreateNestedOneWithoutCasosInput
+    audiencias?: AudienciaCreateNestedManyWithoutCasoInput
+    recordatorios?: RecordatorioCreateNestedManyWithoutCasoInput
+    responsables?: CasoResponsableCreateNestedManyWithoutCasoInput
+    reuniones?: ReunionCreateNestedManyWithoutCasoInput
+  }
+
+  export type CasoUncheckedCreateWithoutCitasInput = {
+    id?: number
+    numero: string
+    asunto: string
+    tipo: string
+    estado?: $Enums.EstadoCaso
+    fechaInicio: Date | string
+    fechaCierre?: Date | string | null
+    usuarioId: number
+    clienteId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    audiencias?: AudienciaUncheckedCreateNestedManyWithoutCasoInput
+    recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutCasoInput
+    responsables?: CasoResponsableUncheckedCreateNestedManyWithoutCasoInput
+    reuniones?: ReunionUncheckedCreateNestedManyWithoutCasoInput
+  }
+
+  export type CasoCreateOrConnectWithoutCitasInput = {
+    where: CasoWhereUniqueInput
+    create: XOR<CasoCreateWithoutCitasInput, CasoUncheckedCreateWithoutCitasInput>
+  }
+
+  export type UsuarioCreateWithoutCitasInput = {
+    nombre: string
+    correo: string
+    clave: string
+    rol?: $Enums.RolUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    casos?: CasoCreateNestedManyWithoutUsuarioInput
+    casosAsignados?: CasoResponsableCreateNestedManyWithoutUsuarioInput
+    audiencias?: AudienciaCreateNestedManyWithoutUsuarioInput
+    recordatorios?: RecordatorioCreateNestedManyWithoutUsuarioInput
+    reunionesCreadas?: ReunionCreateNestedManyWithoutCreadorInput
+    participacionesReunion?: ParticipanteReunionCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioUncheckedCreateWithoutCitasInput = {
+    id?: number
+    nombre: string
+    correo: string
+    clave: string
+    rol?: $Enums.RolUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    casos?: CasoUncheckedCreateNestedManyWithoutUsuarioInput
+    casosAsignados?: CasoResponsableUncheckedCreateNestedManyWithoutUsuarioInput
+    audiencias?: AudienciaUncheckedCreateNestedManyWithoutUsuarioInput
+    recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutUsuarioInput
+    reunionesCreadas?: ReunionUncheckedCreateNestedManyWithoutCreadorInput
+    participacionesReunion?: ParticipanteReunionUncheckedCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioCreateOrConnectWithoutCitasInput = {
+    where: UsuarioWhereUniqueInput
+    create: XOR<UsuarioCreateWithoutCitasInput, UsuarioUncheckedCreateWithoutCitasInput>
+  }
+
+  export type CasoUpsertWithoutCitasInput = {
+    update: XOR<CasoUpdateWithoutCitasInput, CasoUncheckedUpdateWithoutCitasInput>
+    create: XOR<CasoCreateWithoutCitasInput, CasoUncheckedCreateWithoutCitasInput>
+    where?: CasoWhereInput
+  }
+
+  export type CasoUpdateToOneWithWhereWithoutCitasInput = {
+    where?: CasoWhereInput
+    data: XOR<CasoUpdateWithoutCitasInput, CasoUncheckedUpdateWithoutCitasInput>
+  }
+
+  export type CasoUpdateWithoutCitasInput = {
+    numero?: StringFieldUpdateOperationsInput | string
+    asunto?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: EnumEstadoCasoFieldUpdateOperationsInput | $Enums.EstadoCaso
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCierre?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuario?: UsuarioUpdateOneRequiredWithoutCasosNestedInput
+    cliente?: ClienteUpdateOneRequiredWithoutCasosNestedInput
+    audiencias?: AudienciaUpdateManyWithoutCasoNestedInput
+    recordatorios?: RecordatorioUpdateManyWithoutCasoNestedInput
+    responsables?: CasoResponsableUpdateManyWithoutCasoNestedInput
+    reuniones?: ReunionUpdateManyWithoutCasoNestedInput
+  }
+
+  export type CasoUncheckedUpdateWithoutCitasInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    numero?: StringFieldUpdateOperationsInput | string
+    asunto?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: EnumEstadoCasoFieldUpdateOperationsInput | $Enums.EstadoCaso
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCierre?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    usuarioId?: IntFieldUpdateOperationsInput | number
+    clienteId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    audiencias?: AudienciaUncheckedUpdateManyWithoutCasoNestedInput
+    recordatorios?: RecordatorioUncheckedUpdateManyWithoutCasoNestedInput
+    responsables?: CasoResponsableUncheckedUpdateManyWithoutCasoNestedInput
+    reuniones?: ReunionUncheckedUpdateManyWithoutCasoNestedInput
+  }
+
+  export type UsuarioUpsertWithoutCitasInput = {
+    update: XOR<UsuarioUpdateWithoutCitasInput, UsuarioUncheckedUpdateWithoutCitasInput>
+    create: XOR<UsuarioCreateWithoutCitasInput, UsuarioUncheckedCreateWithoutCitasInput>
+    where?: UsuarioWhereInput
+  }
+
+  export type UsuarioUpdateToOneWithWhereWithoutCitasInput = {
+    where?: UsuarioWhereInput
+    data: XOR<UsuarioUpdateWithoutCitasInput, UsuarioUncheckedUpdateWithoutCitasInput>
+  }
+
+  export type UsuarioUpdateWithoutCitasInput = {
+    nombre?: StringFieldUpdateOperationsInput | string
+    correo?: StringFieldUpdateOperationsInput | string
+    clave?: StringFieldUpdateOperationsInput | string
+    rol?: EnumRolUsuarioFieldUpdateOperationsInput | $Enums.RolUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    casos?: CasoUpdateManyWithoutUsuarioNestedInput
+    casosAsignados?: CasoResponsableUpdateManyWithoutUsuarioNestedInput
+    audiencias?: AudienciaUpdateManyWithoutUsuarioNestedInput
+    recordatorios?: RecordatorioUpdateManyWithoutUsuarioNestedInput
+    reunionesCreadas?: ReunionUpdateManyWithoutCreadorNestedInput
+    participacionesReunion?: ParticipanteReunionUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioUncheckedUpdateWithoutCitasInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nombre?: StringFieldUpdateOperationsInput | string
+    correo?: StringFieldUpdateOperationsInput | string
+    clave?: StringFieldUpdateOperationsInput | string
+    rol?: EnumRolUsuarioFieldUpdateOperationsInput | $Enums.RolUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    casos?: CasoUncheckedUpdateManyWithoutUsuarioNestedInput
+    casosAsignados?: CasoResponsableUncheckedUpdateManyWithoutUsuarioNestedInput
+    audiencias?: AudienciaUncheckedUpdateManyWithoutUsuarioNestedInput
+    recordatorios?: RecordatorioUncheckedUpdateManyWithoutUsuarioNestedInput
+    reunionesCreadas?: ReunionUncheckedUpdateManyWithoutCreadorNestedInput
+    participacionesReunion?: ParticipanteReunionUncheckedUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type CasoCreateWithoutRecordatoriosInput = {
+    numero: string
+    asunto: string
+    tipo: string
+    estado?: $Enums.EstadoCaso
+    fechaInicio: Date | string
+    fechaCierre?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuario: UsuarioCreateNestedOneWithoutCasosInput
+    cliente: ClienteCreateNestedOneWithoutCasosInput
+    audiencias?: AudienciaCreateNestedManyWithoutCasoInput
+    citas?: CitaCreateNestedManyWithoutCasoInput
+    responsables?: CasoResponsableCreateNestedManyWithoutCasoInput
+    reuniones?: ReunionCreateNestedManyWithoutCasoInput
+  }
+
+  export type CasoUncheckedCreateWithoutRecordatoriosInput = {
+    id?: number
+    numero: string
+    asunto: string
+    tipo: string
+    estado?: $Enums.EstadoCaso
+    fechaInicio: Date | string
+    fechaCierre?: Date | string | null
+    usuarioId: number
+    clienteId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    audiencias?: AudienciaUncheckedCreateNestedManyWithoutCasoInput
+    citas?: CitaUncheckedCreateNestedManyWithoutCasoInput
+    responsables?: CasoResponsableUncheckedCreateNestedManyWithoutCasoInput
+    reuniones?: ReunionUncheckedCreateNestedManyWithoutCasoInput
+  }
+
+  export type CasoCreateOrConnectWithoutRecordatoriosInput = {
+    where: CasoWhereUniqueInput
+    create: XOR<CasoCreateWithoutRecordatoriosInput, CasoUncheckedCreateWithoutRecordatoriosInput>
+  }
+
+  export type UsuarioCreateWithoutRecordatoriosInput = {
+    nombre: string
+    correo: string
+    clave: string
+    rol?: $Enums.RolUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    casos?: CasoCreateNestedManyWithoutUsuarioInput
+    casosAsignados?: CasoResponsableCreateNestedManyWithoutUsuarioInput
+    audiencias?: AudienciaCreateNestedManyWithoutUsuarioInput
+    citas?: CitaCreateNestedManyWithoutUsuarioInput
+    reunionesCreadas?: ReunionCreateNestedManyWithoutCreadorInput
+    participacionesReunion?: ParticipanteReunionCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioUncheckedCreateWithoutRecordatoriosInput = {
+    id?: number
+    nombre: string
+    correo: string
+    clave: string
+    rol?: $Enums.RolUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    casos?: CasoUncheckedCreateNestedManyWithoutUsuarioInput
+    casosAsignados?: CasoResponsableUncheckedCreateNestedManyWithoutUsuarioInput
+    audiencias?: AudienciaUncheckedCreateNestedManyWithoutUsuarioInput
+    citas?: CitaUncheckedCreateNestedManyWithoutUsuarioInput
+    reunionesCreadas?: ReunionUncheckedCreateNestedManyWithoutCreadorInput
+    participacionesReunion?: ParticipanteReunionUncheckedCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioCreateOrConnectWithoutRecordatoriosInput = {
+    where: UsuarioWhereUniqueInput
+    create: XOR<UsuarioCreateWithoutRecordatoriosInput, UsuarioUncheckedCreateWithoutRecordatoriosInput>
+  }
+
+  export type CasoUpsertWithoutRecordatoriosInput = {
+    update: XOR<CasoUpdateWithoutRecordatoriosInput, CasoUncheckedUpdateWithoutRecordatoriosInput>
+    create: XOR<CasoCreateWithoutRecordatoriosInput, CasoUncheckedCreateWithoutRecordatoriosInput>
+    where?: CasoWhereInput
+  }
+
+  export type CasoUpdateToOneWithWhereWithoutRecordatoriosInput = {
+    where?: CasoWhereInput
+    data: XOR<CasoUpdateWithoutRecordatoriosInput, CasoUncheckedUpdateWithoutRecordatoriosInput>
+  }
+
+  export type CasoUpdateWithoutRecordatoriosInput = {
+    numero?: StringFieldUpdateOperationsInput | string
+    asunto?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: EnumEstadoCasoFieldUpdateOperationsInput | $Enums.EstadoCaso
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCierre?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuario?: UsuarioUpdateOneRequiredWithoutCasosNestedInput
+    cliente?: ClienteUpdateOneRequiredWithoutCasosNestedInput
+    audiencias?: AudienciaUpdateManyWithoutCasoNestedInput
+    citas?: CitaUpdateManyWithoutCasoNestedInput
+    responsables?: CasoResponsableUpdateManyWithoutCasoNestedInput
+    reuniones?: ReunionUpdateManyWithoutCasoNestedInput
+  }
+
+  export type CasoUncheckedUpdateWithoutRecordatoriosInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    numero?: StringFieldUpdateOperationsInput | string
+    asunto?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: EnumEstadoCasoFieldUpdateOperationsInput | $Enums.EstadoCaso
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCierre?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    usuarioId?: IntFieldUpdateOperationsInput | number
+    clienteId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    audiencias?: AudienciaUncheckedUpdateManyWithoutCasoNestedInput
+    citas?: CitaUncheckedUpdateManyWithoutCasoNestedInput
+    responsables?: CasoResponsableUncheckedUpdateManyWithoutCasoNestedInput
+    reuniones?: ReunionUncheckedUpdateManyWithoutCasoNestedInput
+  }
+
+  export type UsuarioUpsertWithoutRecordatoriosInput = {
+    update: XOR<UsuarioUpdateWithoutRecordatoriosInput, UsuarioUncheckedUpdateWithoutRecordatoriosInput>
+    create: XOR<UsuarioCreateWithoutRecordatoriosInput, UsuarioUncheckedCreateWithoutRecordatoriosInput>
+    where?: UsuarioWhereInput
+  }
+
+  export type UsuarioUpdateToOneWithWhereWithoutRecordatoriosInput = {
+    where?: UsuarioWhereInput
+    data: XOR<UsuarioUpdateWithoutRecordatoriosInput, UsuarioUncheckedUpdateWithoutRecordatoriosInput>
+  }
+
+  export type UsuarioUpdateWithoutRecordatoriosInput = {
+    nombre?: StringFieldUpdateOperationsInput | string
+    correo?: StringFieldUpdateOperationsInput | string
+    clave?: StringFieldUpdateOperationsInput | string
+    rol?: EnumRolUsuarioFieldUpdateOperationsInput | $Enums.RolUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    casos?: CasoUpdateManyWithoutUsuarioNestedInput
+    casosAsignados?: CasoResponsableUpdateManyWithoutUsuarioNestedInput
+    audiencias?: AudienciaUpdateManyWithoutUsuarioNestedInput
+    citas?: CitaUpdateManyWithoutUsuarioNestedInput
+    reunionesCreadas?: ReunionUpdateManyWithoutCreadorNestedInput
+    participacionesReunion?: ParticipanteReunionUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioUncheckedUpdateWithoutRecordatoriosInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nombre?: StringFieldUpdateOperationsInput | string
+    correo?: StringFieldUpdateOperationsInput | string
+    clave?: StringFieldUpdateOperationsInput | string
+    rol?: EnumRolUsuarioFieldUpdateOperationsInput | $Enums.RolUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    casos?: CasoUncheckedUpdateManyWithoutUsuarioNestedInput
+    casosAsignados?: CasoResponsableUncheckedUpdateManyWithoutUsuarioNestedInput
+    audiencias?: AudienciaUncheckedUpdateManyWithoutUsuarioNestedInput
+    citas?: CitaUncheckedUpdateManyWithoutUsuarioNestedInput
+    reunionesCreadas?: ReunionUncheckedUpdateManyWithoutCreadorNestedInput
+    participacionesReunion?: ParticipanteReunionUncheckedUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type CasoCreateWithoutReunionesInput = {
+    numero: string
+    asunto: string
+    tipo: string
+    estado?: $Enums.EstadoCaso
+    fechaInicio: Date | string
+    fechaCierre?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuario: UsuarioCreateNestedOneWithoutCasosInput
+    cliente: ClienteCreateNestedOneWithoutCasosInput
+    audiencias?: AudienciaCreateNestedManyWithoutCasoInput
+    citas?: CitaCreateNestedManyWithoutCasoInput
+    recordatorios?: RecordatorioCreateNestedManyWithoutCasoInput
+    responsables?: CasoResponsableCreateNestedManyWithoutCasoInput
+  }
+
+  export type CasoUncheckedCreateWithoutReunionesInput = {
+    id?: number
+    numero: string
+    asunto: string
+    tipo: string
+    estado?: $Enums.EstadoCaso
+    fechaInicio: Date | string
+    fechaCierre?: Date | string | null
+    usuarioId: number
+    clienteId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    audiencias?: AudienciaUncheckedCreateNestedManyWithoutCasoInput
+    citas?: CitaUncheckedCreateNestedManyWithoutCasoInput
+    recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutCasoInput
+    responsables?: CasoResponsableUncheckedCreateNestedManyWithoutCasoInput
+  }
+
+  export type CasoCreateOrConnectWithoutReunionesInput = {
+    where: CasoWhereUniqueInput
+    create: XOR<CasoCreateWithoutReunionesInput, CasoUncheckedCreateWithoutReunionesInput>
+  }
+
+  export type UsuarioCreateWithoutReunionesCreadasInput = {
+    nombre: string
+    correo: string
+    clave: string
+    rol?: $Enums.RolUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    casos?: CasoCreateNestedManyWithoutUsuarioInput
+    casosAsignados?: CasoResponsableCreateNestedManyWithoutUsuarioInput
+    audiencias?: AudienciaCreateNestedManyWithoutUsuarioInput
+    citas?: CitaCreateNestedManyWithoutUsuarioInput
+    recordatorios?: RecordatorioCreateNestedManyWithoutUsuarioInput
+    participacionesReunion?: ParticipanteReunionCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioUncheckedCreateWithoutReunionesCreadasInput = {
+    id?: number
+    nombre: string
+    correo: string
+    clave: string
+    rol?: $Enums.RolUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    casos?: CasoUncheckedCreateNestedManyWithoutUsuarioInput
+    casosAsignados?: CasoResponsableUncheckedCreateNestedManyWithoutUsuarioInput
+    audiencias?: AudienciaUncheckedCreateNestedManyWithoutUsuarioInput
+    citas?: CitaUncheckedCreateNestedManyWithoutUsuarioInput
+    recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutUsuarioInput
+    participacionesReunion?: ParticipanteReunionUncheckedCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioCreateOrConnectWithoutReunionesCreadasInput = {
+    where: UsuarioWhereUniqueInput
+    create: XOR<UsuarioCreateWithoutReunionesCreadasInput, UsuarioUncheckedCreateWithoutReunionesCreadasInput>
+  }
+
+  export type ParticipanteReunionCreateWithoutReunionInput = {
+    nombreExterno?: string | null
+    correoExterno?: string | null
+    usuario?: UsuarioCreateNestedOneWithoutParticipacionesReunionInput
+    cliente?: ClienteCreateNestedOneWithoutParticipacionesReunionInput
+  }
+
+  export type ParticipanteReunionUncheckedCreateWithoutReunionInput = {
+    id?: number
+    usuarioId?: number | null
+    clienteId?: number | null
+    nombreExterno?: string | null
+    correoExterno?: string | null
+  }
+
+  export type ParticipanteReunionCreateOrConnectWithoutReunionInput = {
+    where: ParticipanteReunionWhereUniqueInput
+    create: XOR<ParticipanteReunionCreateWithoutReunionInput, ParticipanteReunionUncheckedCreateWithoutReunionInput>
+  }
+
+  export type ParticipanteReunionCreateManyReunionInputEnvelope = {
+    data: ParticipanteReunionCreateManyReunionInput | ParticipanteReunionCreateManyReunionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CasoUpsertWithoutReunionesInput = {
+    update: XOR<CasoUpdateWithoutReunionesInput, CasoUncheckedUpdateWithoutReunionesInput>
+    create: XOR<CasoCreateWithoutReunionesInput, CasoUncheckedCreateWithoutReunionesInput>
+    where?: CasoWhereInput
+  }
+
+  export type CasoUpdateToOneWithWhereWithoutReunionesInput = {
+    where?: CasoWhereInput
+    data: XOR<CasoUpdateWithoutReunionesInput, CasoUncheckedUpdateWithoutReunionesInput>
+  }
+
+  export type CasoUpdateWithoutReunionesInput = {
+    numero?: StringFieldUpdateOperationsInput | string
+    asunto?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: EnumEstadoCasoFieldUpdateOperationsInput | $Enums.EstadoCaso
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCierre?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuario?: UsuarioUpdateOneRequiredWithoutCasosNestedInput
+    cliente?: ClienteUpdateOneRequiredWithoutCasosNestedInput
+    audiencias?: AudienciaUpdateManyWithoutCasoNestedInput
+    citas?: CitaUpdateManyWithoutCasoNestedInput
+    recordatorios?: RecordatorioUpdateManyWithoutCasoNestedInput
+    responsables?: CasoResponsableUpdateManyWithoutCasoNestedInput
+  }
+
+  export type CasoUncheckedUpdateWithoutReunionesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    numero?: StringFieldUpdateOperationsInput | string
+    asunto?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: EnumEstadoCasoFieldUpdateOperationsInput | $Enums.EstadoCaso
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCierre?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    usuarioId?: IntFieldUpdateOperationsInput | number
+    clienteId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    audiencias?: AudienciaUncheckedUpdateManyWithoutCasoNestedInput
+    citas?: CitaUncheckedUpdateManyWithoutCasoNestedInput
+    recordatorios?: RecordatorioUncheckedUpdateManyWithoutCasoNestedInput
+    responsables?: CasoResponsableUncheckedUpdateManyWithoutCasoNestedInput
+  }
+
+  export type UsuarioUpsertWithoutReunionesCreadasInput = {
+    update: XOR<UsuarioUpdateWithoutReunionesCreadasInput, UsuarioUncheckedUpdateWithoutReunionesCreadasInput>
+    create: XOR<UsuarioCreateWithoutReunionesCreadasInput, UsuarioUncheckedCreateWithoutReunionesCreadasInput>
+    where?: UsuarioWhereInput
+  }
+
+  export type UsuarioUpdateToOneWithWhereWithoutReunionesCreadasInput = {
+    where?: UsuarioWhereInput
+    data: XOR<UsuarioUpdateWithoutReunionesCreadasInput, UsuarioUncheckedUpdateWithoutReunionesCreadasInput>
+  }
+
+  export type UsuarioUpdateWithoutReunionesCreadasInput = {
+    nombre?: StringFieldUpdateOperationsInput | string
+    correo?: StringFieldUpdateOperationsInput | string
+    clave?: StringFieldUpdateOperationsInput | string
+    rol?: EnumRolUsuarioFieldUpdateOperationsInput | $Enums.RolUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    casos?: CasoUpdateManyWithoutUsuarioNestedInput
+    casosAsignados?: CasoResponsableUpdateManyWithoutUsuarioNestedInput
+    audiencias?: AudienciaUpdateManyWithoutUsuarioNestedInput
+    citas?: CitaUpdateManyWithoutUsuarioNestedInput
+    recordatorios?: RecordatorioUpdateManyWithoutUsuarioNestedInput
+    participacionesReunion?: ParticipanteReunionUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioUncheckedUpdateWithoutReunionesCreadasInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nombre?: StringFieldUpdateOperationsInput | string
+    correo?: StringFieldUpdateOperationsInput | string
+    clave?: StringFieldUpdateOperationsInput | string
+    rol?: EnumRolUsuarioFieldUpdateOperationsInput | $Enums.RolUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    casos?: CasoUncheckedUpdateManyWithoutUsuarioNestedInput
+    casosAsignados?: CasoResponsableUncheckedUpdateManyWithoutUsuarioNestedInput
+    audiencias?: AudienciaUncheckedUpdateManyWithoutUsuarioNestedInput
+    citas?: CitaUncheckedUpdateManyWithoutUsuarioNestedInput
+    recordatorios?: RecordatorioUncheckedUpdateManyWithoutUsuarioNestedInput
+    participacionesReunion?: ParticipanteReunionUncheckedUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type ParticipanteReunionUpsertWithWhereUniqueWithoutReunionInput = {
+    where: ParticipanteReunionWhereUniqueInput
+    update: XOR<ParticipanteReunionUpdateWithoutReunionInput, ParticipanteReunionUncheckedUpdateWithoutReunionInput>
+    create: XOR<ParticipanteReunionCreateWithoutReunionInput, ParticipanteReunionUncheckedCreateWithoutReunionInput>
+  }
+
+  export type ParticipanteReunionUpdateWithWhereUniqueWithoutReunionInput = {
+    where: ParticipanteReunionWhereUniqueInput
+    data: XOR<ParticipanteReunionUpdateWithoutReunionInput, ParticipanteReunionUncheckedUpdateWithoutReunionInput>
+  }
+
+  export type ParticipanteReunionUpdateManyWithWhereWithoutReunionInput = {
+    where: ParticipanteReunionScalarWhereInput
+    data: XOR<ParticipanteReunionUpdateManyMutationInput, ParticipanteReunionUncheckedUpdateManyWithoutReunionInput>
+  }
+
+  export type ReunionCreateWithoutParticipantesInput = {
+    titulo: string
+    fecha: Date | string
+    lugar?: string | null
+    observaciones?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    caso?: CasoCreateNestedOneWithoutReunionesInput
+    creador: UsuarioCreateNestedOneWithoutReunionesCreadasInput
+  }
+
+  export type ReunionUncheckedCreateWithoutParticipantesInput = {
+    id?: number
+    titulo: string
+    fecha: Date | string
+    lugar?: string | null
+    observaciones?: string | null
+    casoId?: number | null
+    creadorId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ReunionCreateOrConnectWithoutParticipantesInput = {
+    where: ReunionWhereUniqueInput
+    create: XOR<ReunionCreateWithoutParticipantesInput, ReunionUncheckedCreateWithoutParticipantesInput>
+  }
+
+  export type UsuarioCreateWithoutParticipacionesReunionInput = {
+    nombre: string
+    correo: string
+    clave: string
+    rol?: $Enums.RolUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    casos?: CasoCreateNestedManyWithoutUsuarioInput
+    casosAsignados?: CasoResponsableCreateNestedManyWithoutUsuarioInput
+    audiencias?: AudienciaCreateNestedManyWithoutUsuarioInput
+    citas?: CitaCreateNestedManyWithoutUsuarioInput
+    recordatorios?: RecordatorioCreateNestedManyWithoutUsuarioInput
+    reunionesCreadas?: ReunionCreateNestedManyWithoutCreadorInput
+  }
+
+  export type UsuarioUncheckedCreateWithoutParticipacionesReunionInput = {
+    id?: number
+    nombre: string
+    correo: string
+    clave: string
+    rol?: $Enums.RolUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    casos?: CasoUncheckedCreateNestedManyWithoutUsuarioInput
+    casosAsignados?: CasoResponsableUncheckedCreateNestedManyWithoutUsuarioInput
+    audiencias?: AudienciaUncheckedCreateNestedManyWithoutUsuarioInput
+    citas?: CitaUncheckedCreateNestedManyWithoutUsuarioInput
+    recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutUsuarioInput
+    reunionesCreadas?: ReunionUncheckedCreateNestedManyWithoutCreadorInput
+  }
+
+  export type UsuarioCreateOrConnectWithoutParticipacionesReunionInput = {
+    where: UsuarioWhereUniqueInput
+    create: XOR<UsuarioCreateWithoutParticipacionesReunionInput, UsuarioUncheckedCreateWithoutParticipacionesReunionInput>
+  }
+
+  export type ClienteCreateWithoutParticipacionesReunionInput = {
+    nombre: string
+    correo: string
+    telefono: string
+    direccion?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    casos?: CasoCreateNestedManyWithoutClienteInput
+  }
+
+  export type ClienteUncheckedCreateWithoutParticipacionesReunionInput = {
+    id?: number
+    nombre: string
+    correo: string
+    telefono: string
+    direccion?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    casos?: CasoUncheckedCreateNestedManyWithoutClienteInput
+  }
+
+  export type ClienteCreateOrConnectWithoutParticipacionesReunionInput = {
+    where: ClienteWhereUniqueInput
+    create: XOR<ClienteCreateWithoutParticipacionesReunionInput, ClienteUncheckedCreateWithoutParticipacionesReunionInput>
+  }
+
+  export type ReunionUpsertWithoutParticipantesInput = {
+    update: XOR<ReunionUpdateWithoutParticipantesInput, ReunionUncheckedUpdateWithoutParticipantesInput>
+    create: XOR<ReunionCreateWithoutParticipantesInput, ReunionUncheckedCreateWithoutParticipantesInput>
+    where?: ReunionWhereInput
+  }
+
+  export type ReunionUpdateToOneWithWhereWithoutParticipantesInput = {
+    where?: ReunionWhereInput
+    data: XOR<ReunionUpdateWithoutParticipantesInput, ReunionUncheckedUpdateWithoutParticipantesInput>
+  }
+
+  export type ReunionUpdateWithoutParticipantesInput = {
+    titulo?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    lugar?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    caso?: CasoUpdateOneWithoutReunionesNestedInput
+    creador?: UsuarioUpdateOneRequiredWithoutReunionesCreadasNestedInput
+  }
+
+  export type ReunionUncheckedUpdateWithoutParticipantesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    titulo?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    lugar?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    casoId?: NullableIntFieldUpdateOperationsInput | number | null
+    creadorId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UsuarioUpsertWithoutParticipacionesReunionInput = {
+    update: XOR<UsuarioUpdateWithoutParticipacionesReunionInput, UsuarioUncheckedUpdateWithoutParticipacionesReunionInput>
+    create: XOR<UsuarioCreateWithoutParticipacionesReunionInput, UsuarioUncheckedCreateWithoutParticipacionesReunionInput>
+    where?: UsuarioWhereInput
+  }
+
+  export type UsuarioUpdateToOneWithWhereWithoutParticipacionesReunionInput = {
+    where?: UsuarioWhereInput
+    data: XOR<UsuarioUpdateWithoutParticipacionesReunionInput, UsuarioUncheckedUpdateWithoutParticipacionesReunionInput>
+  }
+
+  export type UsuarioUpdateWithoutParticipacionesReunionInput = {
+    nombre?: StringFieldUpdateOperationsInput | string
+    correo?: StringFieldUpdateOperationsInput | string
+    clave?: StringFieldUpdateOperationsInput | string
+    rol?: EnumRolUsuarioFieldUpdateOperationsInput | $Enums.RolUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    casos?: CasoUpdateManyWithoutUsuarioNestedInput
+    casosAsignados?: CasoResponsableUpdateManyWithoutUsuarioNestedInput
+    audiencias?: AudienciaUpdateManyWithoutUsuarioNestedInput
+    citas?: CitaUpdateManyWithoutUsuarioNestedInput
+    recordatorios?: RecordatorioUpdateManyWithoutUsuarioNestedInput
+    reunionesCreadas?: ReunionUpdateManyWithoutCreadorNestedInput
+  }
+
+  export type UsuarioUncheckedUpdateWithoutParticipacionesReunionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nombre?: StringFieldUpdateOperationsInput | string
+    correo?: StringFieldUpdateOperationsInput | string
+    clave?: StringFieldUpdateOperationsInput | string
+    rol?: EnumRolUsuarioFieldUpdateOperationsInput | $Enums.RolUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    casos?: CasoUncheckedUpdateManyWithoutUsuarioNestedInput
+    casosAsignados?: CasoResponsableUncheckedUpdateManyWithoutUsuarioNestedInput
+    audiencias?: AudienciaUncheckedUpdateManyWithoutUsuarioNestedInput
+    citas?: CitaUncheckedUpdateManyWithoutUsuarioNestedInput
+    recordatorios?: RecordatorioUncheckedUpdateManyWithoutUsuarioNestedInput
+    reunionesCreadas?: ReunionUncheckedUpdateManyWithoutCreadorNestedInput
+  }
+
+  export type ClienteUpsertWithoutParticipacionesReunionInput = {
+    update: XOR<ClienteUpdateWithoutParticipacionesReunionInput, ClienteUncheckedUpdateWithoutParticipacionesReunionInput>
+    create: XOR<ClienteCreateWithoutParticipacionesReunionInput, ClienteUncheckedCreateWithoutParticipacionesReunionInput>
+    where?: ClienteWhereInput
+  }
+
+  export type ClienteUpdateToOneWithWhereWithoutParticipacionesReunionInput = {
+    where?: ClienteWhereInput
+    data: XOR<ClienteUpdateWithoutParticipacionesReunionInput, ClienteUncheckedUpdateWithoutParticipacionesReunionInput>
+  }
+
+  export type ClienteUpdateWithoutParticipacionesReunionInput = {
+    nombre?: StringFieldUpdateOperationsInput | string
+    correo?: StringFieldUpdateOperationsInput | string
+    telefono?: StringFieldUpdateOperationsInput | string
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    casos?: CasoUpdateManyWithoutClienteNestedInput
+  }
+
+  export type ClienteUncheckedUpdateWithoutParticipacionesReunionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nombre?: StringFieldUpdateOperationsInput | string
+    correo?: StringFieldUpdateOperationsInput | string
+    telefono?: StringFieldUpdateOperationsInput | string
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    casos?: CasoUncheckedUpdateManyWithoutClienteNestedInput
   }
 
   export type CasoCreateManyUsuarioInput = {
@@ -14088,6 +18269,25 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ReunionCreateManyCreadorInput = {
+    id?: number
+    titulo: string
+    fecha: Date | string
+    lugar?: string | null
+    observaciones?: string | null
+    casoId?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ParticipanteReunionCreateManyUsuarioInput = {
+    id?: number
+    reunionId: number
+    clienteId?: number | null
+    nombreExterno?: string | null
+    correoExterno?: string | null
+  }
+
   export type CasoUpdateWithoutUsuarioInput = {
     numero?: StringFieldUpdateOperationsInput | string
     asunto?: StringFieldUpdateOperationsInput | string
@@ -14102,6 +18302,7 @@ export namespace Prisma {
     citas?: CitaUpdateManyWithoutCasoNestedInput
     recordatorios?: RecordatorioUpdateManyWithoutCasoNestedInput
     responsables?: CasoResponsableUpdateManyWithoutCasoNestedInput
+    reuniones?: ReunionUpdateManyWithoutCasoNestedInput
   }
 
   export type CasoUncheckedUpdateWithoutUsuarioInput = {
@@ -14119,6 +18320,7 @@ export namespace Prisma {
     citas?: CitaUncheckedUpdateManyWithoutCasoNestedInput
     recordatorios?: RecordatorioUncheckedUpdateManyWithoutCasoNestedInput
     responsables?: CasoResponsableUncheckedUpdateManyWithoutCasoNestedInput
+    reuniones?: ReunionUncheckedUpdateManyWithoutCasoNestedInput
   }
 
   export type CasoUncheckedUpdateManyWithoutUsuarioInput = {
@@ -14247,6 +18449,63 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ReunionUpdateWithoutCreadorInput = {
+    titulo?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    lugar?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    caso?: CasoUpdateOneWithoutReunionesNestedInput
+    participantes?: ParticipanteReunionUpdateManyWithoutReunionNestedInput
+  }
+
+  export type ReunionUncheckedUpdateWithoutCreadorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    titulo?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    lugar?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    casoId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    participantes?: ParticipanteReunionUncheckedUpdateManyWithoutReunionNestedInput
+  }
+
+  export type ReunionUncheckedUpdateManyWithoutCreadorInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    titulo?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    lugar?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    casoId?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ParticipanteReunionUpdateWithoutUsuarioInput = {
+    nombreExterno?: NullableStringFieldUpdateOperationsInput | string | null
+    correoExterno?: NullableStringFieldUpdateOperationsInput | string | null
+    reunion?: ReunionUpdateOneRequiredWithoutParticipantesNestedInput
+    cliente?: ClienteUpdateOneWithoutParticipacionesReunionNestedInput
+  }
+
+  export type ParticipanteReunionUncheckedUpdateWithoutUsuarioInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    reunionId?: IntFieldUpdateOperationsInput | number
+    clienteId?: NullableIntFieldUpdateOperationsInput | number | null
+    nombreExterno?: NullableStringFieldUpdateOperationsInput | string | null
+    correoExterno?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ParticipanteReunionUncheckedUpdateManyWithoutUsuarioInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    reunionId?: IntFieldUpdateOperationsInput | number
+    clienteId?: NullableIntFieldUpdateOperationsInput | number | null
+    nombreExterno?: NullableStringFieldUpdateOperationsInput | string | null
+    correoExterno?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type CasoCreateManyClienteInput = {
     id?: number
     numero: string
@@ -14258,6 +18517,14 @@ export namespace Prisma {
     usuarioId: number
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type ParticipanteReunionCreateManyClienteInput = {
+    id?: number
+    reunionId: number
+    usuarioId?: number | null
+    nombreExterno?: string | null
+    correoExterno?: string | null
   }
 
   export type CasoUpdateWithoutClienteInput = {
@@ -14274,6 +18541,7 @@ export namespace Prisma {
     citas?: CitaUpdateManyWithoutCasoNestedInput
     recordatorios?: RecordatorioUpdateManyWithoutCasoNestedInput
     responsables?: CasoResponsableUpdateManyWithoutCasoNestedInput
+    reuniones?: ReunionUpdateManyWithoutCasoNestedInput
   }
 
   export type CasoUncheckedUpdateWithoutClienteInput = {
@@ -14291,6 +18559,7 @@ export namespace Prisma {
     citas?: CitaUncheckedUpdateManyWithoutCasoNestedInput
     recordatorios?: RecordatorioUncheckedUpdateManyWithoutCasoNestedInput
     responsables?: CasoResponsableUncheckedUpdateManyWithoutCasoNestedInput
+    reuniones?: ReunionUncheckedUpdateManyWithoutCasoNestedInput
   }
 
   export type CasoUncheckedUpdateManyWithoutClienteInput = {
@@ -14304,6 +18573,29 @@ export namespace Prisma {
     usuarioId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ParticipanteReunionUpdateWithoutClienteInput = {
+    nombreExterno?: NullableStringFieldUpdateOperationsInput | string | null
+    correoExterno?: NullableStringFieldUpdateOperationsInput | string | null
+    reunion?: ReunionUpdateOneRequiredWithoutParticipantesNestedInput
+    usuario?: UsuarioUpdateOneWithoutParticipacionesReunionNestedInput
+  }
+
+  export type ParticipanteReunionUncheckedUpdateWithoutClienteInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    reunionId?: IntFieldUpdateOperationsInput | number
+    usuarioId?: NullableIntFieldUpdateOperationsInput | number | null
+    nombreExterno?: NullableStringFieldUpdateOperationsInput | string | null
+    correoExterno?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ParticipanteReunionUncheckedUpdateManyWithoutClienteInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    reunionId?: IntFieldUpdateOperationsInput | number
+    usuarioId?: NullableIntFieldUpdateOperationsInput | number | null
+    nombreExterno?: NullableStringFieldUpdateOperationsInput | string | null
+    correoExterno?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AudienciaCreateManyCasoInput = {
@@ -14343,6 +18635,17 @@ export namespace Prisma {
     usuarioId: number
     esPrincipal?: boolean
     createdAt?: Date | string
+  }
+
+  export type ReunionCreateManyCasoInput = {
+    id?: number
+    titulo: string
+    fecha: Date | string
+    lugar?: string | null
+    observaciones?: string | null
+    creadorId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type AudienciaUpdateWithoutCasoInput = {
@@ -14456,6 +18759,71 @@ export namespace Prisma {
     usuarioId?: IntFieldUpdateOperationsInput | number
     esPrincipal?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReunionUpdateWithoutCasoInput = {
+    titulo?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    lugar?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creador?: UsuarioUpdateOneRequiredWithoutReunionesCreadasNestedInput
+    participantes?: ParticipanteReunionUpdateManyWithoutReunionNestedInput
+  }
+
+  export type ReunionUncheckedUpdateWithoutCasoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    titulo?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    lugar?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    creadorId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    participantes?: ParticipanteReunionUncheckedUpdateManyWithoutReunionNestedInput
+  }
+
+  export type ReunionUncheckedUpdateManyWithoutCasoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    titulo?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    lugar?: NullableStringFieldUpdateOperationsInput | string | null
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    creadorId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ParticipanteReunionCreateManyReunionInput = {
+    id?: number
+    usuarioId?: number | null
+    clienteId?: number | null
+    nombreExterno?: string | null
+    correoExterno?: string | null
+  }
+
+  export type ParticipanteReunionUpdateWithoutReunionInput = {
+    nombreExterno?: NullableStringFieldUpdateOperationsInput | string | null
+    correoExterno?: NullableStringFieldUpdateOperationsInput | string | null
+    usuario?: UsuarioUpdateOneWithoutParticipacionesReunionNestedInput
+    cliente?: ClienteUpdateOneWithoutParticipacionesReunionNestedInput
+  }
+
+  export type ParticipanteReunionUncheckedUpdateWithoutReunionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    usuarioId?: NullableIntFieldUpdateOperationsInput | number | null
+    clienteId?: NullableIntFieldUpdateOperationsInput | number | null
+    nombreExterno?: NullableStringFieldUpdateOperationsInput | string | null
+    correoExterno?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ParticipanteReunionUncheckedUpdateManyWithoutReunionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    usuarioId?: NullableIntFieldUpdateOperationsInput | number | null
+    clienteId?: NullableIntFieldUpdateOperationsInput | number | null
+    nombreExterno?: NullableStringFieldUpdateOperationsInput | string | null
+    correoExterno?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

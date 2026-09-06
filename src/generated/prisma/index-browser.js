@@ -154,6 +154,14 @@ exports.Prisma.CasoScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CasoResponsableScalarFieldEnum = {
+  id: 'id',
+  casoId: 'casoId',
+  usuarioId: 'usuarioId',
+  esPrincipal: 'esPrincipal',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.AudienciaScalarFieldEnum = {
   id: 'id',
   fecha: 'fecha',
@@ -189,12 +197,25 @@ exports.Prisma.RecordatorioScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.CasoResponsableScalarFieldEnum = {
+exports.Prisma.ReunionScalarFieldEnum = {
   id: 'id',
+  titulo: 'titulo',
+  fecha: 'fecha',
+  lugar: 'lugar',
+  observaciones: 'observaciones',
   casoId: 'casoId',
+  creadorId: 'creadorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ParticipanteReunionScalarFieldEnum = {
+  id: 'id',
+  reunionId: 'reunionId',
   usuarioId: 'usuarioId',
-  esPrincipal: 'esPrincipal',
-  createdAt: 'createdAt'
+  clienteId: 'clienteId',
+  nombreExterno: 'nombreExterno',
+  correoExterno: 'correoExterno'
 };
 
 exports.Prisma.SortOrder = {
@@ -234,10 +255,12 @@ exports.Prisma.ModelName = {
   Usuario: 'Usuario',
   Cliente: 'Cliente',
   Caso: 'Caso',
+  CasoResponsable: 'CasoResponsable',
   Audiencia: 'Audiencia',
   Cita: 'Cita',
   Recordatorio: 'Recordatorio',
-  CasoResponsable: 'CasoResponsable'
+  Reunion: 'Reunion',
+  ParticipanteReunion: 'ParticipanteReunion'
 };
 
 /**
