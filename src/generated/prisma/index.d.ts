@@ -43,6 +43,11 @@ export type Cita = $Result.DefaultSelection<Prisma.$CitaPayload>
  * 
  */
 export type Recordatorio = $Result.DefaultSelection<Prisma.$RecordatorioPayload>
+/**
+ * Model CasoResponsable
+ * 
+ */
+export type CasoResponsable = $Result.DefaultSelection<Prisma.$CasoResponsablePayload>
 
 /**
  * Enums
@@ -50,6 +55,7 @@ export type Recordatorio = $Result.DefaultSelection<Prisma.$RecordatorioPayload>
 export namespace $Enums {
   export const RolUsuario: {
   ADMINISTRADOR: 'ADMINISTRADOR',
+  ABOGADO: 'ABOGADO',
   ASISTENTE_LEGAL: 'ASISTENTE_LEGAL'
 };
 
@@ -268,6 +274,16 @@ export class PrismaClient<
     * ```
     */
   get recordatorio(): Prisma.RecordatorioDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.casoResponsable`: Exposes CRUD operations for the **CasoResponsable** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CasoResponsables
+    * const casoResponsables = await prisma.casoResponsable.findMany()
+    * ```
+    */
+  get casoResponsable(): Prisma.CasoResponsableDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -707,7 +723,8 @@ export namespace Prisma {
     Caso: 'Caso',
     Audiencia: 'Audiencia',
     Cita: 'Cita',
-    Recordatorio: 'Recordatorio'
+    Recordatorio: 'Recordatorio',
+    CasoResponsable: 'CasoResponsable'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -723,7 +740,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "usuario" | "cliente" | "caso" | "audiencia" | "cita" | "recordatorio"
+      modelProps: "usuario" | "cliente" | "caso" | "audiencia" | "cita" | "recordatorio" | "casoResponsable"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1171,6 +1188,80 @@ export namespace Prisma {
           }
         }
       }
+      CasoResponsable: {
+        payload: Prisma.$CasoResponsablePayload<ExtArgs>
+        fields: Prisma.CasoResponsableFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CasoResponsableFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CasoResponsableFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>
+          }
+          findFirst: {
+            args: Prisma.CasoResponsableFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CasoResponsableFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>
+          }
+          findMany: {
+            args: Prisma.CasoResponsableFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>[]
+          }
+          create: {
+            args: Prisma.CasoResponsableCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>
+          }
+          createMany: {
+            args: Prisma.CasoResponsableCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CasoResponsableCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>[]
+          }
+          delete: {
+            args: Prisma.CasoResponsableDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>
+          }
+          update: {
+            args: Prisma.CasoResponsableUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>
+          }
+          deleteMany: {
+            args: Prisma.CasoResponsableDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CasoResponsableUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CasoResponsableUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>[]
+          }
+          upsert: {
+            args: Prisma.CasoResponsableUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CasoResponsablePayload>
+          }
+          aggregate: {
+            args: Prisma.CasoResponsableAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCasoResponsable>
+          }
+          groupBy: {
+            args: Prisma.CasoResponsableGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CasoResponsableGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CasoResponsableCountArgs<ExtArgs>
+            result: $Utils.Optional<CasoResponsableCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1285,6 +1376,7 @@ export namespace Prisma {
     audiencia?: AudienciaOmit
     cita?: CitaOmit
     recordatorio?: RecordatorioOmit
+    casoResponsable?: CasoResponsableOmit
   }
 
   /* Types for Logging */
@@ -1366,6 +1458,7 @@ export namespace Prisma {
 
   export type UsuarioCountOutputType = {
     casos: number
+    casosAsignados: number
     audiencias: number
     citas: number
     recordatorios: number
@@ -1373,6 +1466,7 @@ export namespace Prisma {
 
   export type UsuarioCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     casos?: boolean | UsuarioCountOutputTypeCountCasosArgs
+    casosAsignados?: boolean | UsuarioCountOutputTypeCountCasosAsignadosArgs
     audiencias?: boolean | UsuarioCountOutputTypeCountAudienciasArgs
     citas?: boolean | UsuarioCountOutputTypeCountCitasArgs
     recordatorios?: boolean | UsuarioCountOutputTypeCountRecordatoriosArgs
@@ -1394,6 +1488,13 @@ export namespace Prisma {
    */
   export type UsuarioCountOutputTypeCountCasosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CasoWhereInput
+  }
+
+  /**
+   * UsuarioCountOutputType without action
+   */
+  export type UsuarioCountOutputTypeCountCasosAsignadosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CasoResponsableWhereInput
   }
 
   /**
@@ -1457,12 +1558,14 @@ export namespace Prisma {
     audiencias: number
     citas: number
     recordatorios: number
+    responsables: number
   }
 
   export type CasoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     audiencias?: boolean | CasoCountOutputTypeCountAudienciasArgs
     citas?: boolean | CasoCountOutputTypeCountCitasArgs
     recordatorios?: boolean | CasoCountOutputTypeCountRecordatoriosArgs
+    responsables?: boolean | CasoCountOutputTypeCountResponsablesArgs
   }
 
   // Custom InputTypes
@@ -1495,6 +1598,13 @@ export namespace Prisma {
    */
   export type CasoCountOutputTypeCountRecordatoriosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RecordatorioWhereInput
+  }
+
+  /**
+   * CasoCountOutputType without action
+   */
+  export type CasoCountOutputTypeCountResponsablesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CasoResponsableWhereInput
   }
 
 
@@ -1717,6 +1827,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     casos?: boolean | Usuario$casosArgs<ExtArgs>
+    casosAsignados?: boolean | Usuario$casosAsignadosArgs<ExtArgs>
     audiencias?: boolean | Usuario$audienciasArgs<ExtArgs>
     citas?: boolean | Usuario$citasArgs<ExtArgs>
     recordatorios?: boolean | Usuario$recordatoriosArgs<ExtArgs>
@@ -1756,6 +1867,7 @@ export namespace Prisma {
   export type UsuarioOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "correo" | "clave" | "rol" | "createdAt" | "updatedAt", ExtArgs["result"]["usuario"]>
   export type UsuarioInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     casos?: boolean | Usuario$casosArgs<ExtArgs>
+    casosAsignados?: boolean | Usuario$casosAsignadosArgs<ExtArgs>
     audiencias?: boolean | Usuario$audienciasArgs<ExtArgs>
     citas?: boolean | Usuario$citasArgs<ExtArgs>
     recordatorios?: boolean | Usuario$recordatoriosArgs<ExtArgs>
@@ -1768,6 +1880,7 @@ export namespace Prisma {
     name: "Usuario"
     objects: {
       casos: Prisma.$CasoPayload<ExtArgs>[]
+      casosAsignados: Prisma.$CasoResponsablePayload<ExtArgs>[]
       audiencias: Prisma.$AudienciaPayload<ExtArgs>[]
       citas: Prisma.$CitaPayload<ExtArgs>[]
       recordatorios: Prisma.$RecordatorioPayload<ExtArgs>[]
@@ -2175,6 +2288,7 @@ export namespace Prisma {
   export interface Prisma__UsuarioClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     casos<T extends Usuario$casosArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$casosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CasoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    casosAsignados<T extends Usuario$casosAsignadosArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$casosAsignadosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     audiencias<T extends Usuario$audienciasArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$audienciasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AudienciaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     citas<T extends Usuario$citasArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$citasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CitaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     recordatorios<T extends Usuario$recordatoriosArgs<ExtArgs> = {}>(args?: Subset<T, Usuario$recordatoriosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecordatorioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2628,6 +2742,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CasoScalarFieldEnum | CasoScalarFieldEnum[]
+  }
+
+  /**
+   * Usuario.casosAsignados
+   */
+  export type Usuario$casosAsignadosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+    where?: CasoResponsableWhereInput
+    orderBy?: CasoResponsableOrderByWithRelationInput | CasoResponsableOrderByWithRelationInput[]
+    cursor?: CasoResponsableWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CasoResponsableScalarFieldEnum | CasoResponsableScalarFieldEnum[]
   }
 
   /**
@@ -4115,6 +4253,7 @@ export namespace Prisma {
     audiencias?: boolean | Caso$audienciasArgs<ExtArgs>
     citas?: boolean | Caso$citasArgs<ExtArgs>
     recordatorios?: boolean | Caso$recordatoriosArgs<ExtArgs>
+    responsables?: boolean | Caso$responsablesArgs<ExtArgs>
     _count?: boolean | CasoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["caso"]>
 
@@ -4171,6 +4310,7 @@ export namespace Prisma {
     audiencias?: boolean | Caso$audienciasArgs<ExtArgs>
     citas?: boolean | Caso$citasArgs<ExtArgs>
     recordatorios?: boolean | Caso$recordatoriosArgs<ExtArgs>
+    responsables?: boolean | Caso$responsablesArgs<ExtArgs>
     _count?: boolean | CasoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CasoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4190,6 +4330,7 @@ export namespace Prisma {
       audiencias: Prisma.$AudienciaPayload<ExtArgs>[]
       citas: Prisma.$CitaPayload<ExtArgs>[]
       recordatorios: Prisma.$RecordatorioPayload<ExtArgs>[]
+      responsables: Prisma.$CasoResponsablePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -4602,6 +4743,7 @@ export namespace Prisma {
     audiencias<T extends Caso$audienciasArgs<ExtArgs> = {}>(args?: Subset<T, Caso$audienciasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AudienciaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     citas<T extends Caso$citasArgs<ExtArgs> = {}>(args?: Subset<T, Caso$citasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CitaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     recordatorios<T extends Caso$recordatoriosArgs<ExtArgs> = {}>(args?: Subset<T, Caso$recordatoriosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecordatorioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    responsables<T extends Caso$responsablesArgs<ExtArgs> = {}>(args?: Subset<T, Caso$responsablesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5112,6 +5254,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RecordatorioScalarFieldEnum | RecordatorioScalarFieldEnum[]
+  }
+
+  /**
+   * Caso.responsables
+   */
+  export type Caso$responsablesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+    where?: CasoResponsableWhereInput
+    orderBy?: CasoResponsableOrderByWithRelationInput | CasoResponsableOrderByWithRelationInput[]
+    cursor?: CasoResponsableWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CasoResponsableScalarFieldEnum | CasoResponsableScalarFieldEnum[]
   }
 
   /**
@@ -8654,6 +8820,1119 @@ export namespace Prisma {
 
 
   /**
+   * Model CasoResponsable
+   */
+
+  export type AggregateCasoResponsable = {
+    _count: CasoResponsableCountAggregateOutputType | null
+    _avg: CasoResponsableAvgAggregateOutputType | null
+    _sum: CasoResponsableSumAggregateOutputType | null
+    _min: CasoResponsableMinAggregateOutputType | null
+    _max: CasoResponsableMaxAggregateOutputType | null
+  }
+
+  export type CasoResponsableAvgAggregateOutputType = {
+    id: number | null
+    casoId: number | null
+    usuarioId: number | null
+  }
+
+  export type CasoResponsableSumAggregateOutputType = {
+    id: number | null
+    casoId: number | null
+    usuarioId: number | null
+  }
+
+  export type CasoResponsableMinAggregateOutputType = {
+    id: number | null
+    casoId: number | null
+    usuarioId: number | null
+    esPrincipal: boolean | null
+    createdAt: Date | null
+  }
+
+  export type CasoResponsableMaxAggregateOutputType = {
+    id: number | null
+    casoId: number | null
+    usuarioId: number | null
+    esPrincipal: boolean | null
+    createdAt: Date | null
+  }
+
+  export type CasoResponsableCountAggregateOutputType = {
+    id: number
+    casoId: number
+    usuarioId: number
+    esPrincipal: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type CasoResponsableAvgAggregateInputType = {
+    id?: true
+    casoId?: true
+    usuarioId?: true
+  }
+
+  export type CasoResponsableSumAggregateInputType = {
+    id?: true
+    casoId?: true
+    usuarioId?: true
+  }
+
+  export type CasoResponsableMinAggregateInputType = {
+    id?: true
+    casoId?: true
+    usuarioId?: true
+    esPrincipal?: true
+    createdAt?: true
+  }
+
+  export type CasoResponsableMaxAggregateInputType = {
+    id?: true
+    casoId?: true
+    usuarioId?: true
+    esPrincipal?: true
+    createdAt?: true
+  }
+
+  export type CasoResponsableCountAggregateInputType = {
+    id?: true
+    casoId?: true
+    usuarioId?: true
+    esPrincipal?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type CasoResponsableAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CasoResponsable to aggregate.
+     */
+    where?: CasoResponsableWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CasoResponsables to fetch.
+     */
+    orderBy?: CasoResponsableOrderByWithRelationInput | CasoResponsableOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CasoResponsableWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CasoResponsables from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CasoResponsables.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CasoResponsables
+    **/
+    _count?: true | CasoResponsableCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CasoResponsableAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CasoResponsableSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CasoResponsableMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CasoResponsableMaxAggregateInputType
+  }
+
+  export type GetCasoResponsableAggregateType<T extends CasoResponsableAggregateArgs> = {
+        [P in keyof T & keyof AggregateCasoResponsable]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCasoResponsable[P]>
+      : GetScalarType<T[P], AggregateCasoResponsable[P]>
+  }
+
+
+
+
+  export type CasoResponsableGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CasoResponsableWhereInput
+    orderBy?: CasoResponsableOrderByWithAggregationInput | CasoResponsableOrderByWithAggregationInput[]
+    by: CasoResponsableScalarFieldEnum[] | CasoResponsableScalarFieldEnum
+    having?: CasoResponsableScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CasoResponsableCountAggregateInputType | true
+    _avg?: CasoResponsableAvgAggregateInputType
+    _sum?: CasoResponsableSumAggregateInputType
+    _min?: CasoResponsableMinAggregateInputType
+    _max?: CasoResponsableMaxAggregateInputType
+  }
+
+  export type CasoResponsableGroupByOutputType = {
+    id: number
+    casoId: number
+    usuarioId: number
+    esPrincipal: boolean
+    createdAt: Date
+    _count: CasoResponsableCountAggregateOutputType | null
+    _avg: CasoResponsableAvgAggregateOutputType | null
+    _sum: CasoResponsableSumAggregateOutputType | null
+    _min: CasoResponsableMinAggregateOutputType | null
+    _max: CasoResponsableMaxAggregateOutputType | null
+  }
+
+  type GetCasoResponsableGroupByPayload<T extends CasoResponsableGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CasoResponsableGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CasoResponsableGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CasoResponsableGroupByOutputType[P]>
+            : GetScalarType<T[P], CasoResponsableGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CasoResponsableSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    casoId?: boolean
+    usuarioId?: boolean
+    esPrincipal?: boolean
+    createdAt?: boolean
+    caso?: boolean | CasoDefaultArgs<ExtArgs>
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["casoResponsable"]>
+
+  export type CasoResponsableSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    casoId?: boolean
+    usuarioId?: boolean
+    esPrincipal?: boolean
+    createdAt?: boolean
+    caso?: boolean | CasoDefaultArgs<ExtArgs>
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["casoResponsable"]>
+
+  export type CasoResponsableSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    casoId?: boolean
+    usuarioId?: boolean
+    esPrincipal?: boolean
+    createdAt?: boolean
+    caso?: boolean | CasoDefaultArgs<ExtArgs>
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["casoResponsable"]>
+
+  export type CasoResponsableSelectScalar = {
+    id?: boolean
+    casoId?: boolean
+    usuarioId?: boolean
+    esPrincipal?: boolean
+    createdAt?: boolean
+  }
+
+  export type CasoResponsableOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "casoId" | "usuarioId" | "esPrincipal" | "createdAt", ExtArgs["result"]["casoResponsable"]>
+  export type CasoResponsableInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    caso?: boolean | CasoDefaultArgs<ExtArgs>
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+  export type CasoResponsableIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    caso?: boolean | CasoDefaultArgs<ExtArgs>
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+  export type CasoResponsableIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    caso?: boolean | CasoDefaultArgs<ExtArgs>
+    usuario?: boolean | UsuarioDefaultArgs<ExtArgs>
+  }
+
+  export type $CasoResponsablePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CasoResponsable"
+    objects: {
+      caso: Prisma.$CasoPayload<ExtArgs>
+      usuario: Prisma.$UsuarioPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      casoId: number
+      usuarioId: number
+      esPrincipal: boolean
+      createdAt: Date
+    }, ExtArgs["result"]["casoResponsable"]>
+    composites: {}
+  }
+
+  type CasoResponsableGetPayload<S extends boolean | null | undefined | CasoResponsableDefaultArgs> = $Result.GetResult<Prisma.$CasoResponsablePayload, S>
+
+  type CasoResponsableCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CasoResponsableFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CasoResponsableCountAggregateInputType | true
+    }
+
+  export interface CasoResponsableDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CasoResponsable'], meta: { name: 'CasoResponsable' } }
+    /**
+     * Find zero or one CasoResponsable that matches the filter.
+     * @param {CasoResponsableFindUniqueArgs} args - Arguments to find a CasoResponsable
+     * @example
+     * // Get one CasoResponsable
+     * const casoResponsable = await prisma.casoResponsable.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CasoResponsableFindUniqueArgs>(args: SelectSubset<T, CasoResponsableFindUniqueArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CasoResponsable that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CasoResponsableFindUniqueOrThrowArgs} args - Arguments to find a CasoResponsable
+     * @example
+     * // Get one CasoResponsable
+     * const casoResponsable = await prisma.casoResponsable.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CasoResponsableFindUniqueOrThrowArgs>(args: SelectSubset<T, CasoResponsableFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CasoResponsable that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasoResponsableFindFirstArgs} args - Arguments to find a CasoResponsable
+     * @example
+     * // Get one CasoResponsable
+     * const casoResponsable = await prisma.casoResponsable.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CasoResponsableFindFirstArgs>(args?: SelectSubset<T, CasoResponsableFindFirstArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CasoResponsable that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasoResponsableFindFirstOrThrowArgs} args - Arguments to find a CasoResponsable
+     * @example
+     * // Get one CasoResponsable
+     * const casoResponsable = await prisma.casoResponsable.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CasoResponsableFindFirstOrThrowArgs>(args?: SelectSubset<T, CasoResponsableFindFirstOrThrowArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CasoResponsables that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasoResponsableFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CasoResponsables
+     * const casoResponsables = await prisma.casoResponsable.findMany()
+     * 
+     * // Get first 10 CasoResponsables
+     * const casoResponsables = await prisma.casoResponsable.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const casoResponsableWithIdOnly = await prisma.casoResponsable.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CasoResponsableFindManyArgs>(args?: SelectSubset<T, CasoResponsableFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CasoResponsable.
+     * @param {CasoResponsableCreateArgs} args - Arguments to create a CasoResponsable.
+     * @example
+     * // Create one CasoResponsable
+     * const CasoResponsable = await prisma.casoResponsable.create({
+     *   data: {
+     *     // ... data to create a CasoResponsable
+     *   }
+     * })
+     * 
+     */
+    create<T extends CasoResponsableCreateArgs>(args: SelectSubset<T, CasoResponsableCreateArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CasoResponsables.
+     * @param {CasoResponsableCreateManyArgs} args - Arguments to create many CasoResponsables.
+     * @example
+     * // Create many CasoResponsables
+     * const casoResponsable = await prisma.casoResponsable.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CasoResponsableCreateManyArgs>(args?: SelectSubset<T, CasoResponsableCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CasoResponsables and returns the data saved in the database.
+     * @param {CasoResponsableCreateManyAndReturnArgs} args - Arguments to create many CasoResponsables.
+     * @example
+     * // Create many CasoResponsables
+     * const casoResponsable = await prisma.casoResponsable.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CasoResponsables and only return the `id`
+     * const casoResponsableWithIdOnly = await prisma.casoResponsable.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CasoResponsableCreateManyAndReturnArgs>(args?: SelectSubset<T, CasoResponsableCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CasoResponsable.
+     * @param {CasoResponsableDeleteArgs} args - Arguments to delete one CasoResponsable.
+     * @example
+     * // Delete one CasoResponsable
+     * const CasoResponsable = await prisma.casoResponsable.delete({
+     *   where: {
+     *     // ... filter to delete one CasoResponsable
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CasoResponsableDeleteArgs>(args: SelectSubset<T, CasoResponsableDeleteArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CasoResponsable.
+     * @param {CasoResponsableUpdateArgs} args - Arguments to update one CasoResponsable.
+     * @example
+     * // Update one CasoResponsable
+     * const casoResponsable = await prisma.casoResponsable.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CasoResponsableUpdateArgs>(args: SelectSubset<T, CasoResponsableUpdateArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CasoResponsables.
+     * @param {CasoResponsableDeleteManyArgs} args - Arguments to filter CasoResponsables to delete.
+     * @example
+     * // Delete a few CasoResponsables
+     * const { count } = await prisma.casoResponsable.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CasoResponsableDeleteManyArgs>(args?: SelectSubset<T, CasoResponsableDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CasoResponsables.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasoResponsableUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CasoResponsables
+     * const casoResponsable = await prisma.casoResponsable.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CasoResponsableUpdateManyArgs>(args: SelectSubset<T, CasoResponsableUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CasoResponsables and returns the data updated in the database.
+     * @param {CasoResponsableUpdateManyAndReturnArgs} args - Arguments to update many CasoResponsables.
+     * @example
+     * // Update many CasoResponsables
+     * const casoResponsable = await prisma.casoResponsable.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CasoResponsables and only return the `id`
+     * const casoResponsableWithIdOnly = await prisma.casoResponsable.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CasoResponsableUpdateManyAndReturnArgs>(args: SelectSubset<T, CasoResponsableUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CasoResponsable.
+     * @param {CasoResponsableUpsertArgs} args - Arguments to update or create a CasoResponsable.
+     * @example
+     * // Update or create a CasoResponsable
+     * const casoResponsable = await prisma.casoResponsable.upsert({
+     *   create: {
+     *     // ... data to create a CasoResponsable
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CasoResponsable we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CasoResponsableUpsertArgs>(args: SelectSubset<T, CasoResponsableUpsertArgs<ExtArgs>>): Prisma__CasoResponsableClient<$Result.GetResult<Prisma.$CasoResponsablePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CasoResponsables.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasoResponsableCountArgs} args - Arguments to filter CasoResponsables to count.
+     * @example
+     * // Count the number of CasoResponsables
+     * const count = await prisma.casoResponsable.count({
+     *   where: {
+     *     // ... the filter for the CasoResponsables we want to count
+     *   }
+     * })
+    **/
+    count<T extends CasoResponsableCountArgs>(
+      args?: Subset<T, CasoResponsableCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CasoResponsableCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CasoResponsable.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasoResponsableAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CasoResponsableAggregateArgs>(args: Subset<T, CasoResponsableAggregateArgs>): Prisma.PrismaPromise<GetCasoResponsableAggregateType<T>>
+
+    /**
+     * Group by CasoResponsable.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CasoResponsableGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CasoResponsableGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CasoResponsableGroupByArgs['orderBy'] }
+        : { orderBy?: CasoResponsableGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CasoResponsableGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCasoResponsableGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CasoResponsable model
+   */
+  readonly fields: CasoResponsableFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CasoResponsable.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CasoResponsableClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    caso<T extends CasoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CasoDefaultArgs<ExtArgs>>): Prisma__CasoClient<$Result.GetResult<Prisma.$CasoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    usuario<T extends UsuarioDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UsuarioDefaultArgs<ExtArgs>>): Prisma__UsuarioClient<$Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CasoResponsable model
+   */
+  interface CasoResponsableFieldRefs {
+    readonly id: FieldRef<"CasoResponsable", 'Int'>
+    readonly casoId: FieldRef<"CasoResponsable", 'Int'>
+    readonly usuarioId: FieldRef<"CasoResponsable", 'Int'>
+    readonly esPrincipal: FieldRef<"CasoResponsable", 'Boolean'>
+    readonly createdAt: FieldRef<"CasoResponsable", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CasoResponsable findUnique
+   */
+  export type CasoResponsableFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+    /**
+     * Filter, which CasoResponsable to fetch.
+     */
+    where: CasoResponsableWhereUniqueInput
+  }
+
+  /**
+   * CasoResponsable findUniqueOrThrow
+   */
+  export type CasoResponsableFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+    /**
+     * Filter, which CasoResponsable to fetch.
+     */
+    where: CasoResponsableWhereUniqueInput
+  }
+
+  /**
+   * CasoResponsable findFirst
+   */
+  export type CasoResponsableFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+    /**
+     * Filter, which CasoResponsable to fetch.
+     */
+    where?: CasoResponsableWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CasoResponsables to fetch.
+     */
+    orderBy?: CasoResponsableOrderByWithRelationInput | CasoResponsableOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CasoResponsables.
+     */
+    cursor?: CasoResponsableWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CasoResponsables from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CasoResponsables.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CasoResponsables.
+     */
+    distinct?: CasoResponsableScalarFieldEnum | CasoResponsableScalarFieldEnum[]
+  }
+
+  /**
+   * CasoResponsable findFirstOrThrow
+   */
+  export type CasoResponsableFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+    /**
+     * Filter, which CasoResponsable to fetch.
+     */
+    where?: CasoResponsableWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CasoResponsables to fetch.
+     */
+    orderBy?: CasoResponsableOrderByWithRelationInput | CasoResponsableOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CasoResponsables.
+     */
+    cursor?: CasoResponsableWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CasoResponsables from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CasoResponsables.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CasoResponsables.
+     */
+    distinct?: CasoResponsableScalarFieldEnum | CasoResponsableScalarFieldEnum[]
+  }
+
+  /**
+   * CasoResponsable findMany
+   */
+  export type CasoResponsableFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+    /**
+     * Filter, which CasoResponsables to fetch.
+     */
+    where?: CasoResponsableWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CasoResponsables to fetch.
+     */
+    orderBy?: CasoResponsableOrderByWithRelationInput | CasoResponsableOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CasoResponsables.
+     */
+    cursor?: CasoResponsableWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CasoResponsables from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CasoResponsables.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CasoResponsables.
+     */
+    distinct?: CasoResponsableScalarFieldEnum | CasoResponsableScalarFieldEnum[]
+  }
+
+  /**
+   * CasoResponsable create
+   */
+  export type CasoResponsableCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CasoResponsable.
+     */
+    data: XOR<CasoResponsableCreateInput, CasoResponsableUncheckedCreateInput>
+  }
+
+  /**
+   * CasoResponsable createMany
+   */
+  export type CasoResponsableCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CasoResponsables.
+     */
+    data: CasoResponsableCreateManyInput | CasoResponsableCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CasoResponsable createManyAndReturn
+   */
+  export type CasoResponsableCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * The data used to create many CasoResponsables.
+     */
+    data: CasoResponsableCreateManyInput | CasoResponsableCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CasoResponsable update
+   */
+  export type CasoResponsableUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CasoResponsable.
+     */
+    data: XOR<CasoResponsableUpdateInput, CasoResponsableUncheckedUpdateInput>
+    /**
+     * Choose, which CasoResponsable to update.
+     */
+    where: CasoResponsableWhereUniqueInput
+  }
+
+  /**
+   * CasoResponsable updateMany
+   */
+  export type CasoResponsableUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CasoResponsables.
+     */
+    data: XOR<CasoResponsableUpdateManyMutationInput, CasoResponsableUncheckedUpdateManyInput>
+    /**
+     * Filter which CasoResponsables to update
+     */
+    where?: CasoResponsableWhereInput
+    /**
+     * Limit how many CasoResponsables to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CasoResponsable updateManyAndReturn
+   */
+  export type CasoResponsableUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * The data used to update CasoResponsables.
+     */
+    data: XOR<CasoResponsableUpdateManyMutationInput, CasoResponsableUncheckedUpdateManyInput>
+    /**
+     * Filter which CasoResponsables to update
+     */
+    where?: CasoResponsableWhereInput
+    /**
+     * Limit how many CasoResponsables to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CasoResponsable upsert
+   */
+  export type CasoResponsableUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CasoResponsable to update in case it exists.
+     */
+    where: CasoResponsableWhereUniqueInput
+    /**
+     * In case the CasoResponsable found by the `where` argument doesn't exist, create a new CasoResponsable with this data.
+     */
+    create: XOR<CasoResponsableCreateInput, CasoResponsableUncheckedCreateInput>
+    /**
+     * In case the CasoResponsable was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CasoResponsableUpdateInput, CasoResponsableUncheckedUpdateInput>
+  }
+
+  /**
+   * CasoResponsable delete
+   */
+  export type CasoResponsableDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+    /**
+     * Filter which CasoResponsable to delete.
+     */
+    where: CasoResponsableWhereUniqueInput
+  }
+
+  /**
+   * CasoResponsable deleteMany
+   */
+  export type CasoResponsableDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CasoResponsables to delete
+     */
+    where?: CasoResponsableWhereInput
+    /**
+     * Limit how many CasoResponsables to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CasoResponsable without action
+   */
+  export type CasoResponsableDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CasoResponsable
+     */
+    select?: CasoResponsableSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CasoResponsable
+     */
+    omit?: CasoResponsableOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CasoResponsableInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -8752,6 +10031,17 @@ export namespace Prisma {
   };
 
   export type RecordatorioScalarFieldEnum = (typeof RecordatorioScalarFieldEnum)[keyof typeof RecordatorioScalarFieldEnum]
+
+
+  export const CasoResponsableScalarFieldEnum: {
+    id: 'id',
+    casoId: 'casoId',
+    usuarioId: 'usuarioId',
+    esPrincipal: 'esPrincipal',
+    createdAt: 'createdAt'
+  };
+
+  export type CasoResponsableScalarFieldEnum = (typeof CasoResponsableScalarFieldEnum)[keyof typeof CasoResponsableScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -8903,6 +10193,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Usuario"> | Date | string
     updatedAt?: DateTimeFilter<"Usuario"> | Date | string
     casos?: CasoListRelationFilter
+    casosAsignados?: CasoResponsableListRelationFilter
     audiencias?: AudienciaListRelationFilter
     citas?: CitaListRelationFilter
     recordatorios?: RecordatorioListRelationFilter
@@ -8917,6 +10208,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     casos?: CasoOrderByRelationAggregateInput
+    casosAsignados?: CasoResponsableOrderByRelationAggregateInput
     audiencias?: AudienciaOrderByRelationAggregateInput
     citas?: CitaOrderByRelationAggregateInput
     recordatorios?: RecordatorioOrderByRelationAggregateInput
@@ -8934,6 +10226,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Usuario"> | Date | string
     updatedAt?: DateTimeFilter<"Usuario"> | Date | string
     casos?: CasoListRelationFilter
+    casosAsignados?: CasoResponsableListRelationFilter
     audiencias?: AudienciaListRelationFilter
     citas?: CitaListRelationFilter
     recordatorios?: RecordatorioListRelationFilter
@@ -9054,6 +10347,7 @@ export namespace Prisma {
     audiencias?: AudienciaListRelationFilter
     citas?: CitaListRelationFilter
     recordatorios?: RecordatorioListRelationFilter
+    responsables?: CasoResponsableListRelationFilter
   }
 
   export type CasoOrderByWithRelationInput = {
@@ -9073,6 +10367,7 @@ export namespace Prisma {
     audiencias?: AudienciaOrderByRelationAggregateInput
     citas?: CitaOrderByRelationAggregateInput
     recordatorios?: RecordatorioOrderByRelationAggregateInput
+    responsables?: CasoResponsableOrderByRelationAggregateInput
   }
 
   export type CasoWhereUniqueInput = Prisma.AtLeast<{
@@ -9095,6 +10390,7 @@ export namespace Prisma {
     audiencias?: AudienciaListRelationFilter
     citas?: CitaListRelationFilter
     recordatorios?: RecordatorioListRelationFilter
+    responsables?: CasoResponsableListRelationFilter
   }, "id" | "numero">
 
   export type CasoOrderByWithAggregationInput = {
@@ -9368,6 +10664,67 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Recordatorio"> | Date | string
   }
 
+  export type CasoResponsableWhereInput = {
+    AND?: CasoResponsableWhereInput | CasoResponsableWhereInput[]
+    OR?: CasoResponsableWhereInput[]
+    NOT?: CasoResponsableWhereInput | CasoResponsableWhereInput[]
+    id?: IntFilter<"CasoResponsable"> | number
+    casoId?: IntFilter<"CasoResponsable"> | number
+    usuarioId?: IntFilter<"CasoResponsable"> | number
+    esPrincipal?: BoolFilter<"CasoResponsable"> | boolean
+    createdAt?: DateTimeFilter<"CasoResponsable"> | Date | string
+    caso?: XOR<CasoScalarRelationFilter, CasoWhereInput>
+    usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+  }
+
+  export type CasoResponsableOrderByWithRelationInput = {
+    id?: SortOrder
+    casoId?: SortOrder
+    usuarioId?: SortOrder
+    esPrincipal?: SortOrder
+    createdAt?: SortOrder
+    caso?: CasoOrderByWithRelationInput
+    usuario?: UsuarioOrderByWithRelationInput
+  }
+
+  export type CasoResponsableWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    casoId_usuarioId?: CasoResponsableCasoIdUsuarioIdCompoundUniqueInput
+    AND?: CasoResponsableWhereInput | CasoResponsableWhereInput[]
+    OR?: CasoResponsableWhereInput[]
+    NOT?: CasoResponsableWhereInput | CasoResponsableWhereInput[]
+    casoId?: IntFilter<"CasoResponsable"> | number
+    usuarioId?: IntFilter<"CasoResponsable"> | number
+    esPrincipal?: BoolFilter<"CasoResponsable"> | boolean
+    createdAt?: DateTimeFilter<"CasoResponsable"> | Date | string
+    caso?: XOR<CasoScalarRelationFilter, CasoWhereInput>
+    usuario?: XOR<UsuarioScalarRelationFilter, UsuarioWhereInput>
+  }, "id" | "casoId_usuarioId">
+
+  export type CasoResponsableOrderByWithAggregationInput = {
+    id?: SortOrder
+    casoId?: SortOrder
+    usuarioId?: SortOrder
+    esPrincipal?: SortOrder
+    createdAt?: SortOrder
+    _count?: CasoResponsableCountOrderByAggregateInput
+    _avg?: CasoResponsableAvgOrderByAggregateInput
+    _max?: CasoResponsableMaxOrderByAggregateInput
+    _min?: CasoResponsableMinOrderByAggregateInput
+    _sum?: CasoResponsableSumOrderByAggregateInput
+  }
+
+  export type CasoResponsableScalarWhereWithAggregatesInput = {
+    AND?: CasoResponsableScalarWhereWithAggregatesInput | CasoResponsableScalarWhereWithAggregatesInput[]
+    OR?: CasoResponsableScalarWhereWithAggregatesInput[]
+    NOT?: CasoResponsableScalarWhereWithAggregatesInput | CasoResponsableScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"CasoResponsable"> | number
+    casoId?: IntWithAggregatesFilter<"CasoResponsable"> | number
+    usuarioId?: IntWithAggregatesFilter<"CasoResponsable"> | number
+    esPrincipal?: BoolWithAggregatesFilter<"CasoResponsable"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"CasoResponsable"> | Date | string
+  }
+
   export type UsuarioCreateInput = {
     nombre: string
     correo: string
@@ -9376,6 +10733,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     casos?: CasoCreateNestedManyWithoutUsuarioInput
+    casosAsignados?: CasoResponsableCreateNestedManyWithoutUsuarioInput
     audiencias?: AudienciaCreateNestedManyWithoutUsuarioInput
     citas?: CitaCreateNestedManyWithoutUsuarioInput
     recordatorios?: RecordatorioCreateNestedManyWithoutUsuarioInput
@@ -9390,6 +10748,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     casos?: CasoUncheckedCreateNestedManyWithoutUsuarioInput
+    casosAsignados?: CasoResponsableUncheckedCreateNestedManyWithoutUsuarioInput
     audiencias?: AudienciaUncheckedCreateNestedManyWithoutUsuarioInput
     citas?: CitaUncheckedCreateNestedManyWithoutUsuarioInput
     recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutUsuarioInput
@@ -9403,6 +10762,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     casos?: CasoUpdateManyWithoutUsuarioNestedInput
+    casosAsignados?: CasoResponsableUpdateManyWithoutUsuarioNestedInput
     audiencias?: AudienciaUpdateManyWithoutUsuarioNestedInput
     citas?: CitaUpdateManyWithoutUsuarioNestedInput
     recordatorios?: RecordatorioUpdateManyWithoutUsuarioNestedInput
@@ -9417,6 +10777,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     casos?: CasoUncheckedUpdateManyWithoutUsuarioNestedInput
+    casosAsignados?: CasoResponsableUncheckedUpdateManyWithoutUsuarioNestedInput
     audiencias?: AudienciaUncheckedUpdateManyWithoutUsuarioNestedInput
     citas?: CitaUncheckedUpdateManyWithoutUsuarioNestedInput
     recordatorios?: RecordatorioUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -9536,6 +10897,7 @@ export namespace Prisma {
     audiencias?: AudienciaCreateNestedManyWithoutCasoInput
     citas?: CitaCreateNestedManyWithoutCasoInput
     recordatorios?: RecordatorioCreateNestedManyWithoutCasoInput
+    responsables?: CasoResponsableCreateNestedManyWithoutCasoInput
   }
 
   export type CasoUncheckedCreateInput = {
@@ -9553,6 +10915,7 @@ export namespace Prisma {
     audiencias?: AudienciaUncheckedCreateNestedManyWithoutCasoInput
     citas?: CitaUncheckedCreateNestedManyWithoutCasoInput
     recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutCasoInput
+    responsables?: CasoResponsableUncheckedCreateNestedManyWithoutCasoInput
   }
 
   export type CasoUpdateInput = {
@@ -9569,6 +10932,7 @@ export namespace Prisma {
     audiencias?: AudienciaUpdateManyWithoutCasoNestedInput
     citas?: CitaUpdateManyWithoutCasoNestedInput
     recordatorios?: RecordatorioUpdateManyWithoutCasoNestedInput
+    responsables?: CasoResponsableUpdateManyWithoutCasoNestedInput
   }
 
   export type CasoUncheckedUpdateInput = {
@@ -9586,6 +10950,7 @@ export namespace Prisma {
     audiencias?: AudienciaUncheckedUpdateManyWithoutCasoNestedInput
     citas?: CitaUncheckedUpdateManyWithoutCasoNestedInput
     recordatorios?: RecordatorioUncheckedUpdateManyWithoutCasoNestedInput
+    responsables?: CasoResponsableUncheckedUpdateManyWithoutCasoNestedInput
   }
 
   export type CasoCreateManyInput = {
@@ -9857,6 +11222,57 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type CasoResponsableCreateInput = {
+    esPrincipal?: boolean
+    createdAt?: Date | string
+    caso: CasoCreateNestedOneWithoutResponsablesInput
+    usuario: UsuarioCreateNestedOneWithoutCasosAsignadosInput
+  }
+
+  export type CasoResponsableUncheckedCreateInput = {
+    id?: number
+    casoId: number
+    usuarioId: number
+    esPrincipal?: boolean
+    createdAt?: Date | string
+  }
+
+  export type CasoResponsableUpdateInput = {
+    esPrincipal?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    caso?: CasoUpdateOneRequiredWithoutResponsablesNestedInput
+    usuario?: UsuarioUpdateOneRequiredWithoutCasosAsignadosNestedInput
+  }
+
+  export type CasoResponsableUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    casoId?: IntFieldUpdateOperationsInput | number
+    usuarioId?: IntFieldUpdateOperationsInput | number
+    esPrincipal?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CasoResponsableCreateManyInput = {
+    id?: number
+    casoId: number
+    usuarioId: number
+    esPrincipal?: boolean
+    createdAt?: Date | string
+  }
+
+  export type CasoResponsableUpdateManyMutationInput = {
+    esPrincipal?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CasoResponsableUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    casoId?: IntFieldUpdateOperationsInput | number
+    usuarioId?: IntFieldUpdateOperationsInput | number
+    esPrincipal?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -9907,6 +11323,12 @@ export namespace Prisma {
     none?: CasoWhereInput
   }
 
+  export type CasoResponsableListRelationFilter = {
+    every?: CasoResponsableWhereInput
+    some?: CasoResponsableWhereInput
+    none?: CasoResponsableWhereInput
+  }
+
   export type AudienciaListRelationFilter = {
     every?: AudienciaWhereInput
     some?: AudienciaWhereInput
@@ -9926,6 +11348,10 @@ export namespace Prisma {
   }
 
   export type CasoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CasoResponsableOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -10427,11 +11853,59 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type CasoResponsableCasoIdUsuarioIdCompoundUniqueInput = {
+    casoId: number
+    usuarioId: number
+  }
+
+  export type CasoResponsableCountOrderByAggregateInput = {
+    id?: SortOrder
+    casoId?: SortOrder
+    usuarioId?: SortOrder
+    esPrincipal?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CasoResponsableAvgOrderByAggregateInput = {
+    id?: SortOrder
+    casoId?: SortOrder
+    usuarioId?: SortOrder
+  }
+
+  export type CasoResponsableMaxOrderByAggregateInput = {
+    id?: SortOrder
+    casoId?: SortOrder
+    usuarioId?: SortOrder
+    esPrincipal?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CasoResponsableMinOrderByAggregateInput = {
+    id?: SortOrder
+    casoId?: SortOrder
+    usuarioId?: SortOrder
+    esPrincipal?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CasoResponsableSumOrderByAggregateInput = {
+    id?: SortOrder
+    casoId?: SortOrder
+    usuarioId?: SortOrder
+  }
+
   export type CasoCreateNestedManyWithoutUsuarioInput = {
     create?: XOR<CasoCreateWithoutUsuarioInput, CasoUncheckedCreateWithoutUsuarioInput> | CasoCreateWithoutUsuarioInput[] | CasoUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: CasoCreateOrConnectWithoutUsuarioInput | CasoCreateOrConnectWithoutUsuarioInput[]
     createMany?: CasoCreateManyUsuarioInputEnvelope
     connect?: CasoWhereUniqueInput | CasoWhereUniqueInput[]
+  }
+
+  export type CasoResponsableCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<CasoResponsableCreateWithoutUsuarioInput, CasoResponsableUncheckedCreateWithoutUsuarioInput> | CasoResponsableCreateWithoutUsuarioInput[] | CasoResponsableUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: CasoResponsableCreateOrConnectWithoutUsuarioInput | CasoResponsableCreateOrConnectWithoutUsuarioInput[]
+    createMany?: CasoResponsableCreateManyUsuarioInputEnvelope
+    connect?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
   }
 
   export type AudienciaCreateNestedManyWithoutUsuarioInput = {
@@ -10460,6 +11934,13 @@ export namespace Prisma {
     connectOrCreate?: CasoCreateOrConnectWithoutUsuarioInput | CasoCreateOrConnectWithoutUsuarioInput[]
     createMany?: CasoCreateManyUsuarioInputEnvelope
     connect?: CasoWhereUniqueInput | CasoWhereUniqueInput[]
+  }
+
+  export type CasoResponsableUncheckedCreateNestedManyWithoutUsuarioInput = {
+    create?: XOR<CasoResponsableCreateWithoutUsuarioInput, CasoResponsableUncheckedCreateWithoutUsuarioInput> | CasoResponsableCreateWithoutUsuarioInput[] | CasoResponsableUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: CasoResponsableCreateOrConnectWithoutUsuarioInput | CasoResponsableCreateOrConnectWithoutUsuarioInput[]
+    createMany?: CasoResponsableCreateManyUsuarioInputEnvelope
+    connect?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
   }
 
   export type AudienciaUncheckedCreateNestedManyWithoutUsuarioInput = {
@@ -10507,6 +11988,20 @@ export namespace Prisma {
     update?: CasoUpdateWithWhereUniqueWithoutUsuarioInput | CasoUpdateWithWhereUniqueWithoutUsuarioInput[]
     updateMany?: CasoUpdateManyWithWhereWithoutUsuarioInput | CasoUpdateManyWithWhereWithoutUsuarioInput[]
     deleteMany?: CasoScalarWhereInput | CasoScalarWhereInput[]
+  }
+
+  export type CasoResponsableUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<CasoResponsableCreateWithoutUsuarioInput, CasoResponsableUncheckedCreateWithoutUsuarioInput> | CasoResponsableCreateWithoutUsuarioInput[] | CasoResponsableUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: CasoResponsableCreateOrConnectWithoutUsuarioInput | CasoResponsableCreateOrConnectWithoutUsuarioInput[]
+    upsert?: CasoResponsableUpsertWithWhereUniqueWithoutUsuarioInput | CasoResponsableUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: CasoResponsableCreateManyUsuarioInputEnvelope
+    set?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
+    disconnect?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
+    delete?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
+    connect?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
+    update?: CasoResponsableUpdateWithWhereUniqueWithoutUsuarioInput | CasoResponsableUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: CasoResponsableUpdateManyWithWhereWithoutUsuarioInput | CasoResponsableUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: CasoResponsableScalarWhereInput | CasoResponsableScalarWhereInput[]
   }
 
   export type AudienciaUpdateManyWithoutUsuarioNestedInput = {
@@ -10571,6 +12066,20 @@ export namespace Prisma {
     update?: CasoUpdateWithWhereUniqueWithoutUsuarioInput | CasoUpdateWithWhereUniqueWithoutUsuarioInput[]
     updateMany?: CasoUpdateManyWithWhereWithoutUsuarioInput | CasoUpdateManyWithWhereWithoutUsuarioInput[]
     deleteMany?: CasoScalarWhereInput | CasoScalarWhereInput[]
+  }
+
+  export type CasoResponsableUncheckedUpdateManyWithoutUsuarioNestedInput = {
+    create?: XOR<CasoResponsableCreateWithoutUsuarioInput, CasoResponsableUncheckedCreateWithoutUsuarioInput> | CasoResponsableCreateWithoutUsuarioInput[] | CasoResponsableUncheckedCreateWithoutUsuarioInput[]
+    connectOrCreate?: CasoResponsableCreateOrConnectWithoutUsuarioInput | CasoResponsableCreateOrConnectWithoutUsuarioInput[]
+    upsert?: CasoResponsableUpsertWithWhereUniqueWithoutUsuarioInput | CasoResponsableUpsertWithWhereUniqueWithoutUsuarioInput[]
+    createMany?: CasoResponsableCreateManyUsuarioInputEnvelope
+    set?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
+    disconnect?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
+    delete?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
+    connect?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
+    update?: CasoResponsableUpdateWithWhereUniqueWithoutUsuarioInput | CasoResponsableUpdateWithWhereUniqueWithoutUsuarioInput[]
+    updateMany?: CasoResponsableUpdateManyWithWhereWithoutUsuarioInput | CasoResponsableUpdateManyWithWhereWithoutUsuarioInput[]
+    deleteMany?: CasoResponsableScalarWhereInput | CasoResponsableScalarWhereInput[]
   }
 
   export type AudienciaUncheckedUpdateManyWithoutUsuarioNestedInput = {
@@ -10694,6 +12203,13 @@ export namespace Prisma {
     connect?: RecordatorioWhereUniqueInput | RecordatorioWhereUniqueInput[]
   }
 
+  export type CasoResponsableCreateNestedManyWithoutCasoInput = {
+    create?: XOR<CasoResponsableCreateWithoutCasoInput, CasoResponsableUncheckedCreateWithoutCasoInput> | CasoResponsableCreateWithoutCasoInput[] | CasoResponsableUncheckedCreateWithoutCasoInput[]
+    connectOrCreate?: CasoResponsableCreateOrConnectWithoutCasoInput | CasoResponsableCreateOrConnectWithoutCasoInput[]
+    createMany?: CasoResponsableCreateManyCasoInputEnvelope
+    connect?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
+  }
+
   export type AudienciaUncheckedCreateNestedManyWithoutCasoInput = {
     create?: XOR<AudienciaCreateWithoutCasoInput, AudienciaUncheckedCreateWithoutCasoInput> | AudienciaCreateWithoutCasoInput[] | AudienciaUncheckedCreateWithoutCasoInput[]
     connectOrCreate?: AudienciaCreateOrConnectWithoutCasoInput | AudienciaCreateOrConnectWithoutCasoInput[]
@@ -10713,6 +12229,13 @@ export namespace Prisma {
     connectOrCreate?: RecordatorioCreateOrConnectWithoutCasoInput | RecordatorioCreateOrConnectWithoutCasoInput[]
     createMany?: RecordatorioCreateManyCasoInputEnvelope
     connect?: RecordatorioWhereUniqueInput | RecordatorioWhereUniqueInput[]
+  }
+
+  export type CasoResponsableUncheckedCreateNestedManyWithoutCasoInput = {
+    create?: XOR<CasoResponsableCreateWithoutCasoInput, CasoResponsableUncheckedCreateWithoutCasoInput> | CasoResponsableCreateWithoutCasoInput[] | CasoResponsableUncheckedCreateWithoutCasoInput[]
+    connectOrCreate?: CasoResponsableCreateOrConnectWithoutCasoInput | CasoResponsableCreateOrConnectWithoutCasoInput[]
+    createMany?: CasoResponsableCreateManyCasoInputEnvelope
+    connect?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
   }
 
   export type EnumEstadoCasoFieldUpdateOperationsInput = {
@@ -10781,6 +12304,20 @@ export namespace Prisma {
     deleteMany?: RecordatorioScalarWhereInput | RecordatorioScalarWhereInput[]
   }
 
+  export type CasoResponsableUpdateManyWithoutCasoNestedInput = {
+    create?: XOR<CasoResponsableCreateWithoutCasoInput, CasoResponsableUncheckedCreateWithoutCasoInput> | CasoResponsableCreateWithoutCasoInput[] | CasoResponsableUncheckedCreateWithoutCasoInput[]
+    connectOrCreate?: CasoResponsableCreateOrConnectWithoutCasoInput | CasoResponsableCreateOrConnectWithoutCasoInput[]
+    upsert?: CasoResponsableUpsertWithWhereUniqueWithoutCasoInput | CasoResponsableUpsertWithWhereUniqueWithoutCasoInput[]
+    createMany?: CasoResponsableCreateManyCasoInputEnvelope
+    set?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
+    disconnect?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
+    delete?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
+    connect?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
+    update?: CasoResponsableUpdateWithWhereUniqueWithoutCasoInput | CasoResponsableUpdateWithWhereUniqueWithoutCasoInput[]
+    updateMany?: CasoResponsableUpdateManyWithWhereWithoutCasoInput | CasoResponsableUpdateManyWithWhereWithoutCasoInput[]
+    deleteMany?: CasoResponsableScalarWhereInput | CasoResponsableScalarWhereInput[]
+  }
+
   export type AudienciaUncheckedUpdateManyWithoutCasoNestedInput = {
     create?: XOR<AudienciaCreateWithoutCasoInput, AudienciaUncheckedCreateWithoutCasoInput> | AudienciaCreateWithoutCasoInput[] | AudienciaUncheckedCreateWithoutCasoInput[]
     connectOrCreate?: AudienciaCreateOrConnectWithoutCasoInput | AudienciaCreateOrConnectWithoutCasoInput[]
@@ -10821,6 +12358,20 @@ export namespace Prisma {
     update?: RecordatorioUpdateWithWhereUniqueWithoutCasoInput | RecordatorioUpdateWithWhereUniqueWithoutCasoInput[]
     updateMany?: RecordatorioUpdateManyWithWhereWithoutCasoInput | RecordatorioUpdateManyWithWhereWithoutCasoInput[]
     deleteMany?: RecordatorioScalarWhereInput | RecordatorioScalarWhereInput[]
+  }
+
+  export type CasoResponsableUncheckedUpdateManyWithoutCasoNestedInput = {
+    create?: XOR<CasoResponsableCreateWithoutCasoInput, CasoResponsableUncheckedCreateWithoutCasoInput> | CasoResponsableCreateWithoutCasoInput[] | CasoResponsableUncheckedCreateWithoutCasoInput[]
+    connectOrCreate?: CasoResponsableCreateOrConnectWithoutCasoInput | CasoResponsableCreateOrConnectWithoutCasoInput[]
+    upsert?: CasoResponsableUpsertWithWhereUniqueWithoutCasoInput | CasoResponsableUpsertWithWhereUniqueWithoutCasoInput[]
+    createMany?: CasoResponsableCreateManyCasoInputEnvelope
+    set?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
+    disconnect?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
+    delete?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
+    connect?: CasoResponsableWhereUniqueInput | CasoResponsableWhereUniqueInput[]
+    update?: CasoResponsableUpdateWithWhereUniqueWithoutCasoInput | CasoResponsableUpdateWithWhereUniqueWithoutCasoInput[]
+    updateMany?: CasoResponsableUpdateManyWithWhereWithoutCasoInput | CasoResponsableUpdateManyWithWhereWithoutCasoInput[]
+    deleteMany?: CasoResponsableScalarWhereInput | CasoResponsableScalarWhereInput[]
   }
 
   export type CasoCreateNestedOneWithoutAudienciasInput = {
@@ -10925,6 +12476,34 @@ export namespace Prisma {
     upsert?: UsuarioUpsertWithoutRecordatoriosInput
     connect?: UsuarioWhereUniqueInput
     update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutRecordatoriosInput, UsuarioUpdateWithoutRecordatoriosInput>, UsuarioUncheckedUpdateWithoutRecordatoriosInput>
+  }
+
+  export type CasoCreateNestedOneWithoutResponsablesInput = {
+    create?: XOR<CasoCreateWithoutResponsablesInput, CasoUncheckedCreateWithoutResponsablesInput>
+    connectOrCreate?: CasoCreateOrConnectWithoutResponsablesInput
+    connect?: CasoWhereUniqueInput
+  }
+
+  export type UsuarioCreateNestedOneWithoutCasosAsignadosInput = {
+    create?: XOR<UsuarioCreateWithoutCasosAsignadosInput, UsuarioUncheckedCreateWithoutCasosAsignadosInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutCasosAsignadosInput
+    connect?: UsuarioWhereUniqueInput
+  }
+
+  export type CasoUpdateOneRequiredWithoutResponsablesNestedInput = {
+    create?: XOR<CasoCreateWithoutResponsablesInput, CasoUncheckedCreateWithoutResponsablesInput>
+    connectOrCreate?: CasoCreateOrConnectWithoutResponsablesInput
+    upsert?: CasoUpsertWithoutResponsablesInput
+    connect?: CasoWhereUniqueInput
+    update?: XOR<XOR<CasoUpdateToOneWithWhereWithoutResponsablesInput, CasoUpdateWithoutResponsablesInput>, CasoUncheckedUpdateWithoutResponsablesInput>
+  }
+
+  export type UsuarioUpdateOneRequiredWithoutCasosAsignadosNestedInput = {
+    create?: XOR<UsuarioCreateWithoutCasosAsignadosInput, UsuarioUncheckedCreateWithoutCasosAsignadosInput>
+    connectOrCreate?: UsuarioCreateOrConnectWithoutCasosAsignadosInput
+    upsert?: UsuarioUpsertWithoutCasosAsignadosInput
+    connect?: UsuarioWhereUniqueInput
+    update?: XOR<XOR<UsuarioUpdateToOneWithWhereWithoutCasosAsignadosInput, UsuarioUpdateWithoutCasosAsignadosInput>, UsuarioUncheckedUpdateWithoutCasosAsignadosInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -11192,6 +12771,7 @@ export namespace Prisma {
     audiencias?: AudienciaCreateNestedManyWithoutCasoInput
     citas?: CitaCreateNestedManyWithoutCasoInput
     recordatorios?: RecordatorioCreateNestedManyWithoutCasoInput
+    responsables?: CasoResponsableCreateNestedManyWithoutCasoInput
   }
 
   export type CasoUncheckedCreateWithoutUsuarioInput = {
@@ -11208,6 +12788,7 @@ export namespace Prisma {
     audiencias?: AudienciaUncheckedCreateNestedManyWithoutCasoInput
     citas?: CitaUncheckedCreateNestedManyWithoutCasoInput
     recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutCasoInput
+    responsables?: CasoResponsableUncheckedCreateNestedManyWithoutCasoInput
   }
 
   export type CasoCreateOrConnectWithoutUsuarioInput = {
@@ -11217,6 +12798,29 @@ export namespace Prisma {
 
   export type CasoCreateManyUsuarioInputEnvelope = {
     data: CasoCreateManyUsuarioInput | CasoCreateManyUsuarioInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CasoResponsableCreateWithoutUsuarioInput = {
+    esPrincipal?: boolean
+    createdAt?: Date | string
+    caso: CasoCreateNestedOneWithoutResponsablesInput
+  }
+
+  export type CasoResponsableUncheckedCreateWithoutUsuarioInput = {
+    id?: number
+    casoId: number
+    esPrincipal?: boolean
+    createdAt?: Date | string
+  }
+
+  export type CasoResponsableCreateOrConnectWithoutUsuarioInput = {
+    where: CasoResponsableWhereUniqueInput
+    create: XOR<CasoResponsableCreateWithoutUsuarioInput, CasoResponsableUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type CasoResponsableCreateManyUsuarioInputEnvelope = {
+    data: CasoResponsableCreateManyUsuarioInput | CasoResponsableCreateManyUsuarioInput[]
     skipDuplicates?: boolean
   }
 
@@ -11344,6 +12948,33 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Caso"> | Date | string
   }
 
+  export type CasoResponsableUpsertWithWhereUniqueWithoutUsuarioInput = {
+    where: CasoResponsableWhereUniqueInput
+    update: XOR<CasoResponsableUpdateWithoutUsuarioInput, CasoResponsableUncheckedUpdateWithoutUsuarioInput>
+    create: XOR<CasoResponsableCreateWithoutUsuarioInput, CasoResponsableUncheckedCreateWithoutUsuarioInput>
+  }
+
+  export type CasoResponsableUpdateWithWhereUniqueWithoutUsuarioInput = {
+    where: CasoResponsableWhereUniqueInput
+    data: XOR<CasoResponsableUpdateWithoutUsuarioInput, CasoResponsableUncheckedUpdateWithoutUsuarioInput>
+  }
+
+  export type CasoResponsableUpdateManyWithWhereWithoutUsuarioInput = {
+    where: CasoResponsableScalarWhereInput
+    data: XOR<CasoResponsableUpdateManyMutationInput, CasoResponsableUncheckedUpdateManyWithoutUsuarioInput>
+  }
+
+  export type CasoResponsableScalarWhereInput = {
+    AND?: CasoResponsableScalarWhereInput | CasoResponsableScalarWhereInput[]
+    OR?: CasoResponsableScalarWhereInput[]
+    NOT?: CasoResponsableScalarWhereInput | CasoResponsableScalarWhereInput[]
+    id?: IntFilter<"CasoResponsable"> | number
+    casoId?: IntFilter<"CasoResponsable"> | number
+    usuarioId?: IntFilter<"CasoResponsable"> | number
+    esPrincipal?: BoolFilter<"CasoResponsable"> | boolean
+    createdAt?: DateTimeFilter<"CasoResponsable"> | Date | string
+  }
+
   export type AudienciaUpsertWithWhereUniqueWithoutUsuarioInput = {
     where: AudienciaWhereUniqueInput
     update: XOR<AudienciaUpdateWithoutUsuarioInput, AudienciaUncheckedUpdateWithoutUsuarioInput>
@@ -11449,6 +13080,7 @@ export namespace Prisma {
     audiencias?: AudienciaCreateNestedManyWithoutCasoInput
     citas?: CitaCreateNestedManyWithoutCasoInput
     recordatorios?: RecordatorioCreateNestedManyWithoutCasoInput
+    responsables?: CasoResponsableCreateNestedManyWithoutCasoInput
   }
 
   export type CasoUncheckedCreateWithoutClienteInput = {
@@ -11465,6 +13097,7 @@ export namespace Prisma {
     audiencias?: AudienciaUncheckedCreateNestedManyWithoutCasoInput
     citas?: CitaUncheckedCreateNestedManyWithoutCasoInput
     recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutCasoInput
+    responsables?: CasoResponsableUncheckedCreateNestedManyWithoutCasoInput
   }
 
   export type CasoCreateOrConnectWithoutClienteInput = {
@@ -11500,6 +13133,7 @@ export namespace Prisma {
     rol?: $Enums.RolUsuario
     createdAt?: Date | string
     updatedAt?: Date | string
+    casosAsignados?: CasoResponsableCreateNestedManyWithoutUsuarioInput
     audiencias?: AudienciaCreateNestedManyWithoutUsuarioInput
     citas?: CitaCreateNestedManyWithoutUsuarioInput
     recordatorios?: RecordatorioCreateNestedManyWithoutUsuarioInput
@@ -11513,6 +13147,7 @@ export namespace Prisma {
     rol?: $Enums.RolUsuario
     createdAt?: Date | string
     updatedAt?: Date | string
+    casosAsignados?: CasoResponsableUncheckedCreateNestedManyWithoutUsuarioInput
     audiencias?: AudienciaUncheckedCreateNestedManyWithoutUsuarioInput
     citas?: CitaUncheckedCreateNestedManyWithoutUsuarioInput
     recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutUsuarioInput
@@ -11638,6 +13273,29 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CasoResponsableCreateWithoutCasoInput = {
+    esPrincipal?: boolean
+    createdAt?: Date | string
+    usuario: UsuarioCreateNestedOneWithoutCasosAsignadosInput
+  }
+
+  export type CasoResponsableUncheckedCreateWithoutCasoInput = {
+    id?: number
+    usuarioId: number
+    esPrincipal?: boolean
+    createdAt?: Date | string
+  }
+
+  export type CasoResponsableCreateOrConnectWithoutCasoInput = {
+    where: CasoResponsableWhereUniqueInput
+    create: XOR<CasoResponsableCreateWithoutCasoInput, CasoResponsableUncheckedCreateWithoutCasoInput>
+  }
+
+  export type CasoResponsableCreateManyCasoInputEnvelope = {
+    data: CasoResponsableCreateManyCasoInput | CasoResponsableCreateManyCasoInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UsuarioUpsertWithoutCasosInput = {
     update: XOR<UsuarioUpdateWithoutCasosInput, UsuarioUncheckedUpdateWithoutCasosInput>
     create: XOR<UsuarioCreateWithoutCasosInput, UsuarioUncheckedCreateWithoutCasosInput>
@@ -11656,6 +13314,7 @@ export namespace Prisma {
     rol?: EnumRolUsuarioFieldUpdateOperationsInput | $Enums.RolUsuario
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    casosAsignados?: CasoResponsableUpdateManyWithoutUsuarioNestedInput
     audiencias?: AudienciaUpdateManyWithoutUsuarioNestedInput
     citas?: CitaUpdateManyWithoutUsuarioNestedInput
     recordatorios?: RecordatorioUpdateManyWithoutUsuarioNestedInput
@@ -11669,6 +13328,7 @@ export namespace Prisma {
     rol?: EnumRolUsuarioFieldUpdateOperationsInput | $Enums.RolUsuario
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    casosAsignados?: CasoResponsableUncheckedUpdateManyWithoutUsuarioNestedInput
     audiencias?: AudienciaUncheckedUpdateManyWithoutUsuarioNestedInput
     citas?: CitaUncheckedUpdateManyWithoutUsuarioNestedInput
     recordatorios?: RecordatorioUncheckedUpdateManyWithoutUsuarioNestedInput
@@ -11752,6 +13412,22 @@ export namespace Prisma {
     data: XOR<RecordatorioUpdateManyMutationInput, RecordatorioUncheckedUpdateManyWithoutCasoInput>
   }
 
+  export type CasoResponsableUpsertWithWhereUniqueWithoutCasoInput = {
+    where: CasoResponsableWhereUniqueInput
+    update: XOR<CasoResponsableUpdateWithoutCasoInput, CasoResponsableUncheckedUpdateWithoutCasoInput>
+    create: XOR<CasoResponsableCreateWithoutCasoInput, CasoResponsableUncheckedCreateWithoutCasoInput>
+  }
+
+  export type CasoResponsableUpdateWithWhereUniqueWithoutCasoInput = {
+    where: CasoResponsableWhereUniqueInput
+    data: XOR<CasoResponsableUpdateWithoutCasoInput, CasoResponsableUncheckedUpdateWithoutCasoInput>
+  }
+
+  export type CasoResponsableUpdateManyWithWhereWithoutCasoInput = {
+    where: CasoResponsableScalarWhereInput
+    data: XOR<CasoResponsableUpdateManyMutationInput, CasoResponsableUncheckedUpdateManyWithoutCasoInput>
+  }
+
   export type CasoCreateWithoutAudienciasInput = {
     numero: string
     asunto: string
@@ -11765,6 +13441,7 @@ export namespace Prisma {
     cliente: ClienteCreateNestedOneWithoutCasosInput
     citas?: CitaCreateNestedManyWithoutCasoInput
     recordatorios?: RecordatorioCreateNestedManyWithoutCasoInput
+    responsables?: CasoResponsableCreateNestedManyWithoutCasoInput
   }
 
   export type CasoUncheckedCreateWithoutAudienciasInput = {
@@ -11781,6 +13458,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     citas?: CitaUncheckedCreateNestedManyWithoutCasoInput
     recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutCasoInput
+    responsables?: CasoResponsableUncheckedCreateNestedManyWithoutCasoInput
   }
 
   export type CasoCreateOrConnectWithoutAudienciasInput = {
@@ -11796,6 +13474,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     casos?: CasoCreateNestedManyWithoutUsuarioInput
+    casosAsignados?: CasoResponsableCreateNestedManyWithoutUsuarioInput
     citas?: CitaCreateNestedManyWithoutUsuarioInput
     recordatorios?: RecordatorioCreateNestedManyWithoutUsuarioInput
   }
@@ -11809,6 +13488,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     casos?: CasoUncheckedCreateNestedManyWithoutUsuarioInput
+    casosAsignados?: CasoResponsableUncheckedCreateNestedManyWithoutUsuarioInput
     citas?: CitaUncheckedCreateNestedManyWithoutUsuarioInput
     recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutUsuarioInput
   }
@@ -11842,6 +13522,7 @@ export namespace Prisma {
     cliente?: ClienteUpdateOneRequiredWithoutCasosNestedInput
     citas?: CitaUpdateManyWithoutCasoNestedInput
     recordatorios?: RecordatorioUpdateManyWithoutCasoNestedInput
+    responsables?: CasoResponsableUpdateManyWithoutCasoNestedInput
   }
 
   export type CasoUncheckedUpdateWithoutAudienciasInput = {
@@ -11858,6 +13539,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     citas?: CitaUncheckedUpdateManyWithoutCasoNestedInput
     recordatorios?: RecordatorioUncheckedUpdateManyWithoutCasoNestedInput
+    responsables?: CasoResponsableUncheckedUpdateManyWithoutCasoNestedInput
   }
 
   export type UsuarioUpsertWithoutAudienciasInput = {
@@ -11879,6 +13561,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     casos?: CasoUpdateManyWithoutUsuarioNestedInput
+    casosAsignados?: CasoResponsableUpdateManyWithoutUsuarioNestedInput
     citas?: CitaUpdateManyWithoutUsuarioNestedInput
     recordatorios?: RecordatorioUpdateManyWithoutUsuarioNestedInput
   }
@@ -11892,6 +13575,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     casos?: CasoUncheckedUpdateManyWithoutUsuarioNestedInput
+    casosAsignados?: CasoResponsableUncheckedUpdateManyWithoutUsuarioNestedInput
     citas?: CitaUncheckedUpdateManyWithoutUsuarioNestedInput
     recordatorios?: RecordatorioUncheckedUpdateManyWithoutUsuarioNestedInput
   }
@@ -11909,6 +13593,7 @@ export namespace Prisma {
     cliente: ClienteCreateNestedOneWithoutCasosInput
     audiencias?: AudienciaCreateNestedManyWithoutCasoInput
     recordatorios?: RecordatorioCreateNestedManyWithoutCasoInput
+    responsables?: CasoResponsableCreateNestedManyWithoutCasoInput
   }
 
   export type CasoUncheckedCreateWithoutCitasInput = {
@@ -11925,6 +13610,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     audiencias?: AudienciaUncheckedCreateNestedManyWithoutCasoInput
     recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutCasoInput
+    responsables?: CasoResponsableUncheckedCreateNestedManyWithoutCasoInput
   }
 
   export type CasoCreateOrConnectWithoutCitasInput = {
@@ -11940,6 +13626,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     casos?: CasoCreateNestedManyWithoutUsuarioInput
+    casosAsignados?: CasoResponsableCreateNestedManyWithoutUsuarioInput
     audiencias?: AudienciaCreateNestedManyWithoutUsuarioInput
     recordatorios?: RecordatorioCreateNestedManyWithoutUsuarioInput
   }
@@ -11953,6 +13640,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     casos?: CasoUncheckedCreateNestedManyWithoutUsuarioInput
+    casosAsignados?: CasoResponsableUncheckedCreateNestedManyWithoutUsuarioInput
     audiencias?: AudienciaUncheckedCreateNestedManyWithoutUsuarioInput
     recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutUsuarioInput
   }
@@ -11986,6 +13674,7 @@ export namespace Prisma {
     cliente?: ClienteUpdateOneRequiredWithoutCasosNestedInput
     audiencias?: AudienciaUpdateManyWithoutCasoNestedInput
     recordatorios?: RecordatorioUpdateManyWithoutCasoNestedInput
+    responsables?: CasoResponsableUpdateManyWithoutCasoNestedInput
   }
 
   export type CasoUncheckedUpdateWithoutCitasInput = {
@@ -12002,6 +13691,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     audiencias?: AudienciaUncheckedUpdateManyWithoutCasoNestedInput
     recordatorios?: RecordatorioUncheckedUpdateManyWithoutCasoNestedInput
+    responsables?: CasoResponsableUncheckedUpdateManyWithoutCasoNestedInput
   }
 
   export type UsuarioUpsertWithoutCitasInput = {
@@ -12023,6 +13713,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     casos?: CasoUpdateManyWithoutUsuarioNestedInput
+    casosAsignados?: CasoResponsableUpdateManyWithoutUsuarioNestedInput
     audiencias?: AudienciaUpdateManyWithoutUsuarioNestedInput
     recordatorios?: RecordatorioUpdateManyWithoutUsuarioNestedInput
   }
@@ -12036,6 +13727,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     casos?: CasoUncheckedUpdateManyWithoutUsuarioNestedInput
+    casosAsignados?: CasoResponsableUncheckedUpdateManyWithoutUsuarioNestedInput
     audiencias?: AudienciaUncheckedUpdateManyWithoutUsuarioNestedInput
     recordatorios?: RecordatorioUncheckedUpdateManyWithoutUsuarioNestedInput
   }
@@ -12053,6 +13745,7 @@ export namespace Prisma {
     cliente: ClienteCreateNestedOneWithoutCasosInput
     audiencias?: AudienciaCreateNestedManyWithoutCasoInput
     citas?: CitaCreateNestedManyWithoutCasoInput
+    responsables?: CasoResponsableCreateNestedManyWithoutCasoInput
   }
 
   export type CasoUncheckedCreateWithoutRecordatoriosInput = {
@@ -12069,6 +13762,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     audiencias?: AudienciaUncheckedCreateNestedManyWithoutCasoInput
     citas?: CitaUncheckedCreateNestedManyWithoutCasoInput
+    responsables?: CasoResponsableUncheckedCreateNestedManyWithoutCasoInput
   }
 
   export type CasoCreateOrConnectWithoutRecordatoriosInput = {
@@ -12084,6 +13778,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     casos?: CasoCreateNestedManyWithoutUsuarioInput
+    casosAsignados?: CasoResponsableCreateNestedManyWithoutUsuarioInput
     audiencias?: AudienciaCreateNestedManyWithoutUsuarioInput
     citas?: CitaCreateNestedManyWithoutUsuarioInput
   }
@@ -12097,6 +13792,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     casos?: CasoUncheckedCreateNestedManyWithoutUsuarioInput
+    casosAsignados?: CasoResponsableUncheckedCreateNestedManyWithoutUsuarioInput
     audiencias?: AudienciaUncheckedCreateNestedManyWithoutUsuarioInput
     citas?: CitaUncheckedCreateNestedManyWithoutUsuarioInput
   }
@@ -12130,6 +13826,7 @@ export namespace Prisma {
     cliente?: ClienteUpdateOneRequiredWithoutCasosNestedInput
     audiencias?: AudienciaUpdateManyWithoutCasoNestedInput
     citas?: CitaUpdateManyWithoutCasoNestedInput
+    responsables?: CasoResponsableUpdateManyWithoutCasoNestedInput
   }
 
   export type CasoUncheckedUpdateWithoutRecordatoriosInput = {
@@ -12146,6 +13843,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     audiencias?: AudienciaUncheckedUpdateManyWithoutCasoNestedInput
     citas?: CitaUncheckedUpdateManyWithoutCasoNestedInput
+    responsables?: CasoResponsableUncheckedUpdateManyWithoutCasoNestedInput
   }
 
   export type UsuarioUpsertWithoutRecordatoriosInput = {
@@ -12167,6 +13865,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     casos?: CasoUpdateManyWithoutUsuarioNestedInput
+    casosAsignados?: CasoResponsableUpdateManyWithoutUsuarioNestedInput
     audiencias?: AudienciaUpdateManyWithoutUsuarioNestedInput
     citas?: CitaUpdateManyWithoutUsuarioNestedInput
   }
@@ -12180,8 +13879,161 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     casos?: CasoUncheckedUpdateManyWithoutUsuarioNestedInput
+    casosAsignados?: CasoResponsableUncheckedUpdateManyWithoutUsuarioNestedInput
     audiencias?: AudienciaUncheckedUpdateManyWithoutUsuarioNestedInput
     citas?: CitaUncheckedUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type CasoCreateWithoutResponsablesInput = {
+    numero: string
+    asunto: string
+    tipo: string
+    estado?: $Enums.EstadoCaso
+    fechaInicio: Date | string
+    fechaCierre?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuario: UsuarioCreateNestedOneWithoutCasosInput
+    cliente: ClienteCreateNestedOneWithoutCasosInput
+    audiencias?: AudienciaCreateNestedManyWithoutCasoInput
+    citas?: CitaCreateNestedManyWithoutCasoInput
+    recordatorios?: RecordatorioCreateNestedManyWithoutCasoInput
+  }
+
+  export type CasoUncheckedCreateWithoutResponsablesInput = {
+    id?: number
+    numero: string
+    asunto: string
+    tipo: string
+    estado?: $Enums.EstadoCaso
+    fechaInicio: Date | string
+    fechaCierre?: Date | string | null
+    usuarioId: number
+    clienteId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    audiencias?: AudienciaUncheckedCreateNestedManyWithoutCasoInput
+    citas?: CitaUncheckedCreateNestedManyWithoutCasoInput
+    recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutCasoInput
+  }
+
+  export type CasoCreateOrConnectWithoutResponsablesInput = {
+    where: CasoWhereUniqueInput
+    create: XOR<CasoCreateWithoutResponsablesInput, CasoUncheckedCreateWithoutResponsablesInput>
+  }
+
+  export type UsuarioCreateWithoutCasosAsignadosInput = {
+    nombre: string
+    correo: string
+    clave: string
+    rol?: $Enums.RolUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    casos?: CasoCreateNestedManyWithoutUsuarioInput
+    audiencias?: AudienciaCreateNestedManyWithoutUsuarioInput
+    citas?: CitaCreateNestedManyWithoutUsuarioInput
+    recordatorios?: RecordatorioCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioUncheckedCreateWithoutCasosAsignadosInput = {
+    id?: number
+    nombre: string
+    correo: string
+    clave: string
+    rol?: $Enums.RolUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    casos?: CasoUncheckedCreateNestedManyWithoutUsuarioInput
+    audiencias?: AudienciaUncheckedCreateNestedManyWithoutUsuarioInput
+    citas?: CitaUncheckedCreateNestedManyWithoutUsuarioInput
+    recordatorios?: RecordatorioUncheckedCreateNestedManyWithoutUsuarioInput
+  }
+
+  export type UsuarioCreateOrConnectWithoutCasosAsignadosInput = {
+    where: UsuarioWhereUniqueInput
+    create: XOR<UsuarioCreateWithoutCasosAsignadosInput, UsuarioUncheckedCreateWithoutCasosAsignadosInput>
+  }
+
+  export type CasoUpsertWithoutResponsablesInput = {
+    update: XOR<CasoUpdateWithoutResponsablesInput, CasoUncheckedUpdateWithoutResponsablesInput>
+    create: XOR<CasoCreateWithoutResponsablesInput, CasoUncheckedCreateWithoutResponsablesInput>
+    where?: CasoWhereInput
+  }
+
+  export type CasoUpdateToOneWithWhereWithoutResponsablesInput = {
+    where?: CasoWhereInput
+    data: XOR<CasoUpdateWithoutResponsablesInput, CasoUncheckedUpdateWithoutResponsablesInput>
+  }
+
+  export type CasoUpdateWithoutResponsablesInput = {
+    numero?: StringFieldUpdateOperationsInput | string
+    asunto?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: EnumEstadoCasoFieldUpdateOperationsInput | $Enums.EstadoCaso
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCierre?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuario?: UsuarioUpdateOneRequiredWithoutCasosNestedInput
+    cliente?: ClienteUpdateOneRequiredWithoutCasosNestedInput
+    audiencias?: AudienciaUpdateManyWithoutCasoNestedInput
+    citas?: CitaUpdateManyWithoutCasoNestedInput
+    recordatorios?: RecordatorioUpdateManyWithoutCasoNestedInput
+  }
+
+  export type CasoUncheckedUpdateWithoutResponsablesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    numero?: StringFieldUpdateOperationsInput | string
+    asunto?: StringFieldUpdateOperationsInput | string
+    tipo?: StringFieldUpdateOperationsInput | string
+    estado?: EnumEstadoCasoFieldUpdateOperationsInput | $Enums.EstadoCaso
+    fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaCierre?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    usuarioId?: IntFieldUpdateOperationsInput | number
+    clienteId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    audiencias?: AudienciaUncheckedUpdateManyWithoutCasoNestedInput
+    citas?: CitaUncheckedUpdateManyWithoutCasoNestedInput
+    recordatorios?: RecordatorioUncheckedUpdateManyWithoutCasoNestedInput
+  }
+
+  export type UsuarioUpsertWithoutCasosAsignadosInput = {
+    update: XOR<UsuarioUpdateWithoutCasosAsignadosInput, UsuarioUncheckedUpdateWithoutCasosAsignadosInput>
+    create: XOR<UsuarioCreateWithoutCasosAsignadosInput, UsuarioUncheckedCreateWithoutCasosAsignadosInput>
+    where?: UsuarioWhereInput
+  }
+
+  export type UsuarioUpdateToOneWithWhereWithoutCasosAsignadosInput = {
+    where?: UsuarioWhereInput
+    data: XOR<UsuarioUpdateWithoutCasosAsignadosInput, UsuarioUncheckedUpdateWithoutCasosAsignadosInput>
+  }
+
+  export type UsuarioUpdateWithoutCasosAsignadosInput = {
+    nombre?: StringFieldUpdateOperationsInput | string
+    correo?: StringFieldUpdateOperationsInput | string
+    clave?: StringFieldUpdateOperationsInput | string
+    rol?: EnumRolUsuarioFieldUpdateOperationsInput | $Enums.RolUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    casos?: CasoUpdateManyWithoutUsuarioNestedInput
+    audiencias?: AudienciaUpdateManyWithoutUsuarioNestedInput
+    citas?: CitaUpdateManyWithoutUsuarioNestedInput
+    recordatorios?: RecordatorioUpdateManyWithoutUsuarioNestedInput
+  }
+
+  export type UsuarioUncheckedUpdateWithoutCasosAsignadosInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    nombre?: StringFieldUpdateOperationsInput | string
+    correo?: StringFieldUpdateOperationsInput | string
+    clave?: StringFieldUpdateOperationsInput | string
+    rol?: EnumRolUsuarioFieldUpdateOperationsInput | $Enums.RolUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    casos?: CasoUncheckedUpdateManyWithoutUsuarioNestedInput
+    audiencias?: AudienciaUncheckedUpdateManyWithoutUsuarioNestedInput
+    citas?: CitaUncheckedUpdateManyWithoutUsuarioNestedInput
+    recordatorios?: RecordatorioUncheckedUpdateManyWithoutUsuarioNestedInput
   }
 
   export type CasoCreateManyUsuarioInput = {
@@ -12195,6 +14047,13 @@ export namespace Prisma {
     clienteId: number
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type CasoResponsableCreateManyUsuarioInput = {
+    id?: number
+    casoId: number
+    esPrincipal?: boolean
+    createdAt?: Date | string
   }
 
   export type AudienciaCreateManyUsuarioInput = {
@@ -12242,6 +14101,7 @@ export namespace Prisma {
     audiencias?: AudienciaUpdateManyWithoutCasoNestedInput
     citas?: CitaUpdateManyWithoutCasoNestedInput
     recordatorios?: RecordatorioUpdateManyWithoutCasoNestedInput
+    responsables?: CasoResponsableUpdateManyWithoutCasoNestedInput
   }
 
   export type CasoUncheckedUpdateWithoutUsuarioInput = {
@@ -12258,6 +14118,7 @@ export namespace Prisma {
     audiencias?: AudienciaUncheckedUpdateManyWithoutCasoNestedInput
     citas?: CitaUncheckedUpdateManyWithoutCasoNestedInput
     recordatorios?: RecordatorioUncheckedUpdateManyWithoutCasoNestedInput
+    responsables?: CasoResponsableUncheckedUpdateManyWithoutCasoNestedInput
   }
 
   export type CasoUncheckedUpdateManyWithoutUsuarioInput = {
@@ -12271,6 +14132,26 @@ export namespace Prisma {
     clienteId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CasoResponsableUpdateWithoutUsuarioInput = {
+    esPrincipal?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    caso?: CasoUpdateOneRequiredWithoutResponsablesNestedInput
+  }
+
+  export type CasoResponsableUncheckedUpdateWithoutUsuarioInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    casoId?: IntFieldUpdateOperationsInput | number
+    esPrincipal?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CasoResponsableUncheckedUpdateManyWithoutUsuarioInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    casoId?: IntFieldUpdateOperationsInput | number
+    esPrincipal?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AudienciaUpdateWithoutUsuarioInput = {
@@ -12392,6 +14273,7 @@ export namespace Prisma {
     audiencias?: AudienciaUpdateManyWithoutCasoNestedInput
     citas?: CitaUpdateManyWithoutCasoNestedInput
     recordatorios?: RecordatorioUpdateManyWithoutCasoNestedInput
+    responsables?: CasoResponsableUpdateManyWithoutCasoNestedInput
   }
 
   export type CasoUncheckedUpdateWithoutClienteInput = {
@@ -12408,6 +14290,7 @@ export namespace Prisma {
     audiencias?: AudienciaUncheckedUpdateManyWithoutCasoNestedInput
     citas?: CitaUncheckedUpdateManyWithoutCasoNestedInput
     recordatorios?: RecordatorioUncheckedUpdateManyWithoutCasoNestedInput
+    responsables?: CasoResponsableUncheckedUpdateManyWithoutCasoNestedInput
   }
 
   export type CasoUncheckedUpdateManyWithoutClienteInput = {
@@ -12453,6 +14336,13 @@ export namespace Prisma {
     usuarioId: number
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type CasoResponsableCreateManyCasoInput = {
+    id?: number
+    usuarioId: number
+    esPrincipal?: boolean
+    createdAt?: Date | string
   }
 
   export type AudienciaUpdateWithoutCasoInput = {
@@ -12546,6 +14436,26 @@ export namespace Prisma {
     usuarioId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CasoResponsableUpdateWithoutCasoInput = {
+    esPrincipal?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuario?: UsuarioUpdateOneRequiredWithoutCasosAsignadosNestedInput
+  }
+
+  export type CasoResponsableUncheckedUpdateWithoutCasoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    usuarioId?: IntFieldUpdateOperationsInput | number
+    esPrincipal?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CasoResponsableUncheckedUpdateManyWithoutCasoInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    usuarioId?: IntFieldUpdateOperationsInput | number
+    esPrincipal?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

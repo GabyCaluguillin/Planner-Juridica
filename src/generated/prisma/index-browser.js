@@ -189,6 +189,14 @@ exports.Prisma.RecordatorioScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CasoResponsableScalarFieldEnum = {
+  id: 'id',
+  casoId: 'casoId',
+  usuarioId: 'usuarioId',
+  esPrincipal: 'esPrincipal',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -205,6 +213,7 @@ exports.Prisma.NullsOrder = {
 };
 exports.RolUsuario = exports.$Enums.RolUsuario = {
   ADMINISTRADOR: 'ADMINISTRADOR',
+  ABOGADO: 'ABOGADO',
   ASISTENTE_LEGAL: 'ASISTENTE_LEGAL'
 };
 
@@ -227,7 +236,8 @@ exports.Prisma.ModelName = {
   Caso: 'Caso',
   Audiencia: 'Audiencia',
   Cita: 'Cita',
-  Recordatorio: 'Recordatorio'
+  Recordatorio: 'Recordatorio',
+  CasoResponsable: 'CasoResponsable'
 };
 
 /**

@@ -16,6 +16,7 @@ datasource db {
 // Enumeración para roles de usuario
 enum RolUsuario {
   ADMINISTRADOR
+  ABOGADO
   ASISTENTE_LEGAL
 }
 
@@ -45,10 +46,11 @@ model Usuario {
   updatedAt DateTime   @updatedAt
 
   // Relaciones
-  casos         Caso[]
-  audiencias    Audiencia[]
-  citas         Cita[]
-  recordatorios Recordatorio[]
+  casos          Caso[]
+  casosAsignados CasoResponsable[]
+  audiencias     Audiencia[]
+  citas          Cita[]
+  recordatorios  Recordatorio[]
 }
 
 model Cliente {
@@ -78,11 +80,12 @@ model Caso {
   updatedAt   DateTime   @updatedAt
 
   // Relaciones
-  usuario       Usuario        @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
-  cliente       Cliente        @relation(fields: [clienteId], references: [id], onDelete: Cascade)
+  usuario       Usuario           @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  cliente       Cliente           @relation(fields: [clienteId], references: [id], onDelete: Cascade)
   audiencias    Audiencia[]
   citas         Cita[]
   recordatorios Recordatorio[]
+  responsables  CasoResponsable[]
 }
 
 model Audiencia {
@@ -130,4 +133,17 @@ model Recordatorio {
   // Relaciones
   caso    Caso?   @relation(fields: [casoId], references: [id], onDelete: SetNull)
   usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+}
+
+model CasoResponsable {
+  id          Int      @id @default(autoincrement())
+  casoId      Int
+  usuarioId   Int
+  esPrincipal Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  caso    Caso    @relation(fields: [casoId], references: [id], onDelete: Cascade)
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@unique([casoId, usuarioId])
 }
