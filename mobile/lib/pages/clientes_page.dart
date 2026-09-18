@@ -44,6 +44,16 @@ class ClientesPage extends ConsumerWidget {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          _mostrarFormularioCliente(
+            context,
+            ref,
+          );
+        },
+        icon: const Icon(Icons.person_add_alt_1),
+        label: const Text('Nuevo cliente'),
+      ),
       body: clientes.when(
         loading: () => const Center(
           child: CircularProgressIndicator(),
@@ -63,7 +73,12 @@ class ClientesPage extends ConsumerWidget {
             child: ListView(
               physics:
                   const AlwaysScrollableScrollPhysics(),
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.fromLTRB(
+                24,
+                24,
+                24,
+                100,
+              ),
               children: [
                 const Text(
                   'Gestión de clientes',
@@ -150,7 +165,188 @@ class ClientesPage extends ConsumerWidget {
   }
 }
 
-class _EstadoSincronizacion extends StatelessWidget {
+Future<void> _mostrarFormularioCliente(
+  BuildContext context,
+  WidgetRef ref,
+) async {
+  final formKey = GlobalKey<FormState>();
+
+  final nombreController =
+      TextEditingController();
+
+  final correoController =
+      TextEditingController();
+
+  final telefonoController =
+      TextEditingController();
+
+  final direccionController =
+      TextEditingController();
+
+  final resultado = await showDialog<bool>(
+    context: context,
+    builder: (dialogContext) {
+      return AlertDialog(
+        title: const Text(
+          'Nuevo cliente',
+        ),
+        content: SingleChildScrollView(
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: nombreController,
+                  textCapitalization:
+                      TextCapitalization.words,
+                  decoration:
+                      const InputDecoration(
+                    labelText: 'Nombre',
+                    prefixIcon:
+                        Icon(Icons.person_outline),
+                  ),
+                  validator: (valor) {
+                    if (valor == null ||
+                        valor.trim().isEmpty) {
+                      return 'Ingrese el nombre.';
+                    }
+
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: correoController,
+                  keyboardType:
+                      TextInputType.emailAddress,
+                  decoration:
+                      const InputDecoration(
+                    labelText: 'Correo',
+                    prefixIcon:
+                        Icon(Icons.email_outlined),
+                  ),
+                  validator: (valor) {
+                    final correo =
+                        valor?.trim() ?? '';
+
+                    if (correo.isEmpty) {
+                      return 'Ingrese el correo.';
+                    }
+
+                    final expresion = RegExp(
+                      r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
+                    );
+
+                    if (!expresion
+                        .hasMatch(correo)) {
+                      return 'Ingrese un correo válido.';
+                    }
+
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: telefonoController,
+                  keyboardType:
+                      TextInputType.phone,
+                  decoration:
+                      const InputDecoration(
+                    labelText: 'Teléfono',
+                    prefixIcon:
+                        Icon(Icons.phone_outlined),
+                  ),
+                  validator: (valor) {
+                    if (valor == null ||
+                        valor.trim().isEmpty) {
+                      return 'Ingrese el teléfono.';
+                    }
+
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller:
+                      direccionController,
+                  decoration:
+                      const InputDecoration(
+                    labelText:
+                        'Dirección (opcional)',
+                    prefixIcon:
+                        Icon(Icons.location_on_outlined),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(dialogContext)
+                  .pop(false);
+            },
+            child: const Text('Cancelar'),
+          ),
+          FilledButton(
+            onPressed: () async {
+              if (!formKey.currentState!
+                  .validate()) {
+                return;
+              }
+
+              await ref
+                  .read(
+                    clientesRepositoryProvider,
+                  )
+                  .crearClienteOffline(
+                    nombre:
+                        nombreController.text,
+                    correo:
+                        correoController.text,
+                    telefono:
+                        telefonoController.text,
+                    direccion:
+                        direccionController.text,
+                  );
+
+              if (!dialogContext.mounted) {
+                return;
+              }
+
+              Navigator.of(dialogContext)
+                  .pop(true);
+            },
+            child: const Text('Guardar'),
+          ),
+        ],
+      );
+    },
+  );
+
+  nombreController.dispose();
+  correoController.dispose();
+  telefonoController.dispose();
+  direccionController.dispose();
+
+  if (resultado == true &&
+      context.mounted) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(
+      const SnackBar(
+        content: Text(
+          'Cliente guardado localmente. '
+          'Quedó pendiente de sincronización.',
+        ),
+      ),
+    );
+  }
+}
+
+class _EstadoSincronizacion
+    extends StatelessWidget {
   const _EstadoSincronizacion({
     required this.clientes,
     required this.sincronizando,
@@ -186,7 +382,8 @@ class _EstadoSincronizacion extends StatelessWidget {
 
     if (sincronizando) {
       icono = Icons.sync;
-      mensaje = 'Actualizando clientes...';
+      mensaje =
+          'Actualizando clientes...';
     } else if (sinConexion) {
       icono = Icons.cloud_off_outlined;
 
@@ -200,7 +397,8 @@ class _EstadoSincronizacion extends StatelessWidget {
             'Se muestran los datos guardados '
             'en el dispositivo.';
       }
-    } else if (ultimaSincronizacion == null) {
+    } else if (ultimaSincronizacion ==
+        null) {
       icono = Icons.info_outline;
       mensaje =
           'Aún no hay una sincronización registrada.';
@@ -213,7 +411,8 @@ class _EstadoSincronizacion extends StatelessWidget {
 
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding:
+            const EdgeInsets.all(16),
         child: Row(
           crossAxisAlignment:
               CrossAxisAlignment.start,
@@ -242,7 +441,8 @@ class _EstadoSincronizacion extends StatelessWidget {
   }
 }
 
-class _ClienteTile extends StatelessWidget {
+class _ClienteTile
+    extends StatelessWidget {
   const _ClienteTile({
     required this.cliente,
   });
@@ -255,9 +455,8 @@ class _ClienteTile extends StatelessWidget {
         cliente.direccion?.trim();
 
     return Card(
-      margin: const EdgeInsets.only(
-        bottom: 12,
-      ),
+      margin:
+          const EdgeInsets.only(bottom: 12),
       child: ListTile(
         leading: const CircleAvatar(
           child: Icon(
@@ -271,9 +470,8 @@ class _ClienteTile extends StatelessWidget {
           ),
         ),
         subtitle: Padding(
-          padding: const EdgeInsets.only(
-            top: 6,
-          ),
+          padding:
+              const EdgeInsets.only(top: 6),
           child: Column(
             crossAxisAlignment:
                 CrossAxisAlignment.start,
@@ -295,8 +493,10 @@ class _ClienteTile extends StatelessWidget {
                         size: 16,
                       ),
                       SizedBox(width: 4),
-                      Text(
-                        'Pendiente de sincronización',
+                      Expanded(
+                        child: Text(
+                          'Pendiente de sincronización',
+                        ),
                       ),
                     ],
                   ),
@@ -324,5 +524,6 @@ String _fechaCorta(DateTime fecha) {
   final minuto =
       local.minute.toString().padLeft(2, '0');
 
-  return '$dia/$mes/${local.year} $hora:$minuto';
+  return '$dia/$mes/${local.year} '
+      '$hora:$minuto';
 }

@@ -224,6 +224,52 @@ class AppDatabase extends _$AppDatabase {
   }
 
   // ============================================================
+  // TRANSACCIONES OFFLINE
+  // ============================================================
+
+  Future<void> guardarClienteConOperacion({
+    required ClientesLocalesCompanion cliente,
+    required OperacionesPendientesCompanion operacion,
+  }) async {
+    await transaction(() async {
+      await into(clientesLocales).insertOnConflictUpdate(
+        cliente,
+      );
+
+      await into(operacionesPendientes)
+          .insertOnConflictUpdate(
+        operacion,
+      );
+    });
+  }
+
+  Future<void> confirmarCreacionCliente({
+    required String idLocal,
+    required String idOperacion,
+    required ClientesLocalesCompanion clienteServidor,
+  }) async {
+    await transaction(() async {
+      await (delete(clientesLocales)
+            ..where(
+              (cliente) =>
+                  cliente.idLocal.equals(idLocal),
+            ))
+          .go();
+
+      await into(clientesLocales).insertOnConflictUpdate(
+        clienteServidor,
+      );
+
+      await (delete(operacionesPendientes)
+            ..where(
+              (operacion) =>
+                  operacion.idOperacion.equals(idOperacion),
+            ))
+          .go();
+    });
+  }
+
+  // ============================================================
   // LIMPIEZA LOCAL
   // ============================================================
 
