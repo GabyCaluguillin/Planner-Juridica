@@ -107,6 +107,10 @@ class AppDatabase extends _$AppDatabase {
         .get();
   }
 
+  Future<List<ClientesLocale>> obtenerTodosClientesLocales() {
+    return select(clientesLocales).get();
+  }
+
   Stream<List<ClientesLocale>> observarClientesLocales() {
     return (select(clientesLocales)
           ..where(

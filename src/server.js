@@ -1,4 +1,3 @@
-// src/server.js
 const express = require('express');
 
 const authRoutes = require('./routes/auth.routes');
@@ -12,6 +11,7 @@ const redis = require('./config/redis');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const HOST = '0.0.0.0';
 
 // Middleware para leer datos JSON
 app.use(express.json());
@@ -27,25 +27,38 @@ app.use('/api/casos', casoRoutes);
 app.get('/api/health', (req, res) => {
   res.json({
     exito: true,
-    mensaje: 'Servidor, PostgreSQL y Redis funcionando correctamente ✅'
+    mensaje:
+      'Servidor, PostgreSQL y Redis funcionando correctamente ✅',
   });
 });
 
 // Iniciar servidor
-app.listen(PORT, async () => {
-  console.log(`🚀 Servidor ejecutándose en: http://localhost:${PORT}`);
+app.listen(PORT, HOST, async () => {
+  console.log(
+    `🚀 Servidor ejecutándose en: http://${HOST}:${PORT}`
+  );
 
   try {
     await prisma.$connect();
-    console.log('🗄️  Conectado a PostgreSQL: planner_juridica');
+    console.log(
+      '🗄️  Conectado a PostgreSQL: planner_juridica'
+    );
   } catch (error) {
-    console.error('❌ Error de conexión con PostgreSQL:', error.message);
+    console.error(
+      '❌ Error de conexión con PostgreSQL:',
+      error.message
+    );
   }
 
   try {
     const respuestaRedis = await redis.ping();
-    console.log(`⚡ Redis conectado: ${respuestaRedis}`);
+    console.log(
+      `⚡ Redis conectado: ${respuestaRedis}`
+    );
   } catch (error) {
-    console.error('❌ Error de conexión con Redis:', error.message);
+    console.error(
+      '❌ Error de conexión con Redis:',
+      error.message
+    );
   }
 });
