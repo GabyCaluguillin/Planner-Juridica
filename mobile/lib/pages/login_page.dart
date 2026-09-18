@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/usuario.dart';
 import '../providers/auth_provider.dart';
 import '../services/auth_service.dart';
+import '../services/secure_storage_service.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -16,7 +17,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _correoController = TextEditingController();
   final _claveController = TextEditingController();
+
   final _authService = AuthService();
+  final _secureStorage = SecureStorageService();
 
   bool _cargando = false;
   bool _ocultarClave = true;
@@ -90,6 +93,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
       final usuario = Usuario.fromJson(usuarioJson);
 
+      // Guardar sesión de forma segura
+      await _secureStorage.guardarSesion(
+        token: token,
+        usuario: usuario,
+      );
+
+      // Mantener sesión activa dentro de la aplicación
       ref.read(authProvider.notifier).iniciarSesion(
             usuario: usuario,
             token: token,
@@ -204,8 +214,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       width: double.infinity,
                       height: 52,
                       child: FilledButton(
-                        onPressed:
-                            _cargando ? null : _iniciarSesion,
+                        onPressed: _cargando ? null : _iniciarSesion,
                         child: _cargando
                             ? const SizedBox(
                                 width: 24,

@@ -1,24 +1,51 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/usuario.dart';
+import '../services/secure_storage_service.dart';
 
 class AuthState {
   const AuthState({
     this.usuario,
     this.token,
+    this.cargando = true,
   });
 
   final Usuario? usuario;
   final String? token;
+  final bool cargando;
 
   bool get autenticado =>
-      usuario != null && token != null && token!.isNotEmpty;
+      usuario != null &&
+      token != null &&
+      token!.isNotEmpty;
 }
 
 class AuthNotifier extends Notifier<AuthState> {
+  final SecureStorageService _secureStorage =
+      SecureStorageService();
+
   @override
   AuthState build() {
+    _recuperarSesion();
+
     return const AuthState();
+  }
+
+  Future<void> _recuperarSesion() async {
+    final token = await _secureStorage.obtenerToken();
+    final usuario = await _secureStorage.obtenerUsuario();
+
+    if (token != null && usuario != null) {
+      state = AuthState(
+        usuario: usuario,
+        token: token,
+        cargando: false,
+      );
+    } else {
+      state = const AuthState(
+        cargando: false,
+      );
+    }
   }
 
   void iniciarSesion({
@@ -28,14 +55,20 @@ class AuthNotifier extends Notifier<AuthState> {
     state = AuthState(
       usuario: usuario,
       token: token,
+      cargando: false,
     );
   }
 
-  void cerrarSesion() {
-    state = const AuthState();
+  Future<void> cerrarSesion() async {
+    await _secureStorage.eliminarSesion();
+
+    state = const AuthState(
+      cargando: false,
+    );
   }
 }
 
-final authProvider = NotifierProvider<AuthNotifier, AuthState>(
+final authProvider =
+    NotifierProvider<AuthNotifier, AuthState>(
   AuthNotifier.new,
 );
