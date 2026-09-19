@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/usuario.dart';
 import '../services/secure_storage_service.dart';
+import 'database_provider.dart';
 
 class AuthState {
   const AuthState({
@@ -60,11 +61,36 @@ class AuthNotifier extends Notifier<AuthState> {
   }
 
   Future<void> cerrarSesion() async {
-    await _secureStorage.eliminarSesion();
+    Object? errorLimpieza;
+    StackTrace? stackTraceLimpieza;
+
+    try {
+      final database = ref.read(databaseProvider);
+
+      await database.limpiarDatosLocales();
+    } catch (error, stackTrace) {
+      errorLimpieza = error;
+      stackTraceLimpieza = stackTrace;
+    }
+
+    try {
+      await _secureStorage.eliminarSesion();
+    } catch (error, stackTrace) {
+      errorLimpieza ??= error;
+      stackTraceLimpieza ??= stackTrace;
+    }
 
     state = const AuthState(
       cargando: false,
     );
+
+    if (errorLimpieza != null &&
+        stackTraceLimpieza != null) {
+      Error.throwWithStackTrace(
+        errorLimpieza,
+        stackTraceLimpieza,
+      );
+    }
   }
 }
 

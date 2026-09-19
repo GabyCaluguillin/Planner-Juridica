@@ -1,8 +1,22 @@
-// src/services/cliente.service.js
 const prisma = require('../config/prisma');
 
-async function crearCliente(datos) {
+async function crearCliente(datos, idOperacion = null) {
   const correoNormalizado = datos.correo.trim().toLowerCase();
+
+  // Si la operación ya fue procesada anteriormente,
+  // devolvemos el cliente existente y no lo duplicamos.
+  if (idOperacion) {
+    const clientePorOperacion =
+      await prisma.cliente.findUnique({
+        where: {
+          idOperacion,
+        },
+      });
+
+    if (clientePorOperacion) {
+      return clientePorOperacion;
+    }
+  }
 
   const clienteExistente = await prisma.cliente.findUnique({
     where: {
@@ -11,19 +25,49 @@ async function crearCliente(datos) {
   });
 
   if (clienteExistente) {
-    const error = new Error('Ya existe un cliente registrado con ese correo');
+    const error = new Error(
+      'Ya existe un cliente registrado con ese correo'
+    );
     error.statusCode = 409;
     throw error;
   }
 
-  return prisma.cliente.create({
-    data: {
-      nombre: datos.nombre.trim(),
-      correo: correoNormalizado,
-      telefono: datos.telefono.trim(),
-      direccion: datos.direccion?.trim() || null,
-    },
-  });
+  try {
+    return await prisma.cliente.create({
+      data: {
+        nombre: datos.nombre.trim(),
+        correo: correoNormalizado,
+        telefono: datos.telefono.trim(),
+        direccion: datos.direccion?.trim() || null,
+        idOperacion,
+      },
+    });
+  } catch (error) {
+    // Protección adicional ante dos solicitudes iguales
+    // que lleguen prácticamente al mismo tiempo.
+    if (error.code === 'P2002' && idOperacion) {
+      const clienteProcesado =
+        await prisma.cliente.findUnique({
+          where: {
+            idOperacion,
+          },
+        });
+
+      if (clienteProcesado) {
+        return clienteProcesado;
+      }
+    }
+
+    if (error.code === 'P2002') {
+      const conflicto = new Error(
+        'Ya existe otro cliente registrado con ese correo'
+      );
+      conflicto.statusCode = 409;
+      throw conflicto;
+    }
+
+    throw error;
+  }
 }
 
 async function listarClientes() {

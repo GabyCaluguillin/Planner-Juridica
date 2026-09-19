@@ -3190,6 +3190,7 @@ export namespace Prisma {
     correo: string | null
     telefono: string | null
     direccion: string | null
+    idOperacion: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3200,6 +3201,7 @@ export namespace Prisma {
     correo: string | null
     telefono: string | null
     direccion: string | null
+    idOperacion: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3210,6 +3212,7 @@ export namespace Prisma {
     correo: number
     telefono: number
     direccion: number
+    idOperacion: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3230,6 +3233,7 @@ export namespace Prisma {
     correo?: true
     telefono?: true
     direccion?: true
+    idOperacion?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3240,6 +3244,7 @@ export namespace Prisma {
     correo?: true
     telefono?: true
     direccion?: true
+    idOperacion?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3250,6 +3255,7 @@ export namespace Prisma {
     correo?: true
     telefono?: true
     direccion?: true
+    idOperacion?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3347,6 +3353,7 @@ export namespace Prisma {
     correo: string
     telefono: string
     direccion: string | null
+    idOperacion: string | null
     createdAt: Date
     updatedAt: Date
     _count: ClienteCountAggregateOutputType | null
@@ -3376,6 +3383,7 @@ export namespace Prisma {
     correo?: boolean
     telefono?: boolean
     direccion?: boolean
+    idOperacion?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     casos?: boolean | Cliente$casosArgs<ExtArgs>
@@ -3389,6 +3397,7 @@ export namespace Prisma {
     correo?: boolean
     telefono?: boolean
     direccion?: boolean
+    idOperacion?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["cliente"]>
@@ -3399,6 +3408,7 @@ export namespace Prisma {
     correo?: boolean
     telefono?: boolean
     direccion?: boolean
+    idOperacion?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["cliente"]>
@@ -3409,11 +3419,12 @@ export namespace Prisma {
     correo?: boolean
     telefono?: boolean
     direccion?: boolean
+    idOperacion?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ClienteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "correo" | "telefono" | "direccion" | "createdAt" | "updatedAt", ExtArgs["result"]["cliente"]>
+  export type ClienteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "correo" | "telefono" | "direccion" | "idOperacion" | "createdAt" | "updatedAt", ExtArgs["result"]["cliente"]>
   export type ClienteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     casos?: boolean | Cliente$casosArgs<ExtArgs>
     participacionesReunion?: boolean | Cliente$participacionesReunionArgs<ExtArgs>
@@ -3434,6 +3445,7 @@ export namespace Prisma {
       correo: string
       telefono: string
       direccion: string | null
+      idOperacion: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["cliente"]>
@@ -3866,6 +3878,7 @@ export namespace Prisma {
     readonly correo: FieldRef<"Cliente", 'String'>
     readonly telefono: FieldRef<"Cliente", 'String'>
     readonly direccion: FieldRef<"Cliente", 'String'>
+    readonly idOperacion: FieldRef<"Cliente", 'String'>
     readonly createdAt: FieldRef<"Cliente", 'DateTime'>
     readonly updatedAt: FieldRef<"Cliente", 'DateTime'>
   }
@@ -12716,6 +12729,7 @@ export namespace Prisma {
     correo: 'correo',
     telefono: 'telefono',
     direccion: 'direccion',
+    idOperacion: 'idOperacion',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -13053,6 +13067,7 @@ export namespace Prisma {
     correo?: StringFilter<"Cliente"> | string
     telefono?: StringFilter<"Cliente"> | string
     direccion?: StringNullableFilter<"Cliente"> | string | null
+    idOperacion?: StringNullableFilter<"Cliente"> | string | null
     createdAt?: DateTimeFilter<"Cliente"> | Date | string
     updatedAt?: DateTimeFilter<"Cliente"> | Date | string
     casos?: CasoListRelationFilter
@@ -13065,6 +13080,7 @@ export namespace Prisma {
     correo?: SortOrder
     telefono?: SortOrder
     direccion?: SortOrderInput | SortOrder
+    idOperacion?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     casos?: CasoOrderByRelationAggregateInput
@@ -13074,6 +13090,7 @@ export namespace Prisma {
   export type ClienteWhereUniqueInput = Prisma.AtLeast<{
     id?: number
     correo?: string
+    idOperacion?: string
     AND?: ClienteWhereInput | ClienteWhereInput[]
     OR?: ClienteWhereInput[]
     NOT?: ClienteWhereInput | ClienteWhereInput[]
@@ -13084,7 +13101,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Cliente"> | Date | string
     casos?: CasoListRelationFilter
     participacionesReunion?: ParticipanteReunionListRelationFilter
-  }, "id" | "correo">
+  }, "id" | "correo" | "idOperacion">
 
   export type ClienteOrderByWithAggregationInput = {
     id?: SortOrder
@@ -13092,6 +13109,7 @@ export namespace Prisma {
     correo?: SortOrder
     telefono?: SortOrder
     direccion?: SortOrderInput | SortOrder
+    idOperacion?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ClienteCountOrderByAggregateInput
@@ -13110,6 +13128,7 @@ export namespace Prisma {
     correo?: StringWithAggregatesFilter<"Cliente"> | string
     telefono?: StringWithAggregatesFilter<"Cliente"> | string
     direccion?: StringNullableWithAggregatesFilter<"Cliente"> | string | null
+    idOperacion?: StringNullableWithAggregatesFilter<"Cliente"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Cliente"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Cliente"> | Date | string
   }
@@ -13766,6 +13785,7 @@ export namespace Prisma {
     correo: string
     telefono: string
     direccion?: string | null
+    idOperacion?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     casos?: CasoCreateNestedManyWithoutClienteInput
@@ -13778,6 +13798,7 @@ export namespace Prisma {
     correo: string
     telefono: string
     direccion?: string | null
+    idOperacion?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     casos?: CasoUncheckedCreateNestedManyWithoutClienteInput
@@ -13789,6 +13810,7 @@ export namespace Prisma {
     correo?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    idOperacion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     casos?: CasoUpdateManyWithoutClienteNestedInput
@@ -13801,6 +13823,7 @@ export namespace Prisma {
     correo?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    idOperacion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     casos?: CasoUncheckedUpdateManyWithoutClienteNestedInput
@@ -13813,6 +13836,7 @@ export namespace Prisma {
     correo: string
     telefono: string
     direccion?: string | null
+    idOperacion?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -13822,6 +13846,7 @@ export namespace Prisma {
     correo?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    idOperacion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13832,6 +13857,7 @@ export namespace Prisma {
     correo?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    idOperacion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14606,6 +14632,7 @@ export namespace Prisma {
     correo?: SortOrder
     telefono?: SortOrder
     direccion?: SortOrder
+    idOperacion?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14620,6 +14647,7 @@ export namespace Prisma {
     correo?: SortOrder
     telefono?: SortOrder
     direccion?: SortOrder
+    idOperacion?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14630,6 +14658,7 @@ export namespace Prisma {
     correo?: SortOrder
     telefono?: SortOrder
     direccion?: SortOrder
+    idOperacion?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -16836,6 +16865,7 @@ export namespace Prisma {
     correo: string
     telefono: string
     direccion?: string | null
+    idOperacion?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     participacionesReunion?: ParticipanteReunionCreateNestedManyWithoutClienteInput
@@ -16847,6 +16877,7 @@ export namespace Prisma {
     correo: string
     telefono: string
     direccion?: string | null
+    idOperacion?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     participacionesReunion?: ParticipanteReunionUncheckedCreateNestedManyWithoutClienteInput
@@ -17062,6 +17093,7 @@ export namespace Prisma {
     correo?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    idOperacion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     participacionesReunion?: ParticipanteReunionUpdateManyWithoutClienteNestedInput
@@ -17073,6 +17105,7 @@ export namespace Prisma {
     correo?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    idOperacion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     participacionesReunion?: ParticipanteReunionUncheckedUpdateManyWithoutClienteNestedInput
@@ -18088,6 +18121,7 @@ export namespace Prisma {
     correo: string
     telefono: string
     direccion?: string | null
+    idOperacion?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     casos?: CasoCreateNestedManyWithoutClienteInput
@@ -18099,6 +18133,7 @@ export namespace Prisma {
     correo: string
     telefono: string
     direccion?: string | null
+    idOperacion?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     casos?: CasoUncheckedCreateNestedManyWithoutClienteInput
@@ -18201,6 +18236,7 @@ export namespace Prisma {
     correo?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    idOperacion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     casos?: CasoUpdateManyWithoutClienteNestedInput
@@ -18212,6 +18248,7 @@ export namespace Prisma {
     correo?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    idOperacion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     casos?: CasoUncheckedUpdateManyWithoutClienteNestedInput

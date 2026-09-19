@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
@@ -18,6 +19,8 @@ class ClientesRepository {
 
   static const Uuid _uuid = Uuid();
 
+  static const int _maximoIntentos = 3;
+
   Stream<List<ClientesLocale>> observarClientes() {
     return _database.observarClientesLocales();
   }
@@ -27,12 +30,8 @@ class ClientesRepository {
   }
 
   Future<void> sincronizarClientes() async {
-    // Primero intenta enviar al servidor
-    // las operaciones que quedaron pendientes.
     await _procesarOperacionesPendientes();
 
-    // Después descarga la información actual
-    // disponible en PostgreSQL.
     final clientesServidor =
         await _apiService.listarClientes();
 
@@ -126,40 +125,100 @@ class ClientesRepository {
         continue;
       }
 
-      final datosDecodificados =
-          jsonDecode(operacion.datosJson);
+      await _procesarCreacionPendiente(
+        operacion,
+      );
+    }
+  }
 
-      if (datosDecodificados is! Map) {
-        throw Exception(
-          'Los datos de la operación pendiente '
-          'no tienen un formato válido.',
+  Future<void> _procesarCreacionPendiente(
+    OperacionesPendiente operacion,
+  ) async {
+    final datosDecodificados =
+        jsonDecode(operacion.datosJson);
+
+    if (datosDecodificados is! Map) {
+      throw Exception(
+        'Los datos de la operación pendiente '
+        'no tienen un formato válido.',
+      );
+    }
+
+    final datos =
+        Map<String, dynamic>.from(
+      datosDecodificados,
+    );
+
+    var intentoActual = operacion.intentos;
+
+    while (intentoActual < _maximoIntentos) {
+      try {
+        if (intentoActual > 0) {
+          final segundosEspera =
+              _calcularBackoff(
+            intentoActual,
+          );
+
+          await Future<void>.delayed(
+            Duration(
+              seconds: segundosEspera,
+            ),
+          );
+        }
+
+        final clienteServidor =
+            await _apiService.crearCliente(
+          datos: datos,
+          idOperacion:
+              operacion.idOperacion,
         );
+
+        final ahora = DateTime.now();
+
+        final clienteCompanion =
+            _crearClienteServidorCompanion(
+          clienteServidor,
+          ahora,
+        );
+
+        await _database.confirmarCreacionCliente(
+          idLocal:
+              operacion.idEntidadLocal,
+          idOperacion:
+              operacion.idOperacion,
+          clienteServidor:
+              clienteCompanion,
+        );
+
+        return;
+      } catch (_) {
+        intentoActual++;
+
+        final agotada =
+            intentoActual >= _maximoIntentos;
+
+        await _database.registrarIntentoOperacion(
+          idOperacion:
+              operacion.idOperacion,
+          intentos: intentoActual,
+          agotada: agotada,
+        );
+
+        if (agotada) {
+          rethrow;
+        }
       }
+    }
+  }
 
-      final datos =
-          Map<String, dynamic>.from(
-        datosDecodificados,
-      );
-
-      final clienteServidor =
-          await _apiService.crearCliente(
-        datos: datos,
-        idOperacion: operacion.idOperacion,
-      );
-
-      final ahora = DateTime.now();
-
-      final clienteCompanion =
-          _crearClienteServidorCompanion(
-        clienteServidor,
-        ahora,
-      );
-
-      await _database.confirmarCreacionCliente(
-        idLocal: operacion.idEntidadLocal,
-        idOperacion: operacion.idOperacion,
-        clienteServidor: clienteCompanion,
-      );
+  int _calcularBackoff(int intentoAnterior) {
+    switch (intentoAnterior) {
+      case 1:
+        return 1;
+      case 2:
+        return 2;
+      default:
+        return 4;
     }
   }
 

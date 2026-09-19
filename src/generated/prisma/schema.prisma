@@ -57,13 +57,14 @@ model Usuario {
 
 // Clientes del estudio jurídico
 model Cliente {
-  id        Int      @id @default(autoincrement())
-  nombre    String   @db.VarChar(150)
-  correo    String   @unique @db.VarChar(150)
-  telefono  String   @db.VarChar(20)
-  direccion String?  @db.Text
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  nombre      String   @db.VarChar(150)
+  correo      String   @unique @db.VarChar(150)
+  telefono    String   @db.VarChar(20)
+  direccion   String?  @db.Text
+  idOperacion String?  @unique @db.VarChar(36)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   // Relaciones
   casos                  Caso[]

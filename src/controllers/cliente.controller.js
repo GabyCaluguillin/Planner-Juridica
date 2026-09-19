@@ -1,9 +1,14 @@
-// src/controllers/cliente.controller.js
 const clienteService = require('../services/cliente.service');
 
 async function crear(req, res) {
   try {
-    const cliente = await clienteService.crearCliente(req.body);
+    const idOperacion =
+      req.get('X-Idempotency-Key') || null;
+
+    const cliente = await clienteService.crearCliente(
+      req.body,
+      idOperacion
+    );
 
     res.status(201).json({
       exito: true,
@@ -13,14 +18,16 @@ async function crear(req, res) {
   } catch (error) {
     res.status(error.statusCode || 500).json({
       exito: false,
-      mensaje: error.message || 'Error al crear el cliente',
+      mensaje:
+        error.message || 'Error al crear el cliente',
     });
   }
 }
 
 async function listar(req, res) {
   try {
-    const clientes = await clienteService.listarClientes();
+    const clientes =
+      await clienteService.listarClientes();
 
     res.status(200).json({
       exito: true,
@@ -37,7 +44,10 @@ async function listar(req, res) {
 
 async function obtenerPorId(req, res) {
   try {
-    const cliente = await clienteService.obtenerClientePorId(req.params.id);
+    const cliente =
+      await clienteService.obtenerClientePorId(
+        req.params.id
+      );
 
     res.status(200).json({
       exito: true,
@@ -47,17 +57,20 @@ async function obtenerPorId(req, res) {
   } catch (error) {
     res.status(error.statusCode || 500).json({
       exito: false,
-      mensaje: error.message || 'Error al obtener el cliente',
+      mensaje:
+        error.message ||
+        'Error al obtener el cliente',
     });
   }
 }
 
 async function actualizar(req, res) {
   try {
-    const cliente = await clienteService.actualizarCliente(
-      req.params.id,
-      req.body
-    );
+    const cliente =
+      await clienteService.actualizarCliente(
+        req.params.id,
+        req.body
+      );
 
     res.status(200).json({
       exito: true,
@@ -67,14 +80,18 @@ async function actualizar(req, res) {
   } catch (error) {
     res.status(error.statusCode || 500).json({
       exito: false,
-      mensaje: error.message || 'Error al actualizar el cliente',
+      mensaje:
+        error.message ||
+        'Error al actualizar el cliente',
     });
   }
 }
 
 async function eliminar(req, res) {
   try {
-    await clienteService.eliminarCliente(req.params.id);
+    await clienteService.eliminarCliente(
+      req.params.id
+    );
 
     res.status(200).json({
       exito: true,
@@ -83,7 +100,9 @@ async function eliminar(req, res) {
   } catch (error) {
     res.status(error.statusCode || 500).json({
       exito: false,
-      mensaje: error.message || 'Error al eliminar el cliente',
+      mensaje:
+        error.message ||
+        'Error al eliminar el cliente',
     });
   }
 }

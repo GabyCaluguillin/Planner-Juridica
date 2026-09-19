@@ -223,6 +223,26 @@ class AppDatabase extends _$AppDatabase {
         .go();
   }
 
+  Future<void> registrarIntentoOperacion({
+    required String idOperacion,
+    required int intentos,
+    required bool agotada,
+  }) async {
+    await (update(operacionesPendientes)
+          ..where(
+            (operacion) =>
+                operacion.idOperacion.equals(idOperacion),
+          ))
+        .write(
+      OperacionesPendientesCompanion(
+        intentos: Value(intentos),
+        estado: Value(
+          agotada ? 'fallida' : 'pendiente',
+        ),
+      ),
+    );
+  }
+
   // ============================================================
   // TRANSACCIONES OFFLINE
   // ============================================================
