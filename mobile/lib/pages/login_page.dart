@@ -10,16 +10,23 @@ class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  ConsumerState<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() =>
+      _LoginPageState();
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final _correoController = TextEditingController();
-  final _claveController = TextEditingController();
+
+  final _correoController =
+      TextEditingController();
+
+  final _claveController =
+      TextEditingController();
 
   final _authService = AuthService();
-  final _secureStorage = SecureStorageService();
+
+  final _secureStorage =
+      SecureStorageService();
 
   bool _cargando = false;
   bool _ocultarClave = true;
@@ -69,45 +76,67 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     });
 
     try {
-      final respuesta = await _authService.login(
-        correo: _correoController.text.trim(),
+      final respuesta =
+          await _authService.login(
+        correo:
+            _correoController.text.trim(),
         clave: _claveController.text,
       );
 
       final datos = respuesta['datos'];
 
       if (datos is! Map<String, dynamic>) {
-        throw Exception('La respuesta del servidor no es válida.');
-      }
-
-      final token = datos['token'];
-      final usuarioJson = datos['usuario'];
-
-      if (token is! String ||
-          token.isEmpty ||
-          usuarioJson is! Map<String, dynamic>) {
         throw Exception(
-          'No se recibió correctamente la información de la sesión.',
+          'La respuesta del servidor no es válida.',
         );
       }
 
-      final usuario = Usuario.fromJson(usuarioJson);
+      final accessToken =
+          datos['accessToken'] ??
+              datos['token'];
 
-      // Guardar sesión de forma segura
+      final refreshToken =
+          datos['refreshToken'];
+
+      final usuarioJson =
+          datos['usuario'];
+
+      if (accessToken is! String ||
+          accessToken.isEmpty ||
+          refreshToken is! String ||
+          refreshToken.isEmpty ||
+          usuarioJson
+              is! Map<String, dynamic>) {
+        throw Exception(
+          'No se recibió correctamente '
+          'la información de la sesión.',
+        );
+      }
+
+      final usuario =
+          Usuario.fromJson(
+        usuarioJson,
+      );
+
       await _secureStorage.guardarSesion(
-        token: token,
+        accessToken: accessToken,
+        refreshToken: refreshToken,
         usuario: usuario,
       );
 
-      // Mantener sesión activa dentro de la aplicación
-      ref.read(authProvider.notifier).iniciarSesion(
+      ref
+          .read(authProvider.notifier)
+          .iniciarSesion(
             usuario: usuario,
-            token: token,
+            token: accessToken,
           );
 
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
 
-      ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(context)
+          .showSnackBar(
         SnackBar(
           content: Text(
             'Bienvenido, ${usuario.nombre}.',
@@ -115,12 +144,20 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         ),
       );
     } catch (error) {
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
 
-      ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(context)
+          .showSnackBar(
         SnackBar(
           content: Text(
-            error.toString().replaceFirst('Exception: ', ''),
+            error
+                .toString()
+                .replaceFirst(
+                  'Exception: ',
+                  '',
+                ),
           ),
         ),
       );
@@ -139,93 +176,145 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
+            padding:
+                const EdgeInsets.all(24),
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 420),
+              constraints:
+                  const BoxConstraints(
+                maxWidth: 420,
+              ),
               child: Form(
                 key: _formKey,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment:
+                      MainAxisAlignment.center,
                   children: [
                     const Icon(
                       Icons.balance,
                       size: 80,
-                      color: Color(0xFF512DA8),
+                      color:
+                          Color(0xFF512DA8),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     const Text(
                       'Planner Jurídica',
                       style: TextStyle(
                         fontSize: 30,
-                        fontWeight: FontWeight.bold,
+                        fontWeight:
+                            FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(
+                      height: 8,
+                    ),
                     const Text(
                       'Gestión jurídica desde tu dispositivo móvil',
-                      textAlign: TextAlign.center,
+                      textAlign:
+                          TextAlign.center,
                       style: TextStyle(
                         fontSize: 15,
                         color: Colors.grey,
                       ),
                     ),
-                    const SizedBox(height: 36),
+                    const SizedBox(
+                      height: 36,
+                    ),
                     TextFormField(
-                      controller: _correoController,
-                      keyboardType: TextInputType.emailAddress,
-                      textInputAction: TextInputAction.next,
-                      validator: _validarCorreo,
-                      decoration: const InputDecoration(
-                        labelText: 'Correo electrónico',
-                        prefixIcon: Icon(Icons.email_outlined),
-                        border: OutlineInputBorder(),
+                      controller:
+                          _correoController,
+                      keyboardType:
+                          TextInputType
+                              .emailAddress,
+                      textInputAction:
+                          TextInputAction.next,
+                      validator:
+                          _validarCorreo,
+                      decoration:
+                          const InputDecoration(
+                        labelText:
+                            'Correo electrónico',
+                        prefixIcon: Icon(
+                          Icons
+                              .email_outlined,
+                        ),
+                        border:
+                            OutlineInputBorder(),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(
+                      height: 16,
+                    ),
                     TextFormField(
-                      controller: _claveController,
-                      obscureText: _ocultarClave,
-                      validator: _validarClave,
+                      controller:
+                          _claveController,
+                      obscureText:
+                          _ocultarClave,
+                      validator:
+                          _validarClave,
                       onFieldSubmitted: (_) {
                         if (!_cargando) {
                           _iniciarSesion();
                         }
                       },
-                      decoration: InputDecoration(
-                        labelText: 'Contraseña',
-                        prefixIcon: const Icon(Icons.lock_outline),
-                        border: const OutlineInputBorder(),
-                        suffixIcon: IconButton(
+                      decoration:
+                          InputDecoration(
+                        labelText:
+                            'Contraseña',
+                        prefixIcon:
+                            const Icon(
+                          Icons.lock_outline,
+                        ),
+                        border:
+                            const OutlineInputBorder(),
+                        suffixIcon:
+                            IconButton(
                           onPressed: () {
                             setState(() {
-                              _ocultarClave = !_ocultarClave;
+                              _ocultarClave =
+                                  !_ocultarClave;
                             });
                           },
                           icon: Icon(
                             _ocultarClave
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined,
+                                ? Icons
+                                    .visibility_outlined
+                                : Icons
+                                    .visibility_off_outlined,
                           ),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(
+                      height: 24,
+                    ),
                     SizedBox(
-                      width: double.infinity,
+                      width:
+                          double.infinity,
                       height: 52,
                       child: FilledButton(
-                        onPressed: _cargando ? null : _iniciarSesion,
+                        onPressed:
+                            _cargando
+                                ? null
+                                : _iniciarSesion,
                         child: _cargando
                             ? const SizedBox(
                                 width: 24,
                                 height: 24,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
+                                child:
+                                    CircularProgressIndicator(
+                                  strokeWidth:
+                                      2,
                                 ),
                               )
                             : const Text(
                                 'Iniciar sesión',
-                                style: TextStyle(fontSize: 16),
+                                style:
+                                    TextStyle(
+                                  fontSize:
+                                      16,
+                                ),
                               ),
                       ),
                     ),

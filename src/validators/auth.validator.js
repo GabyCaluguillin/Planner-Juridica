@@ -1,5 +1,7 @@
-// src/validators/auth.validator.js
-const { body, validationResult } = require('express-validator');
+const {
+  body,
+  validationResult,
+} = require('express-validator');
 
 const validarRegistro = [
   body('nombre')
@@ -12,7 +14,9 @@ const validarRegistro = [
 
   body('clave')
     .isLength({ min: 6 })
-    .withMessage('La contraseña debe tener al menos 6 caracteres'),
+    .withMessage(
+      'La contraseña debe tener al menos 6 caracteres'
+    ),
 ];
 
 const validarLogin = [
@@ -23,6 +27,18 @@ const validarLogin = [
   body('clave')
     .notEmpty()
     .withMessage('La contraseña es obligatoria'),
+];
+
+const validarRefreshToken = [
+  body('refreshToken')
+    .notEmpty()
+    .withMessage(
+      'El refresh token es obligatorio'
+    )
+    .isString()
+    .withMessage(
+      'El refresh token debe ser válido'
+    ),
 ];
 
 function manejarValidaciones(req, res, next) {
@@ -41,5 +57,6 @@ function manejarValidaciones(req, res, next) {
 module.exports = {
   validarRegistro,
   validarLogin,
+  validarRefreshToken,
   manejarValidaciones,
 };

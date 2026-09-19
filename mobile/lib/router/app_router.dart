@@ -8,47 +8,57 @@ import '../pages/login_page.dart';
 import '../providers/auth_provider.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
+  final authState = ref.watch(authProvider);
+
   final router = GoRouter(
     initialLocation: '/login',
     routes: [
       GoRoute(
         path: '/login',
-        builder: (context, state) => const LoginPage(),
+        builder: (context, state) =>
+            const LoginPage(),
       ),
       GoRoute(
         path: '/inicio',
-        builder: (context, state) => const InicioPage(),
+        builder: (context, state) =>
+            const InicioPage(),
       ),
       GoRoute(
         path: '/clientes',
-        builder: (context, state) => const ClientesPage(),
+        builder: (context, state) =>
+            const ClientesPage(),
       ),
       GoRoute(
         path: '/casos',
-        builder: (context, state) => const CasosPage(),
+        builder: (context, state) =>
+            const CasosPage(),
       ),
     ],
     redirect: (context, state) {
-      final authState = ref.read(authProvider);
-      final autenticado = authState.autenticado;
-      final estaEnLogin = state.matchedLocation == '/login';
+      // Mientras FlutterSecureStorage recupera
+      // la sesión, no se toma ninguna decisión
+      // de navegación.
+      if (authState.cargando) {
+        return null;
+      }
 
-      if (!autenticado && !estaEnLogin) {
+      final autenticado =
+          authState.autenticado;
+
+      final estaEnLogin =
+          state.matchedLocation == '/login';
+
+      if (!autenticado &&
+          !estaEnLogin) {
         return '/login';
       }
 
-      if (autenticado && estaEnLogin) {
+      if (autenticado &&
+          estaEnLogin) {
         return '/inicio';
       }
 
       return null;
-    },
-  );
-
-  ref.listen<AuthState>(
-    authProvider,
-    (previous, next) {
-      router.refresh();
     },
   );
 

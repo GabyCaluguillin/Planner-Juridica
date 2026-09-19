@@ -1,14 +1,15 @@
-// src/routes/auth.routes.js
 const express = require('express');
 
 const {
   registro,
   login,
+  refresh,
 } = require('../controllers/auth.controller');
 
 const {
   validarRegistro,
   validarLogin,
+  validarRefreshToken,
   manejarValidaciones,
 } = require('../validators/auth.validator');
 
@@ -26,6 +27,13 @@ router.post(
   validarLogin,
   manejarValidaciones,
   login
+);
+
+router.post(
+  '/refresh',
+  validarRefreshToken,
+  manejarValidaciones,
+  refresh
 );
 
 module.exports = router;
