@@ -18,18 +18,19 @@ class ClientesRepository {
   final ClientesApiService _apiService;
 
   static const Uuid _uuid = Uuid();
-
   static const int _maximoIntentos = 3;
 
   Stream<List<ClientesLocale>> observarClientes() {
     return _database.observarClientesLocales();
   }
 
-  Future<List<ClientesLocale>> obtenerClientesLocales() {
+  Future<List<ClientesLocale>>
+      obtenerClientesLocales() {
     return _database.obtenerClientesLocales();
   }
 
-  Future<DateTime?> obtenerUltimaSincronizacion() {
+  Future<DateTime?>
+      obtenerUltimaSincronizacion() {
     return _database
         .obtenerUltimaSincronizacionClientes();
   }
@@ -39,16 +40,8 @@ class ClientesRepository {
   }
 
   Future<void> sincronizarClientes() async {
-    // Primero intenta procesar las operaciones
-    // que quedaron pendientes.
     await _procesarOperacionesPendientes();
 
-    // Después consulta la información actual
-    // desde PostgreSQL.
-    //
-    // Si falla la conexión en este punto,
-    // los datos existentes en SQLite
-    // permanecen disponibles.
     final clientesServidor =
         await _apiService.listarClientes();
 
@@ -62,16 +55,8 @@ class ClientesRepository {
       );
     }).toList();
 
-    // La limpieza del caché se realiza
-    // únicamente después de comprobar que
-    // el servidor respondió correctamente.
-    //
-    // Los clientes pendientes de
-    // sincronización nunca se eliminan.
     await _database.limpiarCacheClientesVencida();
 
-    // Finalmente se almacenan los datos
-    // actualizados recibidos del servidor.
     await _database.guardarClientesLocales(
       clientesLocales,
     );
@@ -87,13 +72,10 @@ class ClientesRepository {
     final idOperacion = _uuid.v4();
 
     final nombreLimpio = nombre.trim();
-
     final correoLimpio =
         correo.trim().toLowerCase();
-
     final telefonoLimpio =
         telefono.trim();
-
     final direccionLimpia =
         direccion?.trim();
 
@@ -142,7 +124,8 @@ class ClientesRepository {
     return idLocal;
   }
 
-  Future<void> _procesarOperacionesPendientes() async {
+  Future<void>
+      _procesarOperacionesPendientes() async {
     final operaciones =
         await _database.obtenerOperacionesPendientes();
 
@@ -218,8 +201,19 @@ class ClientesRepository {
         );
 
         return;
-      } catch (_) {
+      } on ClientesApiException catch (error) {
         intentoActual++;
+
+        if (!error.reintentable) {
+          await _database.registrarIntentoOperacion(
+            idOperacion:
+                operacion.idOperacion,
+            intentos: intentoActual,
+            agotada: true,
+          );
+
+          rethrow;
+        }
 
         final agotada =
             intentoActual >= _maximoIntentos;
@@ -234,11 +228,24 @@ class ClientesRepository {
         if (agotada) {
           rethrow;
         }
+      } catch (_) {
+        intentoActual++;
+
+        await _database.registrarIntentoOperacion(
+          idOperacion:
+              operacion.idOperacion,
+          intentos: intentoActual,
+          agotada: true,
+        );
+
+        rethrow;
       }
     }
   }
 
-  int _calcularBackoff(int intentoAnterior) {
+  int _calcularBackoff(
+    int intentoAnterior,
+  ) {
     switch (intentoAnterior) {
       case 1:
         return 1;
