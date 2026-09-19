@@ -70,6 +70,9 @@ class OperacionesPendientes extends Table {
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_abrirConexion());
 
+  static const Duration vigenciaCacheClientes =
+      Duration(days: 7);
+
   @override
   int get schemaVersion => 2;
 
@@ -107,11 +110,13 @@ class AppDatabase extends _$AppDatabase {
         .get();
   }
 
-  Future<List<ClientesLocale>> obtenerTodosClientesLocales() {
+  Future<List<ClientesLocale>>
+      obtenerTodosClientesLocales() {
     return select(clientesLocales).get();
   }
 
-  Stream<List<ClientesLocale>> observarClientesLocales() {
+  Stream<List<ClientesLocale>>
+      observarClientesLocales() {
     return (select(clientesLocales)
           ..where(
             (cliente) =>
@@ -166,6 +171,66 @@ class AppDatabase extends _$AppDatabase {
           ..where(
             (cliente) =>
                 cliente.idLocal.equals(idLocal),
+          ))
+        .go();
+  }
+
+  // ============================================================
+  // CONTROL DE CACHÉ
+  // ============================================================
+
+  Future<DateTime?>
+      obtenerUltimaSincronizacionClientes() async {
+    final consulta = select(clientesLocales)
+      ..where(
+        (cliente) =>
+            cliente.ultimaSincronizacion.isNotNull(),
+      )
+      ..orderBy([
+        (cliente) => OrderingTerm.desc(
+              cliente.ultimaSincronizacion,
+            ),
+      ])
+      ..limit(1);
+
+    final resultado =
+        await consulta.getSingleOrNull();
+
+    return resultado?.ultimaSincronizacion;
+  }
+
+  Future<bool> cacheClientesVencida({
+    Duration vigencia = vigenciaCacheClientes,
+  }) async {
+    final ultimaSincronizacion =
+        await obtenerUltimaSincronizacionClientes();
+
+    if (ultimaSincronizacion == null) {
+      return true;
+    }
+
+    final limite =
+        DateTime.now().subtract(vigencia);
+
+    return ultimaSincronizacion.isBefore(limite);
+  }
+
+  Future<int> limpiarCacheClientesVencida({
+    Duration vigencia = vigenciaCacheClientes,
+  }) async {
+    final limite =
+        DateTime.now().subtract(vigencia);
+
+    return (delete(clientesLocales)
+          ..where(
+            (cliente) =>
+                cliente.idServidor.isNotNull() &
+                cliente.pendienteSincronizacion
+                    .equals(false) &
+                cliente.ultimaSincronizacion
+                    .isNotNull() &
+                cliente.ultimaSincronizacion
+                    .isSmallerThanValue(limite),
           ))
         .go();
   }
@@ -252,7 +317,8 @@ class AppDatabase extends _$AppDatabase {
     required OperacionesPendientesCompanion operacion,
   }) async {
     await transaction(() async {
-      await into(clientesLocales).insertOnConflictUpdate(
+      await into(clientesLocales)
+          .insertOnConflictUpdate(
         cliente,
       );
 
@@ -276,7 +342,8 @@ class AppDatabase extends _$AppDatabase {
             ))
           .go();
 
-      await into(clientesLocales).insertOnConflictUpdate(
+      await into(clientesLocales)
+          .insertOnConflictUpdate(
         clienteServidor,
       );
 

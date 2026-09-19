@@ -14,13 +14,35 @@ class ClientesPage extends ConsumerWidget {
     final usuario = authState.usuario;
 
     final clientes = ref.watch(clientesLocalesProvider);
+
     final sincronizacion =
         ref.watch(sincronizarClientesProvider);
+
+    final estadoCache =
+        ref.watch(estadoCacheClientesProvider);
 
     Future<void> actualizarClientes() {
       return ref.refresh(
         sincronizarClientesProvider.future,
       );
+    }
+
+    Future<void> crearCliente() async {
+      final resultado = await showDialog<bool>(
+        context: context,
+        builder: (_) => const _NuevoClienteDialog(),
+      );
+
+      if (resultado == true && context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Cliente guardado localmente. '
+              'Quedó pendiente de sincronización.',
+            ),
+          ),
+        );
+      }
     }
 
     return Scaffold(
@@ -45,14 +67,13 @@ class ClientesPage extends ConsumerWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          _mostrarFormularioCliente(
-            context,
-            ref,
-          );
-        },
-        icon: const Icon(Icons.person_add_alt_1),
-        label: const Text('Nuevo cliente'),
+        onPressed: crearCliente,
+        icon: const Icon(
+          Icons.person_add_alt_1,
+        ),
+        label: const Text(
+          'Nuevo cliente',
+        ),
       ),
       body: clientes.when(
         loading: () => const Center(
@@ -100,6 +121,7 @@ class ClientesPage extends ConsumerWidget {
                       sincronizacion.isLoading,
                   sinConexion:
                       sincronizacion.hasError,
+                  estadoCache: estadoCache,
                 ),
                 const SizedBox(height: 20),
                 Card(
@@ -165,182 +187,222 @@ class ClientesPage extends ConsumerWidget {
   }
 }
 
-Future<void> _mostrarFormularioCliente(
-  BuildContext context,
-  WidgetRef ref,
-) async {
-  final formKey = GlobalKey<FormState>();
+class _NuevoClienteDialog
+    extends ConsumerStatefulWidget {
+  const _NuevoClienteDialog();
 
-  final nombreController =
+  @override
+  ConsumerState<_NuevoClienteDialog> createState() =>
+      _NuevoClienteDialogState();
+}
+
+class _NuevoClienteDialogState
+    extends ConsumerState<_NuevoClienteDialog> {
+  final _formKey = GlobalKey<FormState>();
+
+  final _nombreController =
       TextEditingController();
 
-  final correoController =
+  final _correoController =
       TextEditingController();
 
-  final telefonoController =
+  final _telefonoController =
       TextEditingController();
 
-  final direccionController =
+  final _direccionController =
       TextEditingController();
 
-  final resultado = await showDialog<bool>(
-    context: context,
-    builder: (dialogContext) {
-      return AlertDialog(
-        title: const Text(
-          'Nuevo cliente',
-        ),
-        content: SingleChildScrollView(
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  controller: nombreController,
-                  textCapitalization:
-                      TextCapitalization.words,
-                  decoration:
-                      const InputDecoration(
-                    labelText: 'Nombre',
-                    prefixIcon:
-                        Icon(Icons.person_outline),
-                  ),
-                  validator: (valor) {
-                    if (valor == null ||
-                        valor.trim().isEmpty) {
-                      return 'Ingrese el nombre.';
-                    }
+  bool _guardando = false;
 
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 12),
-                TextFormField(
-                  controller: correoController,
-                  keyboardType:
-                      TextInputType.emailAddress,
-                  decoration:
-                      const InputDecoration(
-                    labelText: 'Correo',
-                    prefixIcon:
-                        Icon(Icons.email_outlined),
-                  ),
-                  validator: (valor) {
-                    final correo =
-                        valor?.trim() ?? '';
+  @override
+  void dispose() {
+    _nombreController.dispose();
+    _correoController.dispose();
+    _telefonoController.dispose();
+    _direccionController.dispose();
+    super.dispose();
+  }
 
-                    if (correo.isEmpty) {
-                      return 'Ingrese el correo.';
-                    }
+  Future<void> _guardar() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
 
-                    final expresion = RegExp(
-                      r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
-                    );
+    setState(() {
+      _guardando = true;
+    });
 
-                    if (!expresion
-                        .hasMatch(correo)) {
-                      return 'Ingrese un correo válido.';
-                    }
+    try {
+      await ref
+          .read(
+            clientesRepositoryProvider,
+          )
+          .crearClienteOffline(
+            nombre: _nombreController.text,
+            correo: _correoController.text,
+            telefono:
+                _telefonoController.text,
+            direccion:
+                _direccionController.text,
+          );
 
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 12),
-                TextFormField(
-                  controller: telefonoController,
-                  keyboardType:
-                      TextInputType.phone,
-                  decoration:
-                      const InputDecoration(
-                    labelText: 'Teléfono',
-                    prefixIcon:
-                        Icon(Icons.phone_outlined),
-                  ),
-                  validator: (valor) {
-                    if (valor == null ||
-                        valor.trim().isEmpty) {
-                      return 'Ingrese el teléfono.';
-                    }
+      if (!mounted) {
+        return;
+      }
 
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 12),
-                TextFormField(
-                  controller:
-                      direccionController,
-                  decoration:
-                      const InputDecoration(
-                    labelText:
-                        'Dirección (opcional)',
-                    prefixIcon:
-                        Icon(Icons.location_on_outlined),
-                  ),
-                ),
-              ],
-            ),
+      Navigator.of(context).pop(true);
+    } catch (error) {
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _guardando = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'No fue posible guardar el cliente: '
+            '$error',
           ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(dialogContext)
-                  .pop(false);
-            },
-            child: const Text('Cancelar'),
-          ),
-          FilledButton(
-            onPressed: () async {
-              if (!formKey.currentState!
-                  .validate()) {
-                return;
-              }
+      );
+    }
+  }
 
-              await ref
-                  .read(
-                    clientesRepositoryProvider,
-                  )
-                  .crearClienteOffline(
-                    nombre:
-                        nombreController.text,
-                    correo:
-                        correoController.text,
-                    telefono:
-                        telefonoController.text,
-                    direccion:
-                        direccionController.text,
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text(
+        'Nuevo cliente',
+      ),
+      content: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                controller: _nombreController,
+                textCapitalization:
+                    TextCapitalization.words,
+                decoration:
+                    const InputDecoration(
+                  labelText: 'Nombre',
+                  prefixIcon: Icon(
+                    Icons.person_outline,
+                  ),
+                ),
+                validator: (valor) {
+                  if (valor == null ||
+                      valor.trim().isEmpty) {
+                    return 'Ingrese el nombre.';
+                  }
+
+                  return null;
+                },
+              ),
+              const SizedBox(height: 12),
+              TextFormField(
+                controller: _correoController,
+                keyboardType:
+                    TextInputType.emailAddress,
+                decoration:
+                    const InputDecoration(
+                  labelText: 'Correo',
+                  prefixIcon: Icon(
+                    Icons.email_outlined,
+                  ),
+                ),
+                validator: (valor) {
+                  final correo =
+                      valor?.trim() ?? '';
+
+                  if (correo.isEmpty) {
+                    return 'Ingrese el correo.';
+                  }
+
+                  final expresion = RegExp(
+                    r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
                   );
 
-              if (!dialogContext.mounted) {
-                return;
-              }
+                  if (!expresion
+                      .hasMatch(correo)) {
+                    return 'Ingrese un correo válido.';
+                  }
 
-              Navigator.of(dialogContext)
-                  .pop(true);
-            },
-            child: const Text('Guardar'),
+                  return null;
+                },
+              ),
+              const SizedBox(height: 12),
+              TextFormField(
+                controller:
+                    _telefonoController,
+                keyboardType:
+                    TextInputType.phone,
+                decoration:
+                    const InputDecoration(
+                  labelText: 'Teléfono',
+                  prefixIcon: Icon(
+                    Icons.phone_outlined,
+                  ),
+                ),
+                validator: (valor) {
+                  if (valor == null ||
+                      valor.trim().isEmpty) {
+                    return 'Ingrese el teléfono.';
+                  }
+
+                  return null;
+                },
+              ),
+              const SizedBox(height: 12),
+              TextFormField(
+                controller:
+                    _direccionController,
+                decoration:
+                    const InputDecoration(
+                  labelText:
+                      'Dirección (opcional)',
+                  prefixIcon: Icon(
+                    Icons.location_on_outlined,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      );
-    },
-  );
-
-  nombreController.dispose();
-  correoController.dispose();
-  telefonoController.dispose();
-  direccionController.dispose();
-
-  if (resultado == true &&
-      context.mounted) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(
-      const SnackBar(
-        content: Text(
-          'Cliente guardado localmente. '
-          'Quedó pendiente de sincronización.',
         ),
       ),
+      actions: [
+        TextButton(
+          onPressed: _guardando
+              ? null
+              : () {
+                  Navigator.of(context)
+                      .pop(false);
+                },
+          child: const Text(
+            'Cancelar',
+          ),
+        ),
+        FilledButton(
+          onPressed:
+              _guardando ? null : _guardar,
+          child: _guardando
+              ? const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child:
+                      CircularProgressIndicator(
+                    strokeWidth: 2,
+                  ),
+                )
+              : const Text(
+                  'Guardar',
+                ),
+        ),
+      ],
     );
   }
 }
@@ -351,11 +413,13 @@ class _EstadoSincronizacion
     required this.clientes,
     required this.sincronizando,
     required this.sinConexion,
+    required this.estadoCache,
   });
 
   final List<ClientesLocale> clientes;
   final bool sincronizando;
   final bool sinConexion;
+  final AsyncValue<EstadoCacheClientes> estadoCache;
 
   @override
   Widget build(BuildContext context) {
@@ -377,36 +441,98 @@ class _EstadoSincronizacion
       },
     );
 
-    late final IconData icono;
-    late final String mensaje;
+    late IconData icono;
+    late String mensaje;
+    Color color = const Color(0xFF512DA8);
 
     if (sincronizando) {
       icono = Icons.sync;
-      mensaje =
-          'Actualizando clientes...';
+      mensaje = 'Actualizando clientes...';
     } else if (sinConexion) {
       icono = Icons.cloud_off_outlined;
+      color = Colors.orange.shade800;
 
       if (clientes.isEmpty) {
         mensaje =
             'No fue posible conectarse al servidor '
             'y todavía no existen datos locales.';
       } else {
-        mensaje =
-            'Sin conexión con el servidor. '
-            'Se muestran los datos guardados '
-            'en el dispositivo.';
+        final cache = estadoCache.when(
+          data: (estado) => estado,
+          loading: () => null,
+          error: (_, _) => null,
+        );
+
+        if (cache == EstadoCacheClientes.vencido) {
+          icono = Icons.warning_amber_rounded;
+
+          mensaje =
+              'Sin conexión con el servidor. '
+              'Los datos locales están desactualizados '
+              'porque la última sincronización supera '
+              'los 7 días.'
+              '${ultimaSincronizacion != null ? ' '
+                  'Última sincronización: '
+                  '${_fechaCorta(ultimaSincronizacion)}.' : ''}';
+        } else if (cache ==
+            EstadoCacheClientes.vigente) {
+          mensaje =
+              'Sin conexión con el servidor. '
+              'Se muestran los datos guardados '
+              'en el dispositivo. Caché vigente.'
+              '${ultimaSincronizacion != null ? ' '
+                  'Última sincronización: '
+                  '${_fechaCorta(ultimaSincronizacion)}.' : ''}';
+        } else {
+          mensaje =
+              'Sin conexión con el servidor. '
+              'Se muestran los datos guardados '
+              'en el dispositivo.';
+        }
       }
-    } else if (ultimaSincronizacion ==
-        null) {
-      icono = Icons.info_outline;
-      mensaje =
-          'Aún no hay una sincronización registrada.';
     } else {
-      icono = Icons.cloud_done_outlined;
-      mensaje =
-          'Última sincronización: '
-          '${_fechaCorta(ultimaSincronizacion)}';
+      estadoCache.when(
+        loading: () {
+          icono = Icons.hourglass_empty;
+          mensaje =
+              'Verificando estado del caché...';
+        },
+        error: (_, _) {
+          icono = Icons.info_outline;
+          mensaje =
+              'No fue posible determinar el estado '
+              'del caché local.';
+        },
+        data: (estado) {
+          if (estado ==
+              EstadoCacheClientes.sinDatos) {
+            icono = Icons.info_outline;
+            mensaje =
+                'Sin datos sincronizados almacenados '
+                'en el dispositivo.';
+          } else if (estado ==
+              EstadoCacheClientes.vencido) {
+            icono = Icons.warning_amber_rounded;
+            color = Colors.orange.shade800;
+
+            mensaje =
+                'Datos locales desactualizados. '
+                'La última sincronización supera '
+                'los 7 días.'
+                '${ultimaSincronizacion != null ? ' '
+                    'Última sincronización: '
+                    '${_fechaCorta(ultimaSincronizacion)}.' : ''}';
+          } else {
+            icono = Icons.cloud_done_outlined;
+
+            mensaje =
+                'Caché vigente.'
+                '${ultimaSincronizacion != null ? ' '
+                    'Última sincronización: '
+                    '${_fechaCorta(ultimaSincronizacion)}.' : ''}';
+          }
+        },
+      );
     }
 
     return Card(
@@ -419,18 +545,14 @@ class _EstadoSincronizacion
           children: [
             Icon(
               icono,
-              color: sinConexion
-                  ? Colors.orange.shade800
-                  : const Color(0xFF512DA8),
+              color: color,
             ),
             const SizedBox(width: 12),
             Expanded(
               child: Text(
                 mensaje,
                 style: TextStyle(
-                  color: sinConexion
-                      ? Colors.orange.shade800
-                      : Colors.black87,
+                  color: color,
                 ),
               ),
             ),
@@ -441,8 +563,7 @@ class _EstadoSincronizacion
   }
 }
 
-class _ClienteTile
-    extends StatelessWidget {
+class _ClienteTile extends StatelessWidget {
   const _ClienteTile({
     required this.cliente,
   });

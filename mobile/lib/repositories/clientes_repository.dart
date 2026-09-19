@@ -29,9 +29,26 @@ class ClientesRepository {
     return _database.obtenerClientesLocales();
   }
 
+  Future<DateTime?> obtenerUltimaSincronizacion() {
+    return _database
+        .obtenerUltimaSincronizacionClientes();
+  }
+
+  Future<bool> cacheClientesVencida() {
+    return _database.cacheClientesVencida();
+  }
+
   Future<void> sincronizarClientes() async {
+    // Primero intenta procesar las operaciones
+    // que quedaron pendientes.
     await _procesarOperacionesPendientes();
 
+    // Después consulta la información actual
+    // desde PostgreSQL.
+    //
+    // Si falla la conexión en este punto,
+    // los datos existentes en SQLite
+    // permanecen disponibles.
     final clientesServidor =
         await _apiService.listarClientes();
 
@@ -45,6 +62,16 @@ class ClientesRepository {
       );
     }).toList();
 
+    // La limpieza del caché se realiza
+    // únicamente después de comprobar que
+    // el servidor respondió correctamente.
+    //
+    // Los clientes pendientes de
+    // sincronización nunca se eliminan.
+    await _database.limpiarCacheClientesVencida();
+
+    // Finalmente se almacenan los datos
+    // actualizados recibidos del servidor.
     await _database.guardarClientesLocales(
       clientesLocales,
     );
