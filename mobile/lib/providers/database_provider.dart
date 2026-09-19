@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../database/app_database.dart';
@@ -76,4 +77,9 @@ final estadoCacheClientesProvider =
   }
 
   return EstadoCacheClientes.vigente;
+});
+
+final conectividadProvider =
+    StreamProvider<List<ConnectivityResult>>((ref) {
+  return Connectivity().onConnectivityChanged;
 });

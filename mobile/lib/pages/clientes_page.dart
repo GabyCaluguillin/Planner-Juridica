@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,6 +21,40 @@ class ClientesPage extends ConsumerWidget {
 
     final estadoCache =
         ref.watch(estadoCacheClientesProvider);
+
+    ref.listen<AsyncValue<List<ConnectivityResult>>>(
+      conectividadProvider,
+      (anterior, actual) {
+        final conexionAnterior =
+            anterior?.asData?.value;
+
+        final conexionActual =
+            actual.asData?.value;
+
+        if (conexionAnterior == null ||
+            conexionActual == null) {
+          return;
+        }
+
+        final estabaSinConexion =
+            conexionAnterior.contains(
+          ConnectivityResult.none,
+        );
+
+        final recuperoConexion =
+            conexionActual.any(
+          (resultado) =>
+              resultado != ConnectivityResult.none,
+        );
+
+        if (estabaSinConexion &&
+            recuperoConexion) {
+          ref.invalidate(
+            sincronizarClientesProvider,
+          );
+        }
+      },
+    );
 
     Future<void> actualizarClientes() {
       return ref.refresh(
@@ -66,7 +101,8 @@ class ClientesPage extends ConsumerWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton:
+          FloatingActionButton.extended(
         onPressed: crearCliente,
         icon: const Icon(
           Icons.person_add_alt_1,
@@ -419,7 +455,8 @@ class _EstadoSincronizacion
   final List<ClientesLocale> clientes;
   final bool sincronizando;
   final bool sinConexion;
-  final AsyncValue<EstadoCacheClientes> estadoCache;
+  final AsyncValue<EstadoCacheClientes>
+      estadoCache;
 
   @override
   Widget build(BuildContext context) {
@@ -463,8 +500,10 @@ class _EstadoSincronizacion
           error: (_, _) => null,
         );
 
-        if (cache == EstadoCacheClientes.vencido) {
-          icono = Icons.warning_amber_rounded;
+        if (cache ==
+            EstadoCacheClientes.vencido) {
+          icono =
+              Icons.warning_amber_rounded;
 
           mensaje =
               'Sin conexión con el servidor. '
@@ -512,7 +551,8 @@ class _EstadoSincronizacion
                 'en el dispositivo.';
           } else if (estado ==
               EstadoCacheClientes.vencido) {
-            icono = Icons.warning_amber_rounded;
+            icono =
+                Icons.warning_amber_rounded;
             color = Colors.orange.shade800;
 
             mensaje =
@@ -523,7 +563,8 @@ class _EstadoSincronizacion
                     'Última sincronización: '
                     '${_fechaCorta(ultimaSincronizacion)}.' : ''}';
           } else {
-            icono = Icons.cloud_done_outlined;
+            icono =
+                Icons.cloud_done_outlined;
 
             mensaje =
                 'Caché vigente.'
