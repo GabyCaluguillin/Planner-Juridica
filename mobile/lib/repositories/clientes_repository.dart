@@ -5,14 +5,14 @@ import 'package:drift/drift.dart';
 import 'package:uuid/uuid.dart';
 
 import '../database/app_database.dart';
+import '../models/cliente.dart';
 import '../services/clientes_api_service.dart';
 
 class ClientesRepository {
   ClientesRepository(
-    this._database, {
-    ClientesApiService? apiService,
-  }) : _apiService =
-            apiService ?? ClientesApiService();
+    this._database,
+    this._apiService,
+  );
 
   final AppDatabase _database;
   final ClientesApiService _apiService;
@@ -48,7 +48,11 @@ class ClientesRepository {
     final ahora = DateTime.now();
 
     final clientesLocales =
-        clientesServidor.map((cliente) {
+        clientesServidor.map((clienteJson) {
+      final cliente = Cliente.fromJson(
+        clienteJson,
+      );
+
       return _crearClienteServidorCompanion(
         cliente,
         ahora,
@@ -67,6 +71,7 @@ class ClientesRepository {
     required String correo,
     required String telefono,
     String? direccion,
+    String? evidenciaRuta,
   }) async {
     final idLocal = _uuid.v4();
     final idOperacion = _uuid.v4();
@@ -85,13 +90,20 @@ class ClientesRepository {
             ? null
             : direccionLimpia;
 
-    final cliente =
-        ClientesLocalesCompanion(
+    final solicitud = ClienteSolicitud(
+      nombre: nombreLimpio,
+      correo: correoLimpio,
+      telefono: telefonoLimpio,
+      direccion: direccionFinal,
+    );
+
+    final cliente = ClientesLocalesCompanion(
       idLocal: Value(idLocal),
       nombre: Value(nombreLimpio),
       correo: Value(correoLimpio),
       telefono: Value(telefonoLimpio),
       direccion: Value(direccionFinal),
+      evidenciaRuta: Value(evidenciaRuta),
       pendienteSincronizacion:
           const Value(true),
       eliminadoLocalmente:
@@ -99,10 +111,8 @@ class ClientesRepository {
     );
 
     final datosOperacion = jsonEncode({
-      'nombre': nombreLimpio,
-      'correo': correoLimpio,
-      'telefono': telefonoLimpio,
-      'direccion': direccionFinal,
+      ...solicitud.toJson(),
+      'evidenciaRuta': evidenciaRuta,
     });
 
     final operacion =
@@ -154,9 +164,15 @@ class ClientesRepository {
       );
     }
 
-    final datos =
-        Map<String, dynamic>.from(
+    final datos = Map<String, dynamic>.from(
       datosDecodificados,
+    );
+
+    final evidenciaRuta =
+        datos.remove('evidenciaRuta') as String?;
+
+    final solicitud = ClienteSolicitud.fromJson(
+      datos,
     );
 
     var intentoActual = operacion.intentos;
@@ -176,11 +192,15 @@ class ClientesRepository {
           );
         }
 
-        final clienteServidor =
+        final clienteServidorJson =
             await _apiService.crearCliente(
-          datos: datos,
-          idOperacion:
-              operacion.idOperacion,
+          datos: solicitud.toJson(),
+          idOperacion: operacion.idOperacion,
+        );
+
+        final clienteServidor =
+            Cliente.fromJson(
+          clienteServidorJson,
         );
 
         final ahora = DateTime.now();
@@ -189,15 +209,13 @@ class ClientesRepository {
             _crearClienteServidorCompanion(
           clienteServidor,
           ahora,
+          evidenciaRuta: evidenciaRuta,
         );
 
         await _database.confirmarCreacionCliente(
-          idLocal:
-              operacion.idEntidadLocal,
-          idOperacion:
-              operacion.idOperacion,
-          clienteServidor:
-              clienteCompanion,
+          idLocal: operacion.idEntidadLocal,
+          idOperacion: operacion.idOperacion,
+          clienteServidor: clienteCompanion,
         );
 
         return;
@@ -206,8 +224,7 @@ class ClientesRepository {
 
         if (!error.reintentable) {
           await _database.registrarIntentoOperacion(
-            idOperacion:
-                operacion.idOperacion,
+            idOperacion: operacion.idOperacion,
             intentos: intentoActual,
             agotada: true,
           );
@@ -219,8 +236,7 @@ class ClientesRepository {
             intentoActual >= _maximoIntentos;
 
         await _database.registrarIntentoOperacion(
-          idOperacion:
-              operacion.idOperacion,
+          idOperacion: operacion.idOperacion,
           intentos: intentoActual,
           agotada: agotada,
         );
@@ -232,8 +248,7 @@ class ClientesRepository {
         intentoActual++;
 
         await _database.registrarIntentoOperacion(
-          idOperacion:
-              operacion.idOperacion,
+          idOperacion: operacion.idOperacion,
           intentos: intentoActual,
           agotada: true,
         );
@@ -258,42 +273,22 @@ class ClientesRepository {
 
   ClientesLocalesCompanion
       _crearClienteServidorCompanion(
-    Map<String, dynamic> cliente,
-    DateTime ahora,
-  ) {
-    final idServidor = cliente['id'];
-
-    if (idServidor is! int) {
-      throw Exception(
-        'Se recibió un cliente con '
-        'identificador inválido.',
-      );
-    }
-
-    final updatedAt =
-        cliente['updatedAt']?.toString();
-
+    Cliente cliente,
+    DateTime ahora, {
+    String? evidenciaRuta,
+  }) {
     return ClientesLocalesCompanion(
       idLocal: Value(
-        'servidor_$idServidor',
+        'servidor_${cliente.id}',
       ),
-      idServidor: Value(idServidor),
-      nombre: Value(
-        cliente['nombre']?.toString() ?? '',
-      ),
-      correo: Value(
-        cliente['correo']?.toString() ?? '',
-      ),
-      telefono: Value(
-        cliente['telefono']?.toString() ?? '',
-      ),
-      direccion: Value(
-        cliente['direccion']?.toString(),
-      ),
+      idServidor: Value(cliente.id),
+      nombre: Value(cliente.nombre),
+      correo: Value(cliente.correo),
+      telefono: Value(cliente.telefono),
+      direccion: Value(cliente.direccion),
+      evidenciaRuta: Value(evidenciaRuta),
       actualizadoEnServidor: Value(
-        updatedAt != null
-            ? DateTime.tryParse(updatedAt)
-            : null,
+        cliente.updatedAt,
       ),
       ultimaSincronizacion: Value(ahora),
       pendienteSincronizacion:

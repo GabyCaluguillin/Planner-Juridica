@@ -18,25 +18,24 @@ class ClientesApiException implements Exception {
 }
 
 class ClientesApiService {
-  ClientesApiService({
-    ApiClient? apiClient,
-  }) : _apiClient = apiClient ?? ApiClient();
+  ClientesApiService(this._apiClient);
 
   final ApiClient _apiClient;
 
-  Future<List<Map<String, dynamic>>>
-      listarClientes() async {
+  Future<List<Map<String, dynamic>>> listarClientes({
+    CancelToken? cancelToken,
+  }) async {
     try {
       final response = await _apiClient.dio.get(
         '/clientes',
+        cancelToken: cancelToken,
       );
 
       final data = response.data;
 
       if (data is! Map<String, dynamic>) {
         throw const ClientesApiException(
-          mensaje:
-              'La respuesta del servidor no es válida.',
+          mensaje: 'La respuesta del servidor no es válida.',
           reintentable: false,
         );
       }
@@ -53,12 +52,13 @@ class ClientesApiService {
 
       return clientes
           .map(
-            (cliente) =>
-                Map<String, dynamic>.from(
+            (cliente) => Map<String, dynamic>.from(
               cliente as Map,
             ),
           )
           .toList();
+    } on ClientesApiException {
+      rethrow;
     } on DioException catch (error) {
       throw _crearExcepcionApi(
         error,
@@ -71,11 +71,13 @@ class ClientesApiService {
   Future<Map<String, dynamic>> crearCliente({
     required Map<String, dynamic> datos,
     required String idOperacion,
+    CancelToken? cancelToken,
   }) async {
     try {
       final response = await _apiClient.dio.post(
         '/clientes',
         data: datos,
+        cancelToken: cancelToken,
         options: Options(
           headers: {
             'X-Idempotency-Key': idOperacion,
@@ -87,8 +89,7 @@ class ClientesApiService {
 
       if (data is! Map<String, dynamic>) {
         throw const ClientesApiException(
-          mensaje:
-              'La respuesta del servidor no es válida.',
+          mensaje: 'La respuesta del servidor no es válida.',
           reintentable: false,
         );
       }
@@ -103,9 +104,9 @@ class ClientesApiService {
         );
       }
 
-      return Map<String, dynamic>.from(
-        cliente,
-      );
+      return Map<String, dynamic>.from(cliente);
+    } on ClientesApiException {
+      rethrow;
     } on DioException catch (error) {
       throw _crearExcepcionApi(
         error,
@@ -119,17 +120,14 @@ class ClientesApiService {
     DioException error, {
     required String mensajePredeterminado,
   }) {
-    final statusCode =
-        error.response?.statusCode;
+    final statusCode = error.response?.statusCode;
 
     final mensaje = _obtenerMensajeError(
       error,
-      mensajePredeterminado:
-          mensajePredeterminado,
+      mensajePredeterminado: mensajePredeterminado,
     );
 
-    final reintentable =
-        _esErrorReintentable(
+    final reintentable = _esErrorReintentable(
       error,
       statusCode,
     );
@@ -163,8 +161,7 @@ class ClientesApiService {
       return false;
     }
 
-    if (statusCode == 408 ||
-        statusCode == 429) {
+    if (statusCode == 408 || statusCode == 429) {
       return true;
     }
 

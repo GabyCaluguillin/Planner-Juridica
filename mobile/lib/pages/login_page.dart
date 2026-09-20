@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/usuario.dart';
+import '../providers/api_provider.dart';
 import '../providers/auth_provider.dart';
-import '../services/auth_service.dart';
 import '../services/secure_storage_service.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -22,8 +22,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   final _claveController =
       TextEditingController();
-
-  final _authService = AuthService();
 
   final _secureStorage =
       SecureStorageService();
@@ -76,8 +74,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     });
 
     try {
+      final authService =
+          ref.read(authServiceProvider);
+
       final respuesta =
-          await _authService.login(
+          await authService.login(
         correo:
             _correoController.text.trim(),
         clave: _claveController.text,

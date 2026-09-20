@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../database/app_database.dart';
 import '../repositories/clientes_repository.dart';
+import 'api_provider.dart';
 
 enum EstadoCacheClientes {
   sinDatos,
@@ -24,8 +25,12 @@ final clientesRepositoryProvider =
     Provider<ClientesRepository>((ref) {
   final database = ref.watch(databaseProvider);
 
+  final apiService =
+      ref.watch(clientesApiServiceProvider);
+
   return ClientesRepository(
     database,
+    apiService,
   );
 });
 

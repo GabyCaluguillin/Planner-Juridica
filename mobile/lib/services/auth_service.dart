@@ -1,39 +1,75 @@
-import 'dart:convert';
+import 'package:dio/dio.dart';
 
-import 'package:http/http.dart' as http;
-
-import '../config/api_config.dart';
+import 'api_client.dart';
 
 class AuthService {
+  AuthService(this._apiClient);
+
+  final ApiClient _apiClient;
+
   Future<Map<String, dynamic>> login({
     required String correo,
     required String clave,
   }) async {
-    final url = Uri.parse('${ApiConfig.baseUrl}/auth/login');
+    try {
+      final response = await _apiClient.dio.post(
+        '/auth/login',
+        data: {
+          'correo': correo,
+          'clave': clave,
+        },
+      );
 
-    final response = await http
-        .post(
-          url,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: jsonEncode({
-            'correo': correo,
-            'clave': clave,
-          }),
-        )
-        .timeout(const Duration(seconds: 10));
+      final data = response.data;
 
-    final Map<String, dynamic> data = response.body.isNotEmpty
-        ? jsonDecode(response.body)
-        : {};
+      if (data is Map<String, dynamic>) {
+        return data;
+      }
 
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      return data;
+      if (data is Map) {
+        return Map<String, dynamic>.from(data);
+      }
+
+      throw Exception(
+        'La respuesta del servidor no es válida.',
+      );
+    } on DioException catch (error) {
+      final data = error.response?.data;
+
+      if (data is Map && data['mensaje'] != null) {
+        throw Exception(
+          data['mensaje'].toString(),
+        );
+      }
+
+      switch (error.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.receiveTimeout:
+          throw Exception(
+            'El servidor tardó demasiado en responder.',
+          );
+
+        case DioExceptionType.connectionError:
+          throw Exception(
+            'No fue posible conectarse con el servidor.',
+          );
+
+        case DioExceptionType.badCertificate:
+          throw Exception(
+            'No fue posible validar la conexión segura con el servidor.',
+          );
+
+        case DioExceptionType.cancel:
+          throw Exception(
+            'La solicitud fue cancelada.',
+          );
+
+        default:
+          throw Exception(
+            'No fue posible iniciar sesión.',
+          );
+      }
     }
-
-    throw Exception(
-      data['mensaje'] ?? 'No fue posible iniciar sesión',
-    );
   }
 }

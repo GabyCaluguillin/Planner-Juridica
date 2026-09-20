@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'cliente.g.dart';
+
+@JsonSerializable()
 class Cliente {
   const Cliente({
     required this.id,
@@ -17,31 +22,13 @@ class Cliente {
   final DateTime createdAt;
   final DateTime updatedAt;
 
-  factory Cliente.fromJson(Map<String, dynamic> json) {
-    return Cliente(
-      id: json['id'] as int,
-      nombre: json['nombre'] as String,
-      correo: json['correo'] as String,
-      telefono: json['telefono'] as String,
-      direccion: json['direccion'] as String?,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      updatedAt: DateTime.parse(json['updatedAt'] as String),
-    );
-  }
+  factory Cliente.fromJson(Map<String, dynamic> json) =>
+      _$ClienteFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'nombre': nombre,
-      'correo': correo,
-      'telefono': telefono,
-      'direccion': direccion,
-      'createdAt': createdAt.toIso8601String(),
-      'updatedAt': updatedAt.toIso8601String(),
-    };
-  }
+  Map<String, dynamic> toJson() => _$ClienteToJson(this);
 }
 
+@JsonSerializable()
 class ClienteSolicitud {
   const ClienteSolicitud({
     required this.nombre,
@@ -55,12 +42,11 @@ class ClienteSolicitud {
   final String telefono;
   final String? direccion;
 
-  Map<String, dynamic> toJson() {
-    return {
-      'nombre': nombre,
-      'correo': correo,
-      'telefono': telefono,
-      'direccion': direccion,
-    };
-  }
+  factory ClienteSolicitud.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$ClienteSolicitudFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$ClienteSolicitudToJson(this);
 }

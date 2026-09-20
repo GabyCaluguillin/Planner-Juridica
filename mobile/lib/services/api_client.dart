@@ -1,9 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 import '../config/api_config.dart';
 import 'secure_storage_service.dart';
 
 BaseOptions _crearBaseOptions() {
+  ApiConfig.validar();
+
   return BaseOptions(
     baseUrl: ApiConfig.baseUrl,
     connectTimeout: const Duration(seconds: 10),
@@ -36,6 +39,7 @@ class ApiClient {
   Dio get dio => _dio;
 
   void _configurarInterceptores() {
+    // 1. Autenticación y renovación de sesión.
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (
@@ -106,6 +110,53 @@ class ApiClient {
         },
       ),
     );
+
+    // 2. Registro mínimo únicamente durante desarrollo.
+    //
+    // No se imprimen encabezados ni cuerpos de petición,
+    // por lo que el token Authorization nunca aparece
+    // en los registros.
+    if (kDebugMode) {
+      _dio.interceptors.add(
+        InterceptorsWrapper(
+          onRequest: (
+            RequestOptions options,
+            RequestInterceptorHandler handler,
+          ) {
+            debugPrint(
+              '[API] ${options.method} ${options.uri}',
+            );
+
+            handler.next(options);
+          },
+          onResponse: (
+            Response<dynamic> response,
+            ResponseInterceptorHandler handler,
+          ) {
+            debugPrint(
+              '[API] ${response.statusCode} '
+              '${response.requestOptions.method} '
+              '${response.requestOptions.uri}',
+            );
+
+            handler.next(response);
+          },
+          onError: (
+            DioException error,
+            ErrorInterceptorHandler handler,
+          ) {
+            debugPrint(
+              '[API] ERROR '
+              '${error.response?.statusCode ?? '-'} '
+              '${error.requestOptions.method} '
+              '${error.requestOptions.uri}',
+            );
+
+            handler.next(error);
+          },
+        ),
+      );
+    }
   }
 
   Future<void>
