@@ -9,10 +9,7 @@ import '../models/cliente.dart';
 import '../services/clientes_api_service.dart';
 
 class ClientesRepository {
-  ClientesRepository(
-    this._database,
-    this._apiService,
-  );
+  ClientesRepository(this._database, this._apiService);
 
   final AppDatabase _database;
   final ClientesApiService _apiService;
@@ -24,15 +21,12 @@ class ClientesRepository {
     return _database.observarClientesLocales();
   }
 
-  Future<List<ClientesLocale>>
-      obtenerClientesLocales() {
+  Future<List<ClientesLocale>> obtenerClientesLocales() {
     return _database.obtenerClientesLocales();
   }
 
-  Future<DateTime?>
-      obtenerUltimaSincronizacion() {
-    return _database
-        .obtenerUltimaSincronizacionClientes();
+  Future<DateTime?> obtenerUltimaSincronizacion() {
+    return _database.obtenerUltimaSincronizacionClientes();
   }
 
   Future<bool> cacheClientesVencida() {
@@ -42,28 +36,19 @@ class ClientesRepository {
   Future<void> sincronizarClientes() async {
     await _procesarOperacionesPendientes();
 
-    final clientesServidor =
-        await _apiService.listarClientes();
+    final clientesServidor = await _apiService.listarClientes();
 
     final ahora = DateTime.now();
 
-    final clientesLocales =
-        clientesServidor.map((clienteJson) {
-      final cliente = Cliente.fromJson(
-        clienteJson,
-      );
+    final clientesLocales = clientesServidor.map((clienteJson) {
+      final cliente = Cliente.fromJson(clienteJson);
 
-      return _crearClienteServidorCompanion(
-        cliente,
-        ahora,
-      );
+      return _crearClienteServidorCompanion(cliente, ahora);
     }).toList();
 
     await _database.limpiarCacheClientesVencida();
 
-    await _database.guardarClientesLocales(
-      clientesLocales,
-    );
+    await _database.guardarClientesLocales(clientesLocales);
   }
 
   Future<String> crearClienteOffline({
@@ -77,18 +62,13 @@ class ClientesRepository {
     final idOperacion = _uuid.v4();
 
     final nombreLimpio = nombre.trim();
-    final correoLimpio =
-        correo.trim().toLowerCase();
-    final telefonoLimpio =
-        telefono.trim();
-    final direccionLimpia =
-        direccion?.trim();
+    final correoLimpio = correo.trim().toLowerCase();
+    final telefonoLimpio = telefono.trim();
+    final direccionLimpia = direccion?.trim();
 
-    final direccionFinal =
-        direccionLimpia == null ||
-                direccionLimpia.isEmpty
-            ? null
-            : direccionLimpia;
+    final direccionFinal = direccionLimpia == null || direccionLimpia.isEmpty
+        ? null
+        : direccionLimpia;
 
     final solicitud = ClienteSolicitud(
       nombre: nombreLimpio,
@@ -104,10 +84,8 @@ class ClientesRepository {
       telefono: Value(telefonoLimpio),
       direccion: Value(direccionFinal),
       evidenciaRuta: Value(evidenciaRuta),
-      pendienteSincronizacion:
-          const Value(true),
-      eliminadoLocalmente:
-          const Value(false),
+      pendienteSincronizacion: const Value(true),
+      eliminadoLocalmente: const Value(false),
     );
 
     final datosOperacion = jsonEncode({
@@ -115,8 +93,7 @@ class ClientesRepository {
       'evidenciaRuta': evidenciaRuta,
     });
 
-    final operacion =
-        OperacionesPendientesCompanion(
+    final operacion = OperacionesPendientesCompanion(
       idOperacion: Value(idOperacion),
       tipo: const Value('CREAR'),
       entidad: const Value('CLIENTE'),
@@ -134,28 +111,22 @@ class ClientesRepository {
     return idLocal;
   }
 
-  Future<void>
-      _procesarOperacionesPendientes() async {
-    final operaciones =
-        await _database.obtenerOperacionesPendientes();
+  Future<void> _procesarOperacionesPendientes() async {
+    final operaciones = await _database.obtenerOperacionesPendientes();
 
     for (final operacion in operaciones) {
-      if (operacion.entidad != 'CLIENTE' ||
-          operacion.tipo != 'CREAR') {
+      if (operacion.entidad != 'CLIENTE' || operacion.tipo != 'CREAR') {
         continue;
       }
 
-      await _procesarCreacionPendiente(
-        operacion,
-      );
+      await _procesarCreacionPendiente(operacion);
     }
   }
 
   Future<void> _procesarCreacionPendiente(
     OperacionesPendiente operacion,
   ) async {
-    final datosDecodificados =
-        jsonDecode(operacion.datosJson);
+    final datosDecodificados = jsonDecode(operacion.datosJson);
 
     if (datosDecodificados is! Map) {
       throw Exception(
@@ -164,49 +135,32 @@ class ClientesRepository {
       );
     }
 
-    final datos = Map<String, dynamic>.from(
-      datosDecodificados,
-    );
+    final datos = Map<String, dynamic>.from(datosDecodificados);
 
-    final evidenciaRuta =
-        datos.remove('evidenciaRuta') as String?;
+    final evidenciaRuta = datos.remove('evidenciaRuta') as String?;
 
-    final solicitud = ClienteSolicitud.fromJson(
-      datos,
-    );
+    final solicitud = ClienteSolicitud.fromJson(datos);
 
     var intentoActual = operacion.intentos;
 
     while (intentoActual < _maximoIntentos) {
       try {
         if (intentoActual > 0) {
-          final segundosEspera =
-              _calcularBackoff(
-            intentoActual,
-          );
+          final segundosEspera = _calcularBackoff(intentoActual);
 
-          await Future<void>.delayed(
-            Duration(
-              seconds: segundosEspera,
-            ),
-          );
+          await Future<void>.delayed(Duration(seconds: segundosEspera));
         }
 
-        final clienteServidorJson =
-            await _apiService.crearCliente(
+        final clienteServidorJson = await _apiService.crearCliente(
           datos: solicitud.toJson(),
           idOperacion: operacion.idOperacion,
         );
 
-        final clienteServidor =
-            Cliente.fromJson(
-          clienteServidorJson,
-        );
+        final clienteServidor = Cliente.fromJson(clienteServidorJson);
 
         final ahora = DateTime.now();
 
-        final clienteCompanion =
-            _crearClienteServidorCompanion(
+        final clienteCompanion = _crearClienteServidorCompanion(
           clienteServidor,
           ahora,
           evidenciaRuta: evidenciaRuta,
@@ -232,8 +186,7 @@ class ClientesRepository {
           rethrow;
         }
 
-        final agotada =
-            intentoActual >= _maximoIntentos;
+        final agotada = intentoActual >= _maximoIntentos;
 
         await _database.registrarIntentoOperacion(
           idOperacion: operacion.idOperacion,
@@ -258,9 +211,7 @@ class ClientesRepository {
     }
   }
 
-  int _calcularBackoff(
-    int intentoAnterior,
-  ) {
+  int _calcularBackoff(int intentoAnterior) {
     switch (intentoAnterior) {
       case 1:
         return 1;
@@ -271,30 +222,23 @@ class ClientesRepository {
     }
   }
 
-  ClientesLocalesCompanion
-      _crearClienteServidorCompanion(
+  ClientesLocalesCompanion _crearClienteServidorCompanion(
     Cliente cliente,
     DateTime ahora, {
     String? evidenciaRuta,
   }) {
     return ClientesLocalesCompanion(
-      idLocal: Value(
-        'servidor_${cliente.id}',
-      ),
+      idLocal: Value('servidor_${cliente.id}'),
       idServidor: Value(cliente.id),
       nombre: Value(cliente.nombre),
       correo: Value(cliente.correo),
       telefono: Value(cliente.telefono),
       direccion: Value(cliente.direccion),
       evidenciaRuta: Value(evidenciaRuta),
-      actualizadoEnServidor: Value(
-        cliente.updatedAt,
-      ),
+      actualizadoEnServidor: Value(cliente.updatedAt),
       ultimaSincronizacion: Value(ahora),
-      pendienteSincronizacion:
-          const Value(false),
-      eliminadoLocalmente:
-          const Value(false),
+      pendienteSincronizacion: const Value(false),
+      eliminadoLocalmente: const Value(false),
     );
   }
 }

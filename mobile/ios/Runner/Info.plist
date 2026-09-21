@@ -24,6 +24,10 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Planner Jurídica usa la cámara para adjuntar una evidencia documental opcional al registrar un cliente.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Planner Jurídica permite seleccionar una evidencia documental opcional desde el selector de fotos del sistema al registrar un cliente.</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIApplicationSceneManifest</key>

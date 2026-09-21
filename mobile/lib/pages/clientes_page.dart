@@ -5,9 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../database/app_database.dart';
 import '../providers/auth_provider.dart';
 import '../providers/database_provider.dart';
+import '../services/evidencia_service.dart';
+import '../services/notificaciones_service.dart';
 
 class ClientesPage extends ConsumerWidget {
   const ClientesPage({super.key});
+
+  static final NotificacionesService _notificacionesService =
+      NotificacionesService();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -16,50 +21,37 @@ class ClientesPage extends ConsumerWidget {
 
     final clientes = ref.watch(clientesLocalesProvider);
 
-    final sincronizacion =
-        ref.watch(sincronizarClientesProvider);
+    final sincronizacion = ref.watch(sincronizarClientesProvider);
 
-    final estadoCache =
-        ref.watch(estadoCacheClientesProvider);
+    final estadoCache = ref.watch(estadoCacheClientesProvider);
 
-    ref.listen<AsyncValue<List<ConnectivityResult>>>(
-      conectividadProvider,
-      (anterior, actual) {
-        final conexionAnterior =
-            anterior?.asData?.value;
+    ref.listen<AsyncValue<List<ConnectivityResult>>>(conectividadProvider, (
+      anterior,
+      actual,
+    ) {
+      final conexionAnterior = anterior?.asData?.value;
 
-        final conexionActual =
-            actual.asData?.value;
+      final conexionActual = actual.asData?.value;
 
-        if (conexionAnterior == null ||
-            conexionActual == null) {
-          return;
-        }
+      if (conexionAnterior == null || conexionActual == null) {
+        return;
+      }
 
-        final estabaSinConexion =
-            conexionAnterior.contains(
-          ConnectivityResult.none,
-        );
+      final estabaSinConexion = conexionAnterior.contains(
+        ConnectivityResult.none,
+      );
 
-        final recuperoConexion =
-            conexionActual.any(
-          (resultado) =>
-              resultado != ConnectivityResult.none,
-        );
+      final recuperoConexion = conexionActual.any(
+        (resultado) => resultado != ConnectivityResult.none,
+      );
 
-        if (estabaSinConexion &&
-            recuperoConexion) {
-          ref.invalidate(
-            sincronizarClientesProvider,
-          );
-        }
-      },
-    );
+      if (estabaSinConexion && recuperoConexion) {
+        ref.invalidate(sincronizarClientesProvider);
+      }
+    });
 
     Future<void> actualizarClientes() {
-      return ref.refresh(
-        sincronizarClientesProvider.future,
-      );
+      return ref.refresh(sincronizarClientesProvider.future);
     }
 
     Future<void> crearCliente() async {
@@ -80,41 +72,115 @@ class ClientesPage extends ConsumerWidget {
       }
     }
 
+    Future<void> activarAvisos(int cantidadPendiente) async {
+      if (cantidadPendiente <= 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('No hay clientes pendientes de sincronización.'),
+          ),
+        );
+        return;
+      }
+
+      final continuar = await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) {
+          return AlertDialog(
+            title: const Text('Activar avisos'),
+            content: const Text(
+              'Planner Jurídica solicitará permiso para mostrar '
+              'notificaciones sobre clientes que aún están pendientes '
+              'de sincronización. Este permiso es opcional y la '
+              'aplicación seguirá funcionando si decides no concederlo.',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(dialogContext).pop(false);
+                },
+                child: const Text('Cancelar'),
+              ),
+              FilledButton(
+                onPressed: () {
+                  Navigator.of(dialogContext).pop(true);
+                },
+                child: const Text('Continuar'),
+              ),
+            ],
+          );
+        },
+      );
+
+      if (continuar != true || !context.mounted) {
+        return;
+      }
+
+      final resultado = await _notificacionesService
+          .notificarClientesPendientes(cantidadPendiente);
+
+      if (!context.mounted) {
+        return;
+      }
+
+      if (resultado.requiereAjustes) {
+        final abrirAjustes = await showDialog<bool>(
+          context: context,
+          builder: (dialogContext) {
+            return AlertDialog(
+              title: const Text('Notificaciones desactivadas'),
+              content: Text(resultado.mensaje),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop(false);
+                  },
+                  child: const Text('Ahora no'),
+                ),
+                FilledButton(
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop(true);
+                  },
+                  child: const Text('Abrir ajustes'),
+                ),
+              ],
+            );
+          },
+        );
+
+        if (abrirAjustes == true) {
+          await _notificacionesService.abrirAjustesAplicacion();
+        }
+        return;
+      }
+
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(resultado.mensaje)));
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Clientes'),
         actions: [
           IconButton(
             tooltip: 'Actualizar clientes',
-            onPressed: sincronizacion.isLoading
-                ? null
-                : actualizarClientes,
+            onPressed: sincronizacion.isLoading ? null : actualizarClientes,
             icon: sincronizacion.isLoading
                 ? const SizedBox(
                     width: 20,
                     height: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                    ),
+                    child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : const Icon(Icons.refresh),
           ),
         ],
       ),
-      floatingActionButton:
-          FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: crearCliente,
-        icon: const Icon(
-          Icons.person_add_alt_1,
-        ),
-        label: const Text(
-          'Nuevo cliente',
-        ),
+        icon: const Icon(Icons.person_add_alt_1),
+        label: const Text('Nuevo cliente'),
       ),
       body: clientes.when(
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
+        loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => Center(
           child: Padding(
             padding: const EdgeInsets.all(24),
@@ -125,24 +191,19 @@ class ClientesPage extends ConsumerWidget {
           ),
         ),
         data: (lista) {
+          final pendientes = lista
+              .where((cliente) => cliente.pendienteSincronizacion)
+              .length;
+
           return RefreshIndicator(
             onRefresh: actualizarClientes,
             child: ListView(
-              physics:
-                  const AlwaysScrollableScrollPhysics(),
-              padding: const EdgeInsets.fromLTRB(
-                24,
-                24,
-                24,
-                100,
-              ),
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 100),
               children: [
                 const Text(
                   'Gestión de clientes',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 8),
                 const Text(
@@ -153,21 +214,32 @@ class ClientesPage extends ConsumerWidget {
                 const SizedBox(height: 16),
                 _EstadoSincronizacion(
                   clientes: lista,
-                  sincronizando:
-                      sincronizacion.isLoading,
-                  sinConexion:
-                      sincronizacion.hasError,
+                  sincronizando: sincronizacion.isLoading,
+                  sinConexion: sincronizacion.hasError,
                   estadoCache: estadoCache,
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 16),
                 Card(
                   child: ListTile(
-                    leading: const Icon(
-                      Icons.account_circle_outlined,
+                    leading: const Icon(Icons.notifications_outlined),
+                    title: const Text('Avisos de sincronización'),
+                    subtitle: Text(
+                      pendientes == 1
+                          ? 'Hay 1 cliente pendiente. El permiso se solicitará solo al activar el aviso.'
+                          : 'Hay $pendientes clientes pendientes. El permiso se solicitará solo al activar el aviso.',
                     ),
-                    title: const Text(
-                      'Sesión activa',
+                    trailing: IconButton(
+                      tooltip: 'Activar aviso',
+                      onPressed: () => activarAvisos(pendientes),
+                      icon: const Icon(Icons.notifications_active_outlined),
                     ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Card(
+                  child: ListTile(
+                    leading: const Icon(Icons.account_circle_outlined),
+                    title: const Text('Sesión activa'),
                     subtitle: Text(
                       usuario != null
                           ? '${usuario.nombre} - ${usuario.rol}'
@@ -186,10 +258,7 @@ class ClientesPage extends ConsumerWidget {
                 const SizedBox(height: 12),
                 if (lista.isEmpty)
                   const Padding(
-                    padding: EdgeInsets.only(
-                      top: 48,
-                      bottom: 48,
-                    ),
+                    padding: EdgeInsets.only(top: 48, bottom: 48),
                     child: Center(
                       child: Column(
                         children: [
@@ -209,11 +278,7 @@ class ClientesPage extends ConsumerWidget {
                     ),
                   )
                 else
-                  ...lista.map(
-                    (cliente) => _ClienteTile(
-                      cliente: cliente,
-                    ),
-                  ),
+                  ...lista.map((cliente) => _ClienteTile(cliente: cliente)),
               ],
             ),
           );
@@ -223,8 +288,7 @@ class ClientesPage extends ConsumerWidget {
   }
 }
 
-class _NuevoClienteDialog
-    extends ConsumerStatefulWidget {
+class _NuevoClienteDialog extends ConsumerStatefulWidget {
   const _NuevoClienteDialog();
 
   @override
@@ -232,23 +296,22 @@ class _NuevoClienteDialog
       _NuevoClienteDialogState();
 }
 
-class _NuevoClienteDialogState
-    extends ConsumerState<_NuevoClienteDialog> {
+class _NuevoClienteDialogState extends ConsumerState<_NuevoClienteDialog> {
   final _formKey = GlobalKey<FormState>();
 
-  final _nombreController =
-      TextEditingController();
+  final _nombreController = TextEditingController();
 
-  final _correoController =
-      TextEditingController();
+  final _correoController = TextEditingController();
 
-  final _telefonoController =
-      TextEditingController();
+  final _telefonoController = TextEditingController();
 
-  final _direccionController =
-      TextEditingController();
+  final _direccionController = TextEditingController();
+
+  final EvidenciaService _evidenciaService = EvidenciaService();
 
   bool _guardando = false;
+  bool _procesandoEvidencia = false;
+  String? _evidenciaRuta;
 
   @override
   void dispose() {
@@ -257,6 +320,144 @@ class _NuevoClienteDialogState
     _telefonoController.dispose();
     _direccionController.dispose();
     super.dispose();
+  }
+
+  Future<void> _tomarFoto() async {
+    if (_guardando || _procesandoEvidencia) {
+      return;
+    }
+
+    final continuar = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('Usar la cámara'),
+          content: const Text(
+            'Planner Jurídica solicitará acceso a la cámara '
+            'únicamente para tomar una fotografía de evidencia '
+            'asociada a este cliente. La evidencia es opcional '
+            'y puedes continuar el registro sin adjuntarla.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop(false);
+              },
+              child: const Text('Cancelar'),
+            ),
+            FilledButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop(true);
+              },
+              child: const Text('Continuar'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (continuar != true || !mounted) {
+      return;
+    }
+
+    setState(() {
+      _procesandoEvidencia = true;
+    });
+
+    final resultado = await _evidenciaService.tomarFoto();
+
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _procesandoEvidencia = false;
+
+      if (resultado.fueConcedida && resultado.valor != null) {
+        _evidenciaRuta = resultado.valor;
+      }
+    });
+
+    if (resultado.fueConcedida && resultado.valor != null) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(resultado.mensaje)));
+      return;
+    }
+
+    if (resultado.requiereAjustes) {
+      await _mostrarAjustesCamara(resultado.mensaje);
+      return;
+    }
+
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(resultado.mensaje)));
+  }
+
+  Future<void> _seleccionarEvidencia() async {
+    if (_guardando || _procesandoEvidencia) {
+      return;
+    }
+
+    setState(() {
+      _procesandoEvidencia = true;
+    });
+
+    final resultado = await _evidenciaService.seleccionarDesdeElDispositivo();
+
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _procesandoEvidencia = false;
+
+      if (resultado.fueConcedida && resultado.valor != null) {
+        _evidenciaRuta = resultado.valor;
+      }
+    });
+
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(resultado.mensaje)));
+  }
+
+  Future<void> _mostrarAjustesCamara(String mensaje) async {
+    final abrirAjustes = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: const Text('Permiso de cámara desactivado'),
+          content: Text(mensaje),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop(false);
+              },
+              child: const Text('Ahora no'),
+            ),
+            FilledButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop(true);
+              },
+              child: const Text('Abrir ajustes'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (abrirAjustes == true) {
+      await _evidenciaService.abrirAjustesAplicacion();
+    }
+  }
+
+  void _quitarEvidencia() {
+    if (_guardando || _procesandoEvidencia) {
+      return;
+    }
+
+    setState(() {
+      _evidenciaRuta = null;
+    });
   }
 
   Future<void> _guardar() async {
@@ -270,16 +471,13 @@ class _NuevoClienteDialogState
 
     try {
       await ref
-          .read(
-            clientesRepositoryProvider,
-          )
+          .read(clientesRepositoryProvider)
           .crearClienteOffline(
             nombre: _nombreController.text,
             correo: _correoController.text,
-            telefono:
-                _telefonoController.text,
-            direccion:
-                _direccionController.text,
+            telefono: _telefonoController.text,
+            direccion: _direccionController.text,
+            evidenciaRuta: _evidenciaRuta,
           );
 
       if (!mounted) {
@@ -309,10 +507,10 @@ class _NuevoClienteDialogState
 
   @override
   Widget build(BuildContext context) {
+    final tieneEvidencia = _evidenciaRuta != null;
+
     return AlertDialog(
-      title: const Text(
-        'Nuevo cliente',
-      ),
+      title: const Text('Nuevo cliente'),
       content: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -321,18 +519,13 @@ class _NuevoClienteDialogState
             children: [
               TextFormField(
                 controller: _nombreController,
-                textCapitalization:
-                    TextCapitalization.words,
-                decoration:
-                    const InputDecoration(
+                textCapitalization: TextCapitalization.words,
+                decoration: const InputDecoration(
                   labelText: 'Nombre',
-                  prefixIcon: Icon(
-                    Icons.person_outline,
-                  ),
+                  prefixIcon: Icon(Icons.person_outline),
                 ),
                 validator: (valor) {
-                  if (valor == null ||
-                      valor.trim().isEmpty) {
+                  if (valor == null || valor.trim().isEmpty) {
                     return 'Ingrese el nombre.';
                   }
 
@@ -342,29 +535,21 @@ class _NuevoClienteDialogState
               const SizedBox(height: 12),
               TextFormField(
                 controller: _correoController,
-                keyboardType:
-                    TextInputType.emailAddress,
-                decoration:
-                    const InputDecoration(
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
                   labelText: 'Correo',
-                  prefixIcon: Icon(
-                    Icons.email_outlined,
-                  ),
+                  prefixIcon: Icon(Icons.email_outlined),
                 ),
                 validator: (valor) {
-                  final correo =
-                      valor?.trim() ?? '';
+                  final correo = valor?.trim() ?? '';
 
                   if (correo.isEmpty) {
                     return 'Ingrese el correo.';
                   }
 
-                  final expresion = RegExp(
-                    r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
-                  );
+                  final expresion = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
 
-                  if (!expresion
-                      .hasMatch(correo)) {
+                  if (!expresion.hasMatch(correo)) {
                     return 'Ingrese un correo válido.';
                   }
 
@@ -373,20 +558,14 @@ class _NuevoClienteDialogState
               ),
               const SizedBox(height: 12),
               TextFormField(
-                controller:
-                    _telefonoController,
-                keyboardType:
-                    TextInputType.phone,
-                decoration:
-                    const InputDecoration(
+                controller: _telefonoController,
+                keyboardType: TextInputType.phone,
+                decoration: const InputDecoration(
                   labelText: 'Teléfono',
-                  prefixIcon: Icon(
-                    Icons.phone_outlined,
-                  ),
+                  prefixIcon: Icon(Icons.phone_outlined),
                 ),
                 validator: (valor) {
-                  if (valor == null ||
-                      valor.trim().isEmpty) {
+                  if (valor == null || valor.trim().isEmpty) {
                     return 'Ingrese el teléfono.';
                   }
 
@@ -395,17 +574,70 @@ class _NuevoClienteDialogState
               ),
               const SizedBox(height: 12),
               TextFormField(
-                controller:
-                    _direccionController,
-                decoration:
-                    const InputDecoration(
-                  labelText:
-                      'Dirección (opcional)',
-                  prefixIcon: Icon(
-                    Icons.location_on_outlined,
-                  ),
+                controller: _direccionController,
+                decoration: const InputDecoration(
+                  labelText: 'Dirección (opcional)',
+                  prefixIcon: Icon(Icons.location_on_outlined),
                 ),
               ),
+              const SizedBox(height: 18),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Evidencia fotográfica (opcional)',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+              ),
+              const SizedBox(height: 6),
+              const Text(
+                'Puedes tomar una foto con la cámara o '
+                'seleccionar una imagen mediante el selector '
+                'del sistema. El cliente puede guardarse sin '
+                'evidencia.',
+              ),
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  OutlinedButton.icon(
+                    onPressed: _guardando || _procesandoEvidencia
+                        ? null
+                        : _tomarFoto,
+                    icon: const Icon(Icons.camera_alt_outlined),
+                    label: const Text('Tomar foto'),
+                  ),
+                  OutlinedButton.icon(
+                    onPressed: _guardando || _procesandoEvidencia
+                        ? null
+                        : _seleccionarEvidencia,
+                    icon: const Icon(Icons.photo_library_outlined),
+                    label: const Text('Seleccionar imagen'),
+                  ),
+                ],
+              ),
+              if (_procesandoEvidencia) ...[
+                const SizedBox(height: 12),
+                const LinearProgressIndicator(),
+              ],
+              if (tieneEvidencia) ...[
+                const SizedBox(height: 12),
+                Card(
+                  child: ListTile(
+                    leading: const Icon(Icons.check_circle_outline),
+                    title: const Text('Evidencia adjuntada'),
+                    subtitle: const Text(
+                      'Se guardará localmente y se enviará '
+                      'al servidor durante la sincronización.',
+                    ),
+                    trailing: IconButton(
+                      tooltip: 'Quitar evidencia',
+                      onPressed: _quitarEvidencia,
+                      icon: const Icon(Icons.close),
+                    ),
+                  ),
+                ),
+              ],
             ],
           ),
         ),
@@ -415,36 +647,26 @@ class _NuevoClienteDialogState
           onPressed: _guardando
               ? null
               : () {
-                  Navigator.of(context)
-                      .pop(false);
+                  Navigator.of(context).pop(false);
                 },
-          child: const Text(
-            'Cancelar',
-          ),
+          child: const Text('Cancelar'),
         ),
         FilledButton(
-          onPressed:
-              _guardando ? null : _guardar,
+          onPressed: _guardando ? null : _guardar,
           child: _guardando
               ? const SizedBox(
                   width: 20,
                   height: 20,
-                  child:
-                      CircularProgressIndicator(
-                    strokeWidth: 2,
-                  ),
+                  child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : const Text(
-                  'Guardar',
-                ),
+              : const Text('Guardar'),
         ),
       ],
     );
   }
 }
 
-class _EstadoSincronizacion
-    extends StatelessWidget {
+class _EstadoSincronizacion extends StatelessWidget {
   const _EstadoSincronizacion({
     required this.clientes,
     required this.sincronizando,
@@ -455,28 +677,20 @@ class _EstadoSincronizacion
   final List<ClientesLocale> clientes;
   final bool sincronizando;
   final bool sinConexion;
-  final AsyncValue<EstadoCacheClientes>
-      estadoCache;
+  final AsyncValue<EstadoCacheClientes> estadoCache;
 
   @override
   Widget build(BuildContext context) {
     final ultimaSincronizacion = clientes
-        .map(
-          (cliente) =>
-              cliente.ultimaSincronizacion,
-        )
+        .map((cliente) => cliente.ultimaSincronizacion)
         .whereType<DateTime>()
-        .fold<DateTime?>(
-      null,
-      (actual, fecha) {
-        if (actual == null ||
-            fecha.isAfter(actual)) {
-          return fecha;
-        }
+        .fold<DateTime?>(null, (actual, fecha) {
+          if (actual == null || fecha.isAfter(actual)) {
+            return fecha;
+          }
 
-        return actual;
-      },
-    );
+          return actual;
+        });
 
     late IconData icono;
     late String mensaje;
@@ -500,10 +714,8 @@ class _EstadoSincronizacion
           error: (_, _) => null,
         );
 
-        if (cache ==
-            EstadoCacheClientes.vencido) {
-          icono =
-              Icons.warning_amber_rounded;
+        if (cache == EstadoCacheClientes.vencido) {
+          icono = Icons.warning_amber_rounded;
 
           mensaje =
               'Sin conexión con el servidor. '
@@ -511,17 +723,16 @@ class _EstadoSincronizacion
               'porque la última sincronización supera '
               'los 7 días.'
               '${ultimaSincronizacion != null ? ' '
-                  'Última sincronización: '
-                  '${_fechaCorta(ultimaSincronizacion)}.' : ''}';
-        } else if (cache ==
-            EstadoCacheClientes.vigente) {
+                        'Última sincronización: '
+                        '${_fechaCorta(ultimaSincronizacion)}.' : ''}';
+        } else if (cache == EstadoCacheClientes.vigente) {
           mensaje =
               'Sin conexión con el servidor. '
               'Se muestran los datos guardados '
               'en el dispositivo. Caché vigente.'
               '${ultimaSincronizacion != null ? ' '
-                  'Última sincronización: '
-                  '${_fechaCorta(ultimaSincronizacion)}.' : ''}';
+                        'Última sincronización: '
+                        '${_fechaCorta(ultimaSincronizacion)}.' : ''}';
         } else {
           mensaje =
               'Sin conexión con el servidor. '
@@ -533,8 +744,7 @@ class _EstadoSincronizacion
       estadoCache.when(
         loading: () {
           icono = Icons.hourglass_empty;
-          mensaje =
-              'Verificando estado del caché...';
+          mensaje = 'Verificando estado del caché...';
         },
         error: (_, _) {
           icono = Icons.info_outline;
@@ -543,16 +753,13 @@ class _EstadoSincronizacion
               'del caché local.';
         },
         data: (estado) {
-          if (estado ==
-              EstadoCacheClientes.sinDatos) {
+          if (estado == EstadoCacheClientes.sinDatos) {
             icono = Icons.info_outline;
             mensaje =
                 'Sin datos sincronizados almacenados '
                 'en el dispositivo.';
-          } else if (estado ==
-              EstadoCacheClientes.vencido) {
-            icono =
-                Icons.warning_amber_rounded;
+          } else if (estado == EstadoCacheClientes.vencido) {
+            icono = Icons.warning_amber_rounded;
             color = Colors.orange.shade800;
 
             mensaje =
@@ -560,17 +767,16 @@ class _EstadoSincronizacion
                 'La última sincronización supera '
                 'los 7 días.'
                 '${ultimaSincronizacion != null ? ' '
-                    'Última sincronización: '
-                    '${_fechaCorta(ultimaSincronizacion)}.' : ''}';
+                          'Última sincronización: '
+                          '${_fechaCorta(ultimaSincronizacion)}.' : ''}';
           } else {
-            icono =
-                Icons.cloud_done_outlined;
+            icono = Icons.cloud_done_outlined;
 
             mensaje =
                 'Caché vigente.'
                 '${ultimaSincronizacion != null ? ' '
-                    'Última sincronización: '
-                    '${_fechaCorta(ultimaSincronizacion)}.' : ''}';
+                          'Última sincronización: '
+                          '${_fechaCorta(ultimaSincronizacion)}.' : ''}';
           }
         },
       );
@@ -578,24 +784,14 @@ class _EstadoSincronizacion
 
     return Card(
       child: Padding(
-        padding:
-            const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Row(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(
-              icono,
-              color: color,
-            ),
+            Icon(icono, color: color),
             const SizedBox(width: 12),
             Expanded(
-              child: Text(
-                mensaje,
-                style: TextStyle(
-                  color: color,
-                ),
-              ),
+              child: Text(mensaje, style: TextStyle(color: color)),
             ),
           ],
         ),
@@ -605,61 +801,38 @@ class _EstadoSincronizacion
 }
 
 class _ClienteTile extends StatelessWidget {
-  const _ClienteTile({
-    required this.cliente,
-  });
+  const _ClienteTile({required this.cliente});
 
   final ClientesLocale cliente;
 
   @override
   Widget build(BuildContext context) {
-    final direccion =
-        cliente.direccion?.trim();
+    final direccion = cliente.direccion?.trim();
 
     return Card(
-      margin:
-          const EdgeInsets.only(bottom: 12),
+      margin: const EdgeInsets.only(bottom: 12),
       child: ListTile(
-        leading: const CircleAvatar(
-          child: Icon(
-            Icons.person_outline,
-          ),
-        ),
+        leading: const CircleAvatar(child: Icon(Icons.person_outline)),
         title: Text(
           cliente.nombre,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-          ),
+          style: const TextStyle(fontWeight: FontWeight.w600),
         ),
         subtitle: Padding(
-          padding:
-              const EdgeInsets.only(top: 6),
+          padding: const EdgeInsets.only(top: 6),
           child: Column(
-            crossAxisAlignment:
-                CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(cliente.correo),
               Text(cliente.telefono),
-              if (direccion != null &&
-                  direccion.isNotEmpty)
-                Text(direccion),
-              if (cliente
-                  .pendienteSincronizacion)
+              if (direccion != null && direccion.isNotEmpty) Text(direccion),
+              if (cliente.pendienteSincronizacion)
                 const Padding(
-                  padding:
-                      EdgeInsets.only(top: 6),
+                  padding: EdgeInsets.only(top: 6),
                   child: Row(
                     children: [
-                      Icon(
-                        Icons.schedule,
-                        size: 16,
-                      ),
+                      Icon(Icons.schedule, size: 16),
                       SizedBox(width: 4),
-                      Expanded(
-                        child: Text(
-                          'Pendiente de sincronización',
-                        ),
-                      ),
+                      Expanded(child: Text('Pendiente de sincronización')),
                     ],
                   ),
                 ),
@@ -674,17 +847,13 @@ class _ClienteTile extends StatelessWidget {
 String _fechaCorta(DateTime fecha) {
   final local = fecha.toLocal();
 
-  final dia =
-      local.day.toString().padLeft(2, '0');
+  final dia = local.day.toString().padLeft(2, '0');
 
-  final mes =
-      local.month.toString().padLeft(2, '0');
+  final mes = local.month.toString().padLeft(2, '0');
 
-  final hora =
-      local.hour.toString().padLeft(2, '0');
+  final hora = local.hour.toString().padLeft(2, '0');
 
-  final minuto =
-      local.minute.toString().padLeft(2, '0');
+  final minuto = local.minute.toString().padLeft(2, '0');
 
   return '$dia/$mes/${local.year} '
       '$hora:$minuto';

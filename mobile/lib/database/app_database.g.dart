@@ -71,6 +71,17 @@ class $ClientesLocalesTable extends ClientesLocales
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _evidenciaRutaMeta = const VerificationMeta(
+    'evidenciaRuta',
+  );
+  @override
+  late final GeneratedColumn<String> evidenciaRuta = GeneratedColumn<String>(
+    'evidencia_ruta',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _actualizadoEnServidorMeta =
       const VerificationMeta('actualizadoEnServidor');
   @override
@@ -130,6 +141,7 @@ class $ClientesLocalesTable extends ClientesLocales
     correo,
     telefono,
     direccion,
+    evidenciaRuta,
     actualizadoEnServidor,
     ultimaSincronizacion,
     pendienteSincronizacion,
@@ -189,6 +201,15 @@ class $ClientesLocalesTable extends ClientesLocales
       context.handle(
         _direccionMeta,
         direccion.isAcceptableOrUnknown(data['direccion']!, _direccionMeta),
+      );
+    }
+    if (data.containsKey('evidencia_ruta')) {
+      context.handle(
+        _evidenciaRutaMeta,
+        evidenciaRuta.isAcceptableOrUnknown(
+          data['evidencia_ruta']!,
+          _evidenciaRutaMeta,
+        ),
       );
     }
     if (data.containsKey('actualizado_en_servidor')) {
@@ -260,6 +281,10 @@ class $ClientesLocalesTable extends ClientesLocales
         DriftSqlType.string,
         data['${effectivePrefix}direccion'],
       ),
+      evidenciaRuta: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}evidencia_ruta'],
+      ),
       actualizadoEnServidor: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}actualizado_en_servidor'],
@@ -292,6 +317,7 @@ class ClientesLocale extends DataClass implements Insertable<ClientesLocale> {
   final String correo;
   final String telefono;
   final String? direccion;
+  final String? evidenciaRuta;
   final DateTime? actualizadoEnServidor;
   final DateTime? ultimaSincronizacion;
   final bool pendienteSincronizacion;
@@ -303,6 +329,7 @@ class ClientesLocale extends DataClass implements Insertable<ClientesLocale> {
     required this.correo,
     required this.telefono,
     this.direccion,
+    this.evidenciaRuta,
     this.actualizadoEnServidor,
     this.ultimaSincronizacion,
     required this.pendienteSincronizacion,
@@ -320,6 +347,9 @@ class ClientesLocale extends DataClass implements Insertable<ClientesLocale> {
     map['telefono'] = Variable<String>(telefono);
     if (!nullToAbsent || direccion != null) {
       map['direccion'] = Variable<String>(direccion);
+    }
+    if (!nullToAbsent || evidenciaRuta != null) {
+      map['evidencia_ruta'] = Variable<String>(evidenciaRuta);
     }
     if (!nullToAbsent || actualizadoEnServidor != null) {
       map['actualizado_en_servidor'] = Variable<DateTime>(
@@ -346,6 +376,9 @@ class ClientesLocale extends DataClass implements Insertable<ClientesLocale> {
       direccion: direccion == null && nullToAbsent
           ? const Value.absent()
           : Value(direccion),
+      evidenciaRuta: evidenciaRuta == null && nullToAbsent
+          ? const Value.absent()
+          : Value(evidenciaRuta),
       actualizadoEnServidor: actualizadoEnServidor == null && nullToAbsent
           ? const Value.absent()
           : Value(actualizadoEnServidor),
@@ -369,6 +402,7 @@ class ClientesLocale extends DataClass implements Insertable<ClientesLocale> {
       correo: serializer.fromJson<String>(json['correo']),
       telefono: serializer.fromJson<String>(json['telefono']),
       direccion: serializer.fromJson<String?>(json['direccion']),
+      evidenciaRuta: serializer.fromJson<String?>(json['evidenciaRuta']),
       actualizadoEnServidor: serializer.fromJson<DateTime?>(
         json['actualizadoEnServidor'],
       ),
@@ -393,6 +427,7 @@ class ClientesLocale extends DataClass implements Insertable<ClientesLocale> {
       'correo': serializer.toJson<String>(correo),
       'telefono': serializer.toJson<String>(telefono),
       'direccion': serializer.toJson<String?>(direccion),
+      'evidenciaRuta': serializer.toJson<String?>(evidenciaRuta),
       'actualizadoEnServidor': serializer.toJson<DateTime?>(
         actualizadoEnServidor,
       ),
@@ -413,6 +448,7 @@ class ClientesLocale extends DataClass implements Insertable<ClientesLocale> {
     String? correo,
     String? telefono,
     Value<String?> direccion = const Value.absent(),
+    Value<String?> evidenciaRuta = const Value.absent(),
     Value<DateTime?> actualizadoEnServidor = const Value.absent(),
     Value<DateTime?> ultimaSincronizacion = const Value.absent(),
     bool? pendienteSincronizacion,
@@ -424,6 +460,9 @@ class ClientesLocale extends DataClass implements Insertable<ClientesLocale> {
     correo: correo ?? this.correo,
     telefono: telefono ?? this.telefono,
     direccion: direccion.present ? direccion.value : this.direccion,
+    evidenciaRuta: evidenciaRuta.present
+        ? evidenciaRuta.value
+        : this.evidenciaRuta,
     actualizadoEnServidor: actualizadoEnServidor.present
         ? actualizadoEnServidor.value
         : this.actualizadoEnServidor,
@@ -444,6 +483,9 @@ class ClientesLocale extends DataClass implements Insertable<ClientesLocale> {
       correo: data.correo.present ? data.correo.value : this.correo,
       telefono: data.telefono.present ? data.telefono.value : this.telefono,
       direccion: data.direccion.present ? data.direccion.value : this.direccion,
+      evidenciaRuta: data.evidenciaRuta.present
+          ? data.evidenciaRuta.value
+          : this.evidenciaRuta,
       actualizadoEnServidor: data.actualizadoEnServidor.present
           ? data.actualizadoEnServidor.value
           : this.actualizadoEnServidor,
@@ -468,6 +510,7 @@ class ClientesLocale extends DataClass implements Insertable<ClientesLocale> {
           ..write('correo: $correo, ')
           ..write('telefono: $telefono, ')
           ..write('direccion: $direccion, ')
+          ..write('evidenciaRuta: $evidenciaRuta, ')
           ..write('actualizadoEnServidor: $actualizadoEnServidor, ')
           ..write('ultimaSincronizacion: $ultimaSincronizacion, ')
           ..write('pendienteSincronizacion: $pendienteSincronizacion, ')
@@ -484,6 +527,7 @@ class ClientesLocale extends DataClass implements Insertable<ClientesLocale> {
     correo,
     telefono,
     direccion,
+    evidenciaRuta,
     actualizadoEnServidor,
     ultimaSincronizacion,
     pendienteSincronizacion,
@@ -499,6 +543,7 @@ class ClientesLocale extends DataClass implements Insertable<ClientesLocale> {
           other.correo == this.correo &&
           other.telefono == this.telefono &&
           other.direccion == this.direccion &&
+          other.evidenciaRuta == this.evidenciaRuta &&
           other.actualizadoEnServidor == this.actualizadoEnServidor &&
           other.ultimaSincronizacion == this.ultimaSincronizacion &&
           other.pendienteSincronizacion == this.pendienteSincronizacion &&
@@ -512,6 +557,7 @@ class ClientesLocalesCompanion extends UpdateCompanion<ClientesLocale> {
   final Value<String> correo;
   final Value<String> telefono;
   final Value<String?> direccion;
+  final Value<String?> evidenciaRuta;
   final Value<DateTime?> actualizadoEnServidor;
   final Value<DateTime?> ultimaSincronizacion;
   final Value<bool> pendienteSincronizacion;
@@ -524,6 +570,7 @@ class ClientesLocalesCompanion extends UpdateCompanion<ClientesLocale> {
     this.correo = const Value.absent(),
     this.telefono = const Value.absent(),
     this.direccion = const Value.absent(),
+    this.evidenciaRuta = const Value.absent(),
     this.actualizadoEnServidor = const Value.absent(),
     this.ultimaSincronizacion = const Value.absent(),
     this.pendienteSincronizacion = const Value.absent(),
@@ -537,6 +584,7 @@ class ClientesLocalesCompanion extends UpdateCompanion<ClientesLocale> {
     required String correo,
     required String telefono,
     this.direccion = const Value.absent(),
+    this.evidenciaRuta = const Value.absent(),
     this.actualizadoEnServidor = const Value.absent(),
     this.ultimaSincronizacion = const Value.absent(),
     this.pendienteSincronizacion = const Value.absent(),
@@ -553,6 +601,7 @@ class ClientesLocalesCompanion extends UpdateCompanion<ClientesLocale> {
     Expression<String>? correo,
     Expression<String>? telefono,
     Expression<String>? direccion,
+    Expression<String>? evidenciaRuta,
     Expression<DateTime>? actualizadoEnServidor,
     Expression<DateTime>? ultimaSincronizacion,
     Expression<bool>? pendienteSincronizacion,
@@ -566,6 +615,7 @@ class ClientesLocalesCompanion extends UpdateCompanion<ClientesLocale> {
       if (correo != null) 'correo': correo,
       if (telefono != null) 'telefono': telefono,
       if (direccion != null) 'direccion': direccion,
+      if (evidenciaRuta != null) 'evidencia_ruta': evidenciaRuta,
       if (actualizadoEnServidor != null)
         'actualizado_en_servidor': actualizadoEnServidor,
       if (ultimaSincronizacion != null)
@@ -585,6 +635,7 @@ class ClientesLocalesCompanion extends UpdateCompanion<ClientesLocale> {
     Value<String>? correo,
     Value<String>? telefono,
     Value<String?>? direccion,
+    Value<String?>? evidenciaRuta,
     Value<DateTime?>? actualizadoEnServidor,
     Value<DateTime?>? ultimaSincronizacion,
     Value<bool>? pendienteSincronizacion,
@@ -598,6 +649,7 @@ class ClientesLocalesCompanion extends UpdateCompanion<ClientesLocale> {
       correo: correo ?? this.correo,
       telefono: telefono ?? this.telefono,
       direccion: direccion ?? this.direccion,
+      evidenciaRuta: evidenciaRuta ?? this.evidenciaRuta,
       actualizadoEnServidor:
           actualizadoEnServidor ?? this.actualizadoEnServidor,
       ultimaSincronizacion: ultimaSincronizacion ?? this.ultimaSincronizacion,
@@ -628,6 +680,9 @@ class ClientesLocalesCompanion extends UpdateCompanion<ClientesLocale> {
     }
     if (direccion.present) {
       map['direccion'] = Variable<String>(direccion.value);
+    }
+    if (evidenciaRuta.present) {
+      map['evidencia_ruta'] = Variable<String>(evidenciaRuta.value);
     }
     if (actualizadoEnServidor.present) {
       map['actualizado_en_servidor'] = Variable<DateTime>(
@@ -662,6 +717,7 @@ class ClientesLocalesCompanion extends UpdateCompanion<ClientesLocale> {
           ..write('correo: $correo, ')
           ..write('telefono: $telefono, ')
           ..write('direccion: $direccion, ')
+          ..write('evidenciaRuta: $evidenciaRuta, ')
           ..write('actualizadoEnServidor: $actualizadoEnServidor, ')
           ..write('ultimaSincronizacion: $ultimaSincronizacion, ')
           ..write('pendienteSincronizacion: $pendienteSincronizacion, ')
@@ -1217,6 +1273,7 @@ typedef $$ClientesLocalesTableCreateCompanionBuilder =
       required String correo,
       required String telefono,
       Value<String?> direccion,
+      Value<String?> evidenciaRuta,
       Value<DateTime?> actualizadoEnServidor,
       Value<DateTime?> ultimaSincronizacion,
       Value<bool> pendienteSincronizacion,
@@ -1231,6 +1288,7 @@ typedef $$ClientesLocalesTableUpdateCompanionBuilder =
       Value<String> correo,
       Value<String> telefono,
       Value<String?> direccion,
+      Value<String?> evidenciaRuta,
       Value<DateTime?> actualizadoEnServidor,
       Value<DateTime?> ultimaSincronizacion,
       Value<bool> pendienteSincronizacion,
@@ -1274,6 +1332,11 @@ class $$ClientesLocalesTableFilterComposer
 
   ColumnFilters<String> get direccion => $composableBuilder(
     column: $table.direccion,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get evidenciaRuta => $composableBuilder(
+    column: $table.evidenciaRuta,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -1337,6 +1400,11 @@ class $$ClientesLocalesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get evidenciaRuta => $composableBuilder(
+    column: $table.evidenciaRuta,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get actualizadoEnServidor => $composableBuilder(
     column: $table.actualizadoEnServidor,
     builder: (column) => ColumnOrderings(column),
@@ -1386,6 +1454,11 @@ class $$ClientesLocalesTableAnnotationComposer
 
   GeneratedColumn<String> get direccion =>
       $composableBuilder(column: $table.direccion, builder: (column) => column);
+
+  GeneratedColumn<String> get evidenciaRuta => $composableBuilder(
+    column: $table.evidenciaRuta,
+    builder: (column) => column,
+  );
 
   GeneratedColumn<DateTime> get actualizadoEnServidor => $composableBuilder(
     column: $table.actualizadoEnServidor,
@@ -1451,6 +1524,7 @@ class $$ClientesLocalesTableTableManager
                 Value<String> correo = const Value.absent(),
                 Value<String> telefono = const Value.absent(),
                 Value<String?> direccion = const Value.absent(),
+                Value<String?> evidenciaRuta = const Value.absent(),
                 Value<DateTime?> actualizadoEnServidor = const Value.absent(),
                 Value<DateTime?> ultimaSincronizacion = const Value.absent(),
                 Value<bool> pendienteSincronizacion = const Value.absent(),
@@ -1463,6 +1537,7 @@ class $$ClientesLocalesTableTableManager
                 correo: correo,
                 telefono: telefono,
                 direccion: direccion,
+                evidenciaRuta: evidenciaRuta,
                 actualizadoEnServidor: actualizadoEnServidor,
                 ultimaSincronizacion: ultimaSincronizacion,
                 pendienteSincronizacion: pendienteSincronizacion,
@@ -1477,6 +1552,7 @@ class $$ClientesLocalesTableTableManager
                 required String correo,
                 required String telefono,
                 Value<String?> direccion = const Value.absent(),
+                Value<String?> evidenciaRuta = const Value.absent(),
                 Value<DateTime?> actualizadoEnServidor = const Value.absent(),
                 Value<DateTime?> ultimaSincronizacion = const Value.absent(),
                 Value<bool> pendienteSincronizacion = const Value.absent(),
@@ -1489,6 +1565,7 @@ class $$ClientesLocalesTableTableManager
                 correo: correo,
                 telefono: telefono,
                 direccion: direccion,
+                evidenciaRuta: evidenciaRuta,
                 actualizadoEnServidor: actualizadoEnServidor,
                 ultimaSincronizacion: ultimaSincronizacion,
                 pendienteSincronizacion: pendienteSincronizacion,

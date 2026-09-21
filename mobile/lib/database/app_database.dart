@@ -21,6 +21,8 @@ class ClientesLocales extends Table {
 
   TextColumn get direccion => text().nullable()();
 
+  TextColumn get evidenciaRuta => text().nullable()();
+
   DateTimeColumn get actualizadoEnServidor =>
       dateTime().nullable()();
 
@@ -74,7 +76,7 @@ class AppDatabase extends _$AppDatabase {
       Duration(days: 7);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration {
@@ -87,6 +89,13 @@ class AppDatabase extends _$AppDatabase {
           await m.addColumn(
             clientesLocales,
             clientesLocales.direccion,
+          );
+        }
+
+        if (desde < 3) {
+          await m.addColumn(
+            clientesLocales,
+            clientesLocales.evidenciaRuta,
           );
         }
       },

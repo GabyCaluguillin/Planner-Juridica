@@ -44,26 +44,20 @@ class ClientesApiService {
 
       if (clientes is! List) {
         throw const ClientesApiException(
-          mensaje:
-              'No se recibió correctamente la lista de clientes.',
+          mensaje: 'No se recibió correctamente la lista de clientes.',
           reintentable: false,
         );
       }
 
       return clientes
-          .map(
-            (cliente) => Map<String, dynamic>.from(
-              cliente as Map,
-            ),
-          )
+          .map((cliente) => Map<String, dynamic>.from(cliente as Map))
           .toList();
     } on ClientesApiException {
       rethrow;
     } on DioException catch (error) {
       throw _crearExcepcionApi(
         error,
-        mensajePredeterminado:
-            'No fue posible obtener los clientes.',
+        mensajePredeterminado: 'No fue posible obtener los clientes.',
       );
     }
   }
@@ -78,11 +72,7 @@ class ClientesApiService {
         '/clientes',
         data: datos,
         cancelToken: cancelToken,
-        options: Options(
-          headers: {
-            'X-Idempotency-Key': idOperacion,
-          },
-        ),
+        options: Options(headers: {'X-Idempotency-Key': idOperacion}),
       );
 
       final data = response.data;
@@ -98,8 +88,7 @@ class ClientesApiService {
 
       if (cliente is! Map) {
         throw const ClientesApiException(
-          mensaje:
-              'No se recibió correctamente el cliente creado.',
+          mensaje: 'No se recibió correctamente el cliente creado.',
           reintentable: false,
         );
       }
@@ -110,8 +99,7 @@ class ClientesApiService {
     } on DioException catch (error) {
       throw _crearExcepcionApi(
         error,
-        mensajePredeterminado:
-            'No fue posible crear el cliente.',
+        mensajePredeterminado: 'No fue posible crear el cliente.',
       );
     }
   }
@@ -127,10 +115,7 @@ class ClientesApiService {
       mensajePredeterminado: mensajePredeterminado,
     );
 
-    final reintentable = _esErrorReintentable(
-      error,
-      statusCode,
-    );
+    final reintentable = _esErrorReintentable(error, statusCode);
 
     return ClientesApiException(
       mensaje: mensaje,
@@ -139,10 +124,7 @@ class ClientesApiService {
     );
   }
 
-  bool _esErrorReintentable(
-    DioException error,
-    int? statusCode,
-  ) {
+  bool _esErrorReintentable(DioException error, int? statusCode) {
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
@@ -178,8 +160,7 @@ class ClientesApiService {
   }) {
     final respuesta = error.response?.data;
 
-    if (respuesta is Map &&
-        respuesta['mensaje'] is String) {
+    if (respuesta is Map && respuesta['mensaje'] is String) {
       return respuesta['mensaje'] as String;
     }
 

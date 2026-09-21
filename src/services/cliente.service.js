@@ -3,7 +3,7 @@ const prisma = require('../config/prisma');
 async function crearCliente(datos, idOperacion = null) {
   const correoNormalizado = datos.correo.trim().toLowerCase();
 
-  // Si la operación ya fue procesada anteriormente,
+  // Si la operaciÃ³n ya fue procesada anteriormente,
   // devolvemos el cliente existente y no lo duplicamos.
   if (idOperacion) {
     const clientePorOperacion =
@@ -43,8 +43,8 @@ async function crearCliente(datos, idOperacion = null) {
       },
     });
   } catch (error) {
-    // Protección adicional ante dos solicitudes iguales
-    // que lleguen prácticamente al mismo tiempo.
+    // ProtecciÃ³n adicional ante dos solicitudes iguales
+    // que lleguen prÃ¡cticamente al mismo tiempo.
     if (error.code === 'P2002' && idOperacion) {
       const clienteProcesado =
         await prisma.cliente.findUnique({
@@ -145,10 +145,35 @@ async function eliminarCliente(id) {
   });
 }
 
+async function guardarEvidenciaCliente(
+  id,
+  evidenciaArchivo
+) {
+  await obtenerClientePorId(id);
+
+  if (!evidenciaArchivo) {
+    const error = new Error(
+      'No se recibió un archivo de evidencia'
+    );
+    error.statusCode = 400;
+    throw error;
+  }
+
+  return prisma.cliente.update({
+    where: {
+      id: Number(id),
+    },
+    data: {
+      evidenciaArchivo,
+    },
+  });
+}
+
 module.exports = {
   crearCliente,
   listarClientes,
   obtenerClientePorId,
   actualizarCliente,
   eliminarCliente,
+  guardarEvidenciaCliente,
 };

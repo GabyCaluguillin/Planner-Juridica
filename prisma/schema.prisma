@@ -63,6 +63,7 @@ model Cliente {
   telefono    String   @db.VarChar(20)
   direccion   String?  @db.Text
   idOperacion String?  @unique @db.VarChar(36)
+  evidenciaArchivo String? @db.VarChar(255)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

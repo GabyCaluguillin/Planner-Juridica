@@ -7,6 +7,7 @@ const {
   obtenerPorId,
   actualizar,
   eliminar,
+  subirEvidencia,
 } = require('../controllers/cliente.controller');
 
 const {
@@ -16,7 +17,13 @@ const {
   manejarValidaciones,
 } = require('../validators/cliente.validator');
 
-const { autenticarUsuario } = require('../middleware/auth.middleware');
+const {
+  autenticarUsuario,
+} = require('../middleware/auth.middleware');
+
+const {
+  uploadEvidencia,
+} = require('../middleware/evidencia.middleware');
 
 const router = express.Router();
 
@@ -27,6 +34,14 @@ router.post(
   validarCrearCliente,
   manejarValidaciones,
   crear
+);
+
+router.post(
+  '/:id/evidencia',
+  validarIdCliente,
+  manejarValidaciones,
+  uploadEvidencia.single('evidencia'),
+  subirEvidencia
 );
 
 router.get('/', listar);

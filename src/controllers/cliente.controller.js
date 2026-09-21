@@ -1,4 +1,20 @@
+const fs = require('fs/promises');
 const clienteService = require('../services/cliente.service');
+
+async function eliminarArchivoTemporal(rutaArchivo) {
+  if (!rutaArchivo) return;
+
+  try {
+    await fs.unlink(rutaArchivo);
+  } catch (error) {
+    if (error.code !== 'ENOENT') {
+      console.error(
+        'No se pudo eliminar la evidencia temporal:',
+        error.message
+      );
+    }
+  }
+}
 
 async function crear(req, res) {
   try {
@@ -107,10 +123,44 @@ async function eliminar(req, res) {
   }
 }
 
+async function subirEvidencia(req, res) {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        exito: false,
+        mensaje:
+          'Debe seleccionar una imagen de evidencia',
+      });
+    }
+
+    const cliente =
+      await clienteService.guardarEvidenciaCliente(
+        req.params.id,
+        req.file.filename
+      );
+
+    return res.status(200).json({
+      exito: true,
+      mensaje: 'Evidencia guardada correctamente',
+      datos: cliente,
+    });
+  } catch (error) {
+    await eliminarArchivoTemporal(req.file?.path);
+
+    return res.status(error.statusCode || 500).json({
+      exito: false,
+      mensaje:
+        error.message ||
+        'Error al guardar la evidencia del cliente',
+    });
+  }
+}
+
 module.exports = {
   crear,
   listar,
   obtenerPorId,
   actualizar,
   eliminar,
+  subirEvidencia,
 };
